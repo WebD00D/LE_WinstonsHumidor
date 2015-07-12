@@ -13,6 +13,7 @@ Public Class _Default
         lblAccessoryMessage.BorderColor = Nothing
         txtAccessoryName.BorderColor = Nothing
         txtAccessorySKU.BorderColor = Nothing
+        txtAccessoryBrand.BorderColor = Nothing
 
         If Trim(txtAccessorySKU.Text) = String.Empty Then
             lblAccessoryMessage.Text = "A unique SKU is required."
@@ -26,18 +27,25 @@ Public Class _Default
             txtAccessoryName.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
+        If Trim(txtAccessoryBrand.Text) = String.Empty Then
+            lblAccessoryMessage.Text = "Brand name is required."
+            lblAccessoryMessage.ForeColor = Drawing.Color.Red
+            txtAccessoryBrand.BorderColor = Drawing.Color.Red
+        End If
+      
         If Not IsNumeric(txtAccessoryQty.Text) Then
-            lblAccessoryMessage.Text = "Quantity must be of numeric value"
+            lblAccessoryMessage.Text = "Quantity must be of numeric value."
             lblAccessoryMessage.ForeColor = Drawing.Color.Red
             txtAccessoryQty.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
         If Not IsNumeric(txtAccessoryPrice.Text) Then
-            lblAccessoryMessage.Text = "Price must be of numeric value"
+            lblAccessoryMessage.Text = "Price must be of numeric value."
             lblAccessoryMessage.ForeColor = Drawing.Color.Red
             txtAccessoryPrice.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
+
 
 
         'Check If SKU already exists. If so, then call update, else insert new.
@@ -48,7 +56,7 @@ Public Class _Default
             cmd.Connection = con
             cmd.Connection.Open()
             cmd.CommandType = CommandType.Text
-            cmd.CommandText = "SELECT * FROM Products WHERE SKU = " & txtAccessorySKU.Text
+            cmd.CommandText = "SELECT * FROM Products WHERE SKU = '" & txtAccessorySKU.Text & "'"
             Using da As New SqlDataAdapter
                 da.SelectCommand = cmd
                 da.Fill(dt)
@@ -80,11 +88,13 @@ Public Class _Default
             cmd.Parameters.AddWithValue("@Name", txtAccessoryName.Text)
             cmd.Parameters.AddWithValue("@Qty", CInt(txtAccessoryQty.Text))
             cmd.Parameters.AddWithValue("@Price", CDec(txtAccessoryPrice.Text))
+            cmd.Parameters.AddWithValue("@Brand", txtAccessoryBrand.Text)
+            cmd.Parameters.AddWithValue("@Description", txtAccessoryDescription.Value)
 
             If storedProcedure = "sp_Insert_Accessories" Then
                 cmd.Parameters.AddWithValue("@Category", "Accessory")
             Else
-                cmd.Parameters.AddWithValue("@ProductID", txtAccessoryProductID.Text)
+                cmd.Parameters.AddWithValue("@ProductID", CInt(txtAccessoryProductID.Text))
             End If
 
             cmd.Parameters.AddWithValue("@Image", fuAccessoryImage.FileBytes)

@@ -50,6 +50,24 @@ Partial Public Class _Default
     Protected WithEvents txtAccessoryName As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtAccessoryBrand control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAccessoryBrand As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtAccessoryDescription control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAccessoryDescription As Global.System.Web.UI.HtmlControls.HtmlTextArea
+
+    '''<summary>
     '''txtAccessoryQty control.
     '''</summary>
     '''<remarks>

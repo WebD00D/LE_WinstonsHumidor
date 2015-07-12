@@ -86,6 +86,10 @@
                 <asp:TextBox ID="txtAccessorySKU" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Name</h6>
                 <asp:TextBox ID="txtAccessoryName" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Brand</h6>
+                <asp:TextBox ID="txtAccessoryBrand" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Description</h6>
+                <textarea runat="server" id="txtAccessoryDescription" class="form-control"></textarea>
                 <h6>Qty</h6>
                 <asp:TextBox ID="txtAccessoryQty" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Price</h6>
