@@ -38,18 +38,44 @@ Public Class _Default
             txtAccessoryPrice.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
-        If Not fuAccessoryImage.HasFile Then
-            lblAccessoryMessage.Text = "Please upload an image for the product"
-            lblAccessoryMessage.ForeColor = Drawing.Color.Red
-            lblAccessoryMessage.BorderColor = Drawing.Color.Red
-            Exit Sub
-        End If
+
+
+        'Check If SKU already exists. If so, then call update, else insert new.
 
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
         Using cmd As SqlCommand = con.CreateCommand
             cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM Products WHERE SKU = " & txtAccessorySKU.Text
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+
+        Dim storedProcedure As String = String.Empty
+
+        If dt.Rows().Count > 0 Then
+            storedProcedure = "sp_Update_Accessories"
+        Else
+            storedProcedure = "sp_Insert_Accessories"
+            If Not fuAccessoryImage.HasFile Then
+                lblAccessoryMessage.Text = "Please upload an image for the product"
+                lblAccessoryMessage.ForeColor = Drawing.Color.Red
+                lblAccessoryMessage.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
             cmd.CommandType = CommandType.StoredProcedure
-            cmd.CommandText = "sp_Insert_Accessories"
+            cmd.CommandText = storedProcedure
             cmd.Parameters.AddWithValue("@SKU", txtAccessorySKU.Text)
             cmd.Parameters.AddWithValue("@Name", txtAccessoryName.Text)
             cmd.Parameters.AddWithValue("@Qty", CInt(txtAccessoryQty.Text))
@@ -57,6 +83,7 @@ Public Class _Default
             cmd.Parameters.AddWithValue("@Category", "Accessory")
             cmd.Parameters.AddWithValue("@Image", fuAccessoryImage.FileBytes)
             cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
         End Using
 
 
