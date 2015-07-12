@@ -92,6 +92,8 @@
                 <asp:FileUpload ID="fuAccessoryImage" runat="server" CssClass="form-control" />
                 <br />
                 <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" />
+                <br />
+                <asp:Label runat="server" ID="lblAccessoryMessage"></asp:Label>
             </div>
         </div>
         <!-- end Accessories Section -->

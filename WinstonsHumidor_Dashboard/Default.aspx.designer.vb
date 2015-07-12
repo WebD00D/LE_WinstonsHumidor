@@ -77,6 +77,15 @@ Partial Public Class _Default
     Protected WithEvents btnSaveAccessory As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''lblAccessoryMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAccessoryMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''ASPxHtmlEditor1 control.
     '''</summary>
     '''<remarks>
