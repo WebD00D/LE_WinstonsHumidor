@@ -78,8 +78,37 @@
 
         <div id="Accessories" class="container">
             <div class="col-lg-12">
-                <h3>Accessories<br />
-                </h3>
+                <h3>Accessories</h3>
+                <input class="form-control" placeholder="Search an accessory by SKU, brand, name, or price."/>
+                <br />
+                <div class="list-group" style="overflow-y:scroll;max-height:200px">
+                    <a href="#" class="list-group-item">
+                        <ul class="list-inline">
+                            <li><b>SKU:</b> 554433</li>
+                            <li><b>Brand:</b> Xikar</li>
+                            <li><b>Name:</b> Blue Lighter</li>
+                            <li><b>Price:</b> $100.50</li>
+                        </ul>
+                    </a>
+                     <a href="#" class="list-group-item">
+                        <ul class="list-inline">
+                            <li><b>SKU:</b> 554433</li>
+                            <li><b>Brand:</b> Xikar</li>
+                            <li><b>Name:</b> Blue Lighter</li>
+                            <li><b>Price:</b> $100.50</li>
+                        </ul>
+                    </a>
+                     <a href="#" class="list-group-item">
+                        <ul class="list-inline">
+                            <li><b>SKU:</b> 554433</li>
+                            <li><b>Brand:</b> Xikar</li>
+                            <li><b>Name:</b> Blue Lighter</li>
+                            <li><b>Price:</b> $100.50</li>
+                        </ul>
+                    </a>
+
+                </div>
+               
                 <h6>Product ID</h6>
                 <asp:TextBox ID="txtAccessoryProductID" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                 <h6>SKU</h6>

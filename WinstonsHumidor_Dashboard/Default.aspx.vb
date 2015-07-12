@@ -47,7 +47,6 @@ Public Class _Default
         End If
 
 
-
         'Check If SKU already exists. If so, then call update, else insert new.
 
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
