@@ -5,6 +5,7 @@
 <%@ Register Assembly="DevExpress.Web.ASPxRichEdit.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxRichEdit" TagPrefix="dx" %>
 
 <%@ Register TagPrefix="dx" Namespace="DevExpress.Web" Assembly="DevExpress.Web.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" %>
+<%@ Register assembly="DevExpress.Web.ASPxSpellChecker.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.ASPxSpellChecker" tagprefix="dx" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -79,9 +80,18 @@
             <div class="col-lg-12">
                 <h3>Accessories<br />
                 </h3>
+                <h6>SKU</h6>
+                <asp:TextBox ID="txtAccessorySKU" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Name</h6>
+                <asp:TextBox ID="txtAccessoryName" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Qty</h6>
+                <asp:TextBox ID="txtAccessoryQty" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Price</h6>
+                <asp:TextBox ID="txtAccessoryPrice" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Product Image</h6>
+                <asp:FileUpload ID="fuAccessoryImage" runat="server" CssClass="form-control" />
                 <br />
-                <br />
-                <br />
+                <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" />
             </div>
         </div>
         <!-- end Accessories Section -->
@@ -164,13 +174,13 @@
        
         $("#Title").html("Winstons Humidor <br/> <small>Business Dashboard</small>");
         $("#Home").show();
-        $("#Accessories").hide();
-        $("#Apparel").hide();
-        $("#Cigars").hide();
-        $("#Coffee").hide();
-        $("#Configuration").hide();
-        $("#Pipes").hide();
-        $("#NewsPost").hide();
+        //$("#Accessories").hide();
+        //$("#Apparel").hide();
+        //$("#Cigars").hide();
+        //$("#Coffee").hide();
+        //$("#Configuration").hide();
+        //$("#Pipes").hide();
+        //$("#NewsPost").hide();
 
         $("#lnkHome").click(function () {
             alert("Home");
