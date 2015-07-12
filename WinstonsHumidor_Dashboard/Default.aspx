@@ -192,7 +192,7 @@
             alert("Coffee");
         })
 
-        $("#lnkConfiguration").click(function () {
+        $("#lnkConfiguation").click(function () {
             alert("Config");
         })
 
