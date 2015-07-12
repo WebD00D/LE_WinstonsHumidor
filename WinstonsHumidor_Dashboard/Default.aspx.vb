@@ -80,7 +80,13 @@ Public Class _Default
             cmd.Parameters.AddWithValue("@Name", txtAccessoryName.Text)
             cmd.Parameters.AddWithValue("@Qty", CInt(txtAccessoryQty.Text))
             cmd.Parameters.AddWithValue("@Price", CDec(txtAccessoryPrice.Text))
-            cmd.Parameters.AddWithValue("@Category", "Accessory")
+
+            If storedProcedure = "sp_Insert_Accessories" Then
+                cmd.Parameters.AddWithValue("@Category", "Accessory")
+            Else
+                cmd.Parameters.AddWithValue("@ProductID", txtAccessoryProductID.Text)
+            End If
+
             cmd.Parameters.AddWithValue("@Image", fuAccessoryImage.FileBytes)
             cmd.ExecuteNonQuery()
             cmd.Connection.Close()

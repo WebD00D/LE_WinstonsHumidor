@@ -80,6 +80,8 @@
             <div class="col-lg-12">
                 <h3>Accessories<br />
                 </h3>
+                <h6>Product ID</h6>
+                <asp:TextBox ID="txtAccessoryProductID" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
                 <h6>SKU</h6>
                 <asp:TextBox ID="txtAccessorySKU" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Name</h6>
@@ -172,6 +174,10 @@
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () {
+
+
+
+
 
        
         $("#Title").html("Winstons Humidor <br/> <small>Business Dashboard</small>");

@@ -23,6 +23,15 @@ Partial Public Class _Default
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''txtAccessoryProductID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAccessoryProductID As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''txtAccessorySKU control.
     '''</summary>
     '''<remarks>
