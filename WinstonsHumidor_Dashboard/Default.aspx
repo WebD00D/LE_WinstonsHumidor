@@ -5,6 +5,7 @@
 <%@ Register Assembly="DevExpress.Web.ASPxRichEdit.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxRichEdit" TagPrefix="dx" %>
 
 <%@ Register TagPrefix="dx" Namespace="DevExpress.Web" Assembly="DevExpress.Web.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" %>
+<%@ Register assembly="DevExpress.Web.ASPxSpellChecker.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.ASPxSpellChecker" tagprefix="dx" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -77,11 +78,36 @@
 
         <div id="Accessories" class="container">
             <div class="col-lg-12">
-                <h3>Accessories<br />
-                </h3>
+                <h3>Accessories</h3>
+                <input class="form-control" placeholder="Search an accessory by SKU, brand, name, or price."/>
+               <br />
+                <div id="AccessoryList" class="list-group" style="overflow-y:scroll;max-height:200px">
+                 
+                 
+
+                </div>
+               
+              
+                <asp:HiddenField runat="server" ID="hfProductID"/>
+               
+                <h6>SKU</h6>
+                <asp:TextBox ID="txtAccessorySKU" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Name</h6>
+                <asp:TextBox ID="txtAccessoryName" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Brand</h6>
+                <asp:TextBox ID="txtAccessoryBrand" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Description</h6>
+                <textarea runat="server" id="txtAccessoryDescription" class="form-control"></textarea>
+                <h6>Qty</h6>
+                <asp:TextBox ID="txtAccessoryQty" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Price</h6>
+                <asp:TextBox ID="txtAccessoryPrice" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Product Image</h6>
+                <asp:FileUpload ID="fuAccessoryImage" runat="server" CssClass="form-control" />
                 <br />
+                <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" />
                 <br />
-                <br />
+                <asp:Label runat="server" ID="lblAccessoryMessage"></asp:Label>
             </div>
         </div>
         <!-- end Accessories Section -->
@@ -160,25 +186,83 @@
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () {
+   
 
-       
+
+
+
+
+
         $("#Title").html("Winstons Humidor <br/> <small>Business Dashboard</small>");
         $("#Home").show();
-        $("#Accessories").hide();
-        $("#Apparel").hide();
-        $("#Cigars").hide();
-        $("#Coffee").hide();
-        $("#Configuration").hide();
-        $("#Pipes").hide();
-        $("#NewsPost").hide();
+        //$("#Accessories").hide();
+        //$("#Apparel").hide();
+        //$("#Cigars").hide();
+        //$("#Coffee").hide();
+        //$("#Configuration").hide();
+        //$("#Pipes").hide();
+        //$("#NewsPost").hide();
 
         $("#lnkHome").click(function () {
             alert("Home");
         })
 
         $("#lnkAccessories").click(function () {
-            alert("Accessories");
+           
+            //Load Accessories
+            $.ajax({
+                type: "POST",
+                url: "Engine.asmx/GetAccessoryInventory",
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    //take data and append as list item parameters to be selected by user
+                    var result = data.d;
+                    $("#AccessoryList").empty();
+                    $.each(result, function (index, item) {
+
+                        var content =
+                            
+                       "<a href='#' data-Qty='"+ item.Qty +"' data-description='" +item.Description +"' ' data-price='"+item.Price+"' data-Name='"+ item.Name +"' data-brand='"+ item.Brand +"' data-SKU='"+ item.SKU +"' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
+                        "<ul class='list-inline'><li>SKU: <b>"+  item.SKU +"</b></li><li>Brand: <b>"+  item.Brand +"</b></li><li>Name: <b>"+  item.Name +"</b></li><li>Price: <b>$"+  item.Price +"</b></li></ul></a>";
+                        $(content).hide().appendTo("#AccessoryList").fadeIn();
+                    })
+
+                },
+                failure: function (msg) {
+                    alert(msg);
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            }) //end ajax 
         })
+
+        $("#AccessoryList").delegate(".accessoryitem", "click", function (e) {
+           
+            e.preventDefault();
+            var ProductID = $(this).attr('id');
+            var SKU = $(this).attr("data-SKU");
+            var Brand = $(this).attr('data-brand');
+            var Name = $(this).attr('data-Name');
+            var Price = $(this).attr('data-price');
+            var Description = $(this).attr('data-description');
+            var Qty = $(this).attr('data-Qty');
+           
+            $("#<%=hfProductID.ClientID%>").val(ProductID);
+            $("#<%=txtAccessorySKU.ClientID%>").val(SKU);
+            $("#<%=txtAccessoryName.ClientID%>").val(Name);
+            $("#<%=txtAccessoryBrand.ClientID%>").val(Brand);
+            $("#<%=txtAccessoryDescription.ClientID%>").val(Description);
+            $("#<%=txtAccessoryQty.ClientID%>").val(Qty);
+            $("#<%=txtAccessoryPrice.ClientID%>").val('$'+ Price);
+
+        })
+
+       
+
 
         $("#lnkApparel").click(function () {
             alert("Apparel");
@@ -192,7 +276,7 @@
             alert("Coffee");
         })
 
-        $("#lnkConfiguration").click(function () {
+        $("#lnkConfiguation").click(function () {
             alert("Config");
         })
 

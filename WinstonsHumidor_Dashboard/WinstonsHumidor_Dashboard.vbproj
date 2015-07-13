@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
+    <Content Include="Engine.asmx" />
     <Content Include="fontawesome\font-awesome.min.css" />
     <Content Include="fontawesome\fontawesome-webfont.svg" />
     <Content Include="js\bootstrap.min.js" />
@@ -110,6 +111,10 @@
     <Compile Include="Default.aspx.vb">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Engine.asmx.vb">
+      <DependentUpon>Engine.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
