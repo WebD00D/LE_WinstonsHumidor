@@ -80,37 +80,16 @@
             <div class="col-lg-12">
                 <h3>Accessories</h3>
                 <input class="form-control" placeholder="Search an accessory by SKU, brand, name, or price."/>
-                <br />
-                <div class="list-group" style="overflow-y:scroll;max-height:200px">
-                    <a href="#" class="list-group-item">
-                        <ul class="list-inline">
-                            <li><b>SKU:</b> 554433</li>
-                            <li><b>Brand:</b> Xikar</li>
-                            <li><b>Name:</b> Blue Lighter</li>
-                            <li><b>Price:</b> $100.50</li>
-                        </ul>
-                    </a>
-                     <a href="#" class="list-group-item">
-                        <ul class="list-inline">
-                            <li><b>SKU:</b> 554433</li>
-                            <li><b>Brand:</b> Xikar</li>
-                            <li><b>Name:</b> Blue Lighter</li>
-                            <li><b>Price:</b> $100.50</li>
-                        </ul>
-                    </a>
-                     <a href="#" class="list-group-item">
-                        <ul class="list-inline">
-                            <li><b>SKU:</b> 554433</li>
-                            <li><b>Brand:</b> Xikar</li>
-                            <li><b>Name:</b> Blue Lighter</li>
-                            <li><b>Price:</b> $100.50</li>
-                        </ul>
-                    </a>
+               <br />
+                <div id="AccessoryList" class="list-group" style="overflow-y:scroll;max-height:200px">
+                 
+                 
 
                 </div>
                
-                <h6>Product ID</h6>
-                <asp:TextBox ID="txtAccessoryProductID" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+              
+                <asp:HiddenField runat="server" ID="hfProductID"/>
+               
                 <h6>SKU</h6>
                 <asp:TextBox ID="txtAccessorySKU" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Name</h6>
@@ -207,12 +186,13 @@
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () {
+   
 
 
 
 
 
-       
+
         $("#Title").html("Winstons Humidor <br/> <small>Business Dashboard</small>");
         $("#Home").show();
         //$("#Accessories").hide();
@@ -228,8 +208,61 @@
         })
 
         $("#lnkAccessories").click(function () {
-            alert("Accessories");
+           
+            //Load Accessories
+            $.ajax({
+                type: "POST",
+                url: "Engine.asmx/GetAccessoryInventory",
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    //take data and append as list item parameters to be selected by user
+                    var result = data.d;
+                    $("#AccessoryList").empty();
+                    $.each(result, function (index, item) {
+
+                        var content =
+                            
+                       "<a href='#' data-Qty='"+ item.Qty +"' data-description='" +item.Description +"' ' data-price='"+item.Price+"' data-Name='"+ item.Name +"' data-brand='"+ item.Brand +"' data-SKU='"+ item.SKU +"' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
+                        "<ul class='list-inline'><li>SKU: <b>"+  item.SKU +"</b></li><li>Brand: <b>"+  item.Brand +"</b></li><li>Name: <b>"+  item.Name +"</b></li><li>Price: <b>$"+  item.Price +"</b></li></ul></a>";
+                        $(content).hide().appendTo("#AccessoryList").fadeIn();
+                    })
+
+                },
+                failure: function (msg) {
+                    alert(msg);
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            }) //end ajax 
         })
+
+        $("#AccessoryList").delegate(".accessoryitem", "click", function (e) {
+           
+            e.preventDefault();
+            var ProductID = $(this).attr('id');
+            var SKU = $(this).attr("data-SKU");
+            var Brand = $(this).attr('data-brand');
+            var Name = $(this).attr('data-Name');
+            var Price = $(this).attr('data-price');
+            var Description = $(this).attr('data-description');
+            var Qty = $(this).attr('data-Qty');
+           
+            $("#<%=hfProductID.ClientID%>").val(ProductID);
+            $("#<%=txtAccessorySKU.ClientID%>").val(SKU);
+            $("#<%=txtAccessoryName.ClientID%>").val(Name);
+            $("#<%=txtAccessoryBrand.ClientID%>").val(Brand);
+            $("#<%=txtAccessoryDescription.ClientID%>").val(Description);
+            $("#<%=txtAccessoryQty.ClientID%>").val(Qty);
+            $("#<%=txtAccessoryPrice.ClientID%>").val('$'+ Price);
+
+        })
+
+       
+
 
         $("#lnkApparel").click(function () {
             alert("Apparel");

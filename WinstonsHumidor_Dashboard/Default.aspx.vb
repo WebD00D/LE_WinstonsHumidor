@@ -93,7 +93,7 @@ Public Class _Default
             If storedProcedure = "sp_Insert_Accessories" Then
                 cmd.Parameters.AddWithValue("@Category", "Accessory")
             Else
-                cmd.Parameters.AddWithValue("@ProductID", CInt(txtAccessoryProductID.Text))
+                cmd.Parameters.AddWithValue("@ProductID", CInt(hfProductID.Value))
             End If
 
             cmd.Parameters.AddWithValue("@Image", fuAccessoryImage.FileBytes)
