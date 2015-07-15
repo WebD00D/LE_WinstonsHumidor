@@ -73,7 +73,7 @@ Public Class _Default
             If Not fuAccessoryImage.HasFile Then
                 lblAccessoryMessage.Text = "Please upload an image for the product"
                 lblAccessoryMessage.ForeColor = Drawing.Color.Red
-                lblAccessoryMessage.BorderColor = Drawing.Color.Red
+                fuAccessoryImage.BorderColor = Drawing.Color.Red
                 Exit Sub
             End If
         End If
@@ -92,6 +92,7 @@ Public Class _Default
 
             If storedProcedure = "sp_Insert_Accessories" Then
                 cmd.Parameters.AddWithValue("@Category", "Accessory")
+
             Else
                 cmd.Parameters.AddWithValue("@ProductID", CInt(hfProductID.Value))
             End If
@@ -101,6 +102,49 @@ Public Class _Default
             cmd.Connection.Close()
         End Using
 
+        If storedProcedure = "sp_Insert_Accessories" Then
+            lblAccessoryMessage.Text = "Accessory successfully inserted!"
+            lblAccessoryMessage.ForeColor = Drawing.Color.Green
+        Else
+            lblAccessoryMessage.Text = "Accessory successfully updated!"
+            lblAccessoryMessage.ForeColor = Drawing.Color.Green
+        End If
+
+        ClearAccessoryForm()
+
+    End Sub
+
+    Protected Sub btnDeleteAccessory_Click(sender As Object, e As EventArgs) Handles btnDeleteAccessory.Click
+        If hfProductID.Value = Nothing Then
+            lblAccessoryMessage.Text = "No accessory has been selected."
+            lblAccessoryMessage.ForeColor = Drawing.Color.Red
+            Exit Sub
+        End If
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim cmd As SqlCommand = con.CreateCommand
+        Using cmd
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "sp_Delete_Accessories"
+            cmd.Parameters.AddWithValue("@ProductID", CInt(hfProductID.Value))
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        ClearAccessoryForm()
+
+    End Sub
+
+    Public Sub ClearAccessoryForm()
+        txtAccessoryDescription.Value = ""
+        txtAccessoryQty.Text = ""
+        txtAccessoryPrice.Text = ""
+        lblAccessoryMessage.Text = ""
+        txtAccessoryName.Text = ""
+        txtAccessorySKU.Text = ""
+        txtAccessoryBrand.Text = ""
+        hfProductID.Value = Nothing
 
     End Sub
 End Class

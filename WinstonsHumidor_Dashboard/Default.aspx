@@ -105,7 +105,11 @@
                 <h6>Product Image</h6>
                 <asp:FileUpload ID="fuAccessoryImage" runat="server" CssClass="form-control" />
                 <br />
-                <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" />
+                <ul class="list-inline">
+                    <li>  <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" /></li>
+                    <li><asp:Button id="btnDeleteAccessory" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
+                </ul>
+              
                 <br />
                 <asp:Label  runat="server" ID="lblAccessoryMessage"></asp:Label>
                 
