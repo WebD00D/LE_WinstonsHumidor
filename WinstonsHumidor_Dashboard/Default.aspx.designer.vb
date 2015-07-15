@@ -104,6 +104,15 @@ Partial Public Class _Default
     Protected WithEvents btnSaveAccessory As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
+    '''btnDeleteAccessory control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnDeleteAccessory As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
     '''lblAccessoryMessage control.
     '''</summary>
     '''<remarks>
