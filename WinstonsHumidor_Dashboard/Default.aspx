@@ -107,14 +107,15 @@
                 <br />
                 <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" />
                 <br />
-                <asp:Label runat="server" ID="lblAccessoryMessage"></asp:Label>
+                <asp:Label  runat="server" ID="lblAccessoryMessage"></asp:Label>
+                
             </div>
         </div>
         <!-- end Accessories Section -->
 
         <div id="Apparel" class="container">
             <div class="col-lg-12">
-                <h3>Apparel<br />
+                <h3>Apparels<br />
                 </h3>
                 <br />
                 <br />
