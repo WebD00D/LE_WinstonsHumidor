@@ -94,7 +94,7 @@ Public Class _Default
                 cmd.Parameters.AddWithValue("@Category", "Accessory")
 
             Else
-                cmd.Parameters.AddWithValue("@ProductID", CInt(hfProductID.Value))
+                cmd.Parameters.AddWithValue("@ProductID", CInt(hfAccessoryProductID.Value))
             End If
 
             cmd.Parameters.AddWithValue("@Image", fuAccessoryImage.FileBytes)
@@ -115,7 +115,7 @@ Public Class _Default
     End Sub
 
     Protected Sub btnDeleteAccessory_Click(sender As Object, e As EventArgs) Handles btnDeleteAccessory.Click
-        If hfProductID.Value = Nothing Then
+        If hfApparelProductID.Value = Nothing Then
             lblAccessoryMessage.Text = "No accessory has been selected."
             lblAccessoryMessage.ForeColor = Drawing.Color.Red
             Exit Sub
@@ -128,7 +128,7 @@ Public Class _Default
             cmd.Connection.Open()
             cmd.CommandType = CommandType.StoredProcedure
             cmd.CommandText = "sp_Delete_Accessories"
-            cmd.Parameters.AddWithValue("@ProductID", CInt(hfProductID.Value))
+            cmd.Parameters.AddWithValue("@ProductID", CInt(hfAccessoryProductID.Value))
             cmd.ExecuteNonQuery()
             cmd.Connection.Close()
         End Using
@@ -144,7 +144,7 @@ Public Class _Default
         txtAccessoryName.Text = ""
         txtAccessorySKU.Text = ""
         txtAccessoryBrand.Text = ""
-        hfProductID.Value = Nothing
+        hfAccessoryProductID.Value = Nothing
 
     End Sub
 End Class

@@ -55,6 +55,41 @@ Public Class Engine
         Return Accessories
     End Function
 
+    <WebMethod()> _
+    Public Function SearchAccessoryInventory(ByVal SearchText As String)
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = " SELECT * FROM Accessories" &
+                              " WHERE SKU LIKE '%" & SearchText & "%' OR Name LIKE '%" & SearchText & "%' OR " &
+                              " Brand LIKE '%" & SearchText & "%' OR Price LIKE '%" & SearchText & "%'"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+        End Using
+        If dt.Rows.Count() = 0 Then
+            Return 0
+        End If
+        Accessories.Clear()
+        For Each item As DataRow In dt.Rows()
+            Dim A As New Accessory()
+            A.AccessoryID = CStr(item("AccessoryID"))
+            A.Brand = item("Brand")
+            A.Description = item("Description")
+            A.Name = item("Name")
+            A.Qty = CStr(item("Qty"))
+            A.SKU = item("SKU")
+            A.ProductID = CStr(item("ProductID"))
+            Dim DecPrice As Decimal = Decimal.Round(item("Price"), 2)
+            A.Price = CStr(DecPrice)
+            Accessories.Add(A)
+        Next
+        Return Accessories
+    End Function
    
 
 End Class

@@ -79,17 +79,12 @@
         <div id="Accessories" class="container">
             <div class="col-lg-12">
                 <h3>Accessories</h3>
-                <input class="form-control" placeholder="Search an accessory by SKU, brand, name, or price."/>
+                <input id="txtAccessorySearch" class="form-control" placeholder="Search an accessory by SKU, brand, name, or price."/>
+                <label id="lblAccessorySearchMsg" style="color:red"></label>
                <br />
-                <div id="AccessoryList" class="list-group" style="overflow-y:scroll;max-height:200px">
-                 
-                 
-
-                </div>
-               
-              
-                <asp:HiddenField runat="server" ID="hfProductID"/>
-               
+                <div id="AccessoryList" class="list-group" style="overflow-y:scroll;max-height:200px"></div>
+                <asp:HiddenField runat="server" ID="hfAccessoryProductID"/>
+           
                 <h6>SKU</h6>
                 <asp:TextBox ID="txtAccessorySKU" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Name</h6>
@@ -109,21 +104,41 @@
                     <li>  <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" /></li>
                     <li><asp:Button id="btnDeleteAccessory" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
-              
                 <br />
                 <asp:Label  runat="server" ID="lblAccessoryMessage"></asp:Label>
-                
             </div>
         </div>
         <!-- end Accessories Section -->
 
         <div id="Apparel" class="container">
-            <div class="col-lg-12">
-                <h3>Apparels<br />
-                </h3>
+           <div class="col-lg-12">
+                <h3>Apparel</h3>
+                <input class="form-control" placeholder="Search apparel by SKU, brand, name, or price."/>
+               <br />
+                <div id="ApparelList" class="list-group" style="overflow-y:scroll;max-height:200px"></div>
+                <asp:HiddenField runat="server" ID="hfApparelProductID"/>
+           
+                <h6>SKU</h6>
+                <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Name</h6>
+                <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Brand</h6>
+                <asp:TextBox ID="TextBox3" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Description</h6>
+                <textarea runat="server" id="Textarea1" class="form-control"></textarea>
+                <h6>Qty</h6>
+                <asp:TextBox ID="TextBox4" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Price</h6>
+                <asp:TextBox ID="TextBox5" runat="server" CssClass="form-control"></asp:TextBox>
+                <h6>Product Image</h6>
+                <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
                 <br />
+                <ul class="list-inline">
+                    <li>  <asp:Button ID="Button1" runat="server" CssClass="btn btn-success" Text="Save Accessory" /></li>
+                    <li><asp:Button id="Button2" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
+                </ul>
                 <br />
-                <br />
+                <asp:Label  runat="server" ID="Label1"></asp:Label>
             </div>
         </div>
         <!-- end Apparel Section -->
@@ -192,28 +207,42 @@
 <script>
     $(document).ready(function () {
    
+        GoHome();
+
+        function GoHome() {
+            $("#Title").html("Winstons Humidor <br/> <small>Business Dashboard</small>");
+            $("#Home").show();
+            $("#Accessories").hide();
+            $("#Apparel").hide();
+            $("#Cigars").hide();
+            $("#Coffee").hide();
+            $("#Configuration").hide();
+            $("#Pipes").hide();
+            $("#NewsPost").hide();
+        }
+
+        function HideAll() {
+            $("#Title").html("Winstons Humidor <br/> <small>Business Dashboard</small>");
+            $("#Home").hide();
+            $("#Accessories").hide();
+            $("#Apparel").hide();
+            $("#Cigars").hide();
+            $("#Coffee").hide();
+            $("#Configuration").hide();
+            $("#Pipes").hide();
+            $("#NewsPost").hide();
+        }
 
 
-
-
-
-
-        $("#Title").html("Winstons Humidor <br/> <small>Business Dashboard</small>");
-        $("#Home").show();
-        //$("#Accessories").hide();
-        //$("#Apparel").hide();
-        //$("#Cigars").hide();
-        //$("#Coffee").hide();
-        //$("#Configuration").hide();
-        //$("#Pipes").hide();
-        //$("#NewsPost").hide();
 
         $("#lnkHome").click(function () {
-            alert("Home");
+            GoHome();
         })
 
         $("#lnkAccessories").click(function () {
-           
+            HideAll();
+            $("#Title").html("Accessory Management");
+            $("#Accessories").show();
             //Load Accessories
             $.ajax({
                 type: "POST",
@@ -256,7 +285,7 @@
             var Description = $(this).attr('data-description');
             var Qty = $(this).attr('data-Qty');
            
-            $("#<%=hfProductID.ClientID%>").val(ProductID);
+            $("#<%=hfAccessoryProductID.ClientID%>").val(ProductID);
             $("#<%=txtAccessorySKU.ClientID%>").val(SKU);
             $("#<%=txtAccessoryName.ClientID%>").val(Name);
             $("#<%=txtAccessoryBrand.ClientID%>").val(Brand);
@@ -266,31 +295,93 @@
 
         })
 
+
+        $("#txtAccessorySearch").keyup(function () {
+            $("#lblAccessorySearchMsg").empty();
+            var AccessoryToSearch = $("#txtAccessorySearch").val();
+            if ($("#txtAccessorySearch").val().length > 2) {
+               
+
+                $.ajax({
+                    type: "POST",
+                    url: "Engine.asmx/SearchAccessoryInventory",
+                    data: "{SearchText:'"+ AccessoryToSearch  +"'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        //take data and append as list item parameters to be selected by user
+                        var result = data.d;
+
+                        if (result == 0) {
+
+                            $("#AccessoryList").empty();
+                            $("#lblAccessorySearchMsg").text("No products found matching search query");
+                            return;
+                        }
+
+
+                        $("#AccessoryList").empty();
+                        $.each(result, function (index, item) {
+
+                            var content =
+
+                           "<a href='#' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
+                            "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
+                            $(content).hide().appendTo("#AccessoryList").fadeIn();
+                        })
+
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }) //end ajax 
+
+
+
+            }
+        })
+
+
+
        
-
-
         $("#lnkApparel").click(function () {
-            alert("Apparel");
+            HideAll()
+            $("#Title").html("Apparel Management");
+            $("#Apparel").show();
         })
         
         $("#lnkCigars").click(function () {
-            alert("Cigars");
+            HideAll()
+            $("#Title").html("Cigar Management");
+            $("#Cigars").show();
         })
 
         $("#lnkCoffee").click(function () {
-            alert("Coffee");
+            HideAll()
+            $("#Title").html("Coffee Management");
+            $("#Coffee").show();
         })
 
         $("#lnkConfiguation").click(function () {
-            alert("Config");
+            HideAll()
+            $("#Title").html("Configuration");
+            $("#Configuration").show();
         })
 
         $("#lnkPipes").click(function () {
-            alert("Pipes");
+            HideAll()
+            $("#Title").html("Pipe Management");
+            $("#Pipes").show();
         })
 
         $("#lnkNewsPost").click(function () {
-            alert("NewsPosts");
+            HideAll()
+            $("#Title").html("What's New");
+            $("#NewPosts").show();
         })
 
         $("#lnkSecurity").click(function () {
