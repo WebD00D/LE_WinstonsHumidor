@@ -93,6 +93,8 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Accessories.aspx" />
+    <Content Include="Apparel.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Engine.asmx" />
     <Content Include="fontawesome\font-awesome.min.css" />
@@ -105,6 +107,20 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accessories.aspx.designer.vb">
+      <DependentUpon>Accessories.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Accessories.aspx.vb">
+      <DependentUpon>Accessories.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Apparel.aspx.designer.vb">
+      <DependentUpon>Apparel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Apparel.aspx.vb">
+      <DependentUpon>Apparel.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Default.aspx.designer.vb">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
