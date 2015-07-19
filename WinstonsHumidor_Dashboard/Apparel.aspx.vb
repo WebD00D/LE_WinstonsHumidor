@@ -7,7 +7,7 @@ Public Class Apparel
     End Sub
 
     Protected Sub btnSaveApprel_Click(sender As Object, e As EventArgs) Handles btnSaveApprel.Click
-
+        XS.BorderColor = Nothing
         SM.BorderColor = Nothing
         MD.BorderColor = Nothing
         LG.BorderColor = Nothing
@@ -34,39 +34,44 @@ Public Class Apparel
             Exit Sub
         End If
    
-
+        If Not IsNumeric(XS.Text) Then
+            lblApparelMessage.Text = " XS Quantity must be of numeric value."
+            lblApparelMessage.ForeColor = Drawing.Color.Red
+            XS.BorderColor = Drawing.Color.Red
+            Exit Sub
+        End If
         If Not IsNumeric(SM.Text) Then
-            lblApparelMessage.Text = "Quantity must be of numeric value."
+            lblApparelMessage.Text = " SM Quantity must be of numeric value."
             lblApparelMessage.ForeColor = Drawing.Color.Red
             SM.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
         If Not IsNumeric(MD.Text) Then
-            lblApparelMessage.Text = "Quantity must be of numeric value."
+            lblApparelMessage.Text = "MD Quantity must be of numeric value."
             lblApparelMessage.ForeColor = Drawing.Color.Red
             MD.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
         If Not IsNumeric(LG.Text) Then
-            lblApparelMessage.Text = "Quantity must be of numeric value."
+            lblApparelMessage.Text = " LG Quantity must be of numeric value."
             lblApparelMessage.ForeColor = Drawing.Color.Red
             LG.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
         If Not IsNumeric(XL.Text) Then
-            lblApparelMessage.Text = "Quantity must be of numeric value."
+            lblApparelMessage.Text = " XL Quantity must be of numeric value."
             lblApparelMessage.ForeColor = Drawing.Color.Red
             XL.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
         If Not IsNumeric(XXL.Text) Then
-            lblApparelMessage.Text = "Quantity must be of numeric value."
+            lblApparelMessage.Text = " XXL Quantity must be of numeric value."
             lblApparelMessage.ForeColor = Drawing.Color.Red
             XXL.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
         If Not IsNumeric(XXXL.Text) Then
-            lblApparelMessage.Text = "Quantity must be of numeric value."
+            lblApparelMessage.Text = " XXXL Quantity must be of numeric value."
             lblApparelMessage.ForeColor = Drawing.Color.Red
             XXXL.BorderColor = Drawing.Color.Red
             Exit Sub

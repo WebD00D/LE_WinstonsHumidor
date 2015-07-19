@@ -61,7 +61,8 @@
         <div id="Apparel" class="container">
            <div class="col-lg-12">
                 <h3>Apparel</h3>
-                <input class="form-control" placeholder="Search apparel by SKU, brand, name, or price."/>
+                <input class="form-control" id="txtApparelSearch" placeholder="Search apparel by SKU, name, or price."/>
+               <label id="lblApparelSearchMessage" style="color:red"></label>
                <br />
                 <div id="ApparelList" class="list-group" style="overflow-y:scroll;max-height:200px"></div>
                 <asp:HiddenField runat="server" ID="hfApparelProductID"/>
@@ -184,6 +185,54 @@
             $("#<%=XXXL.ClientID%>").val(XXXL);
             $("#<%=txtApparelPrice.ClientID%>").val('$' + Price);
 
+        })
+
+
+        $("#txtApparelSearch").keyup(function () {
+            $("#lblApparelSearchMessage").empty();
+            var AccessoryToSearch = $("#txtApparelSearch").val();
+            if ($("#txtApparelSearch").val().length > 2) {
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "Engine.asmx/SearchApparelInventory",
+                    data: "{SearchText:'" + AccessoryToSearch + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        //take data and append as list item parameters to be selected by user
+                        var result = data.d;
+
+                        if (result == 0) {
+
+                            $("#ApparelList").empty();
+                            $("#lblApparelSearchMessage").text("No products found matching search query");
+                            return;
+                        }
+
+
+                        $("#ApparelList").empty();
+                        $.each(result, function (index, item) {
+
+                            var content =
+
+                           "<a href='#' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
+                            "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
+                            $(content).hide().appendTo("#ApparelList").fadeIn();
+                        })
+
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }) //end ajax 
+
+            }
         })
 
     })
