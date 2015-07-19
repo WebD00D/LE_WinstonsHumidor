@@ -22,6 +22,24 @@ Public Class Engine
         Public Price As String
     End Class
 
+    Public Class Apparel
+        Public ApparelID As String
+        Public ProductID As String
+        Public SKU As String
+        Public Name As String
+        Public Description As String
+        Public Price As String
+        Public XS As String
+        Public SM As String
+        Public MD As String
+        Public LG As String
+        Public XL As String
+        Public XXL As String
+        Public XXXL As String
+    End Class
+
+
+#Region "Accessories"
     Dim Accessories As New List(Of Accessory)
 
     <WebMethod()> _
@@ -90,6 +108,60 @@ Public Class Engine
         Next
         Return Accessories
     End Function
-   
+
+#End Region
+
+#Region "Apparel"
+    Dim ApparelList As New List(Of Apparel)
+
+    <WebMethod()> _
+    Public Function GetApparelInventory()
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM Apparel"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+        If dt.Rows.Count > 0 Then
+
+            ApparelList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim A As New Apparel
+                A.ApparelID = item("ApparelID")
+                A.SKU = item("SKU")
+                A.Name = item("Name")
+                A.ProductID = item("ProductID")
+                A.Description = item("Description")
+                A.Price = Math.Round(item("Price"), 2)
+                A.XS = item("XS_Qty")
+                A.SM = item("SM_Qty")
+                A.MD = item("MD_Qty")
+                A.LG = item("LG_Qty")
+                A.XL = item("XL_Qty")
+                A.XXL = item("XXL_Qty")
+                A.XXXL = item("XXXL_Qty")
+                ApparelList.Add(A)
+            Next
+            Return ApparelList
+        Else
+            Return 0
+        End If
+
+    End Function
+     
+ 
+
+#End Region
+
+
+ 
 
 End Class
