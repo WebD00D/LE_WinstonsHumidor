@@ -60,7 +60,7 @@
         <div id="Coffee" class="container">
            <div class="col-lg-12">
                 <h3>Cigars</h3>
-                <input id="txtCigarSearch" class="form-control" placeholder="Search Cigars by SKU, brand, name, or price."/>
+                <input id="txtCigarSearch" class="form-control" placeholder="Search cigars by SKU, brand, name, price, length, or ring gauge."/>
                <label id="lblCigarSearchMessage" style="color:red"></label>
                <br />
                 <div id="CigarList" class="list-group" style="overflow-y:scroll;max-height:200px"></div>
@@ -173,9 +173,6 @@
 
             e.preventDefault();
 
-        
-
-
             var ProductID = $(this).attr('id');
             var SKU = $(this).attr("data-SKU");
             var Name = $(this).attr('data-Name');
@@ -219,6 +216,53 @@
                 $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").prop("checked", true);
             } else {
                 $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").prop("checked", false);
+            }
+        })
+
+        $("#txtCigarSearch").keyup(function () {
+            $("#lblCigarSearchMessage").empty();
+            var AccessoryToSearch = $("#txtCigarSearch").val();
+            if ($("#txtCigarSearch").val().length > 0) {
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "Engine.asmx/SearchCigarInventory",
+                    data: "{SearchText:'" + AccessoryToSearch + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        //take data and append as list item parameters to be selected by user
+                        var result = data.d;
+
+                        if (result == 0) {
+
+                            $("#CigarList").empty();
+                            $("#lblCigarSearchMessage").text("No products found matching search query");
+                            return;
+                        }
+
+
+                        $("#CigarList").empty();
+                        $.each(result, function (index, item) {
+
+                            var content =
+
+                       "<a href='#' data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                            "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Box Price: <b>$" + item.BoxPrice + "</b></li><li>Single Price: <b>$" + item.SinglePrice + "</b></li></ul></a>";
+                            $(content).hide().appendTo("#CigarList").fadeIn();
+                        })
+
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }) //end ajax 
+
             }
         })
 

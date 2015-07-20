@@ -376,6 +376,56 @@ Public Class Engine
     End Function
 
 
+    <WebMethod()> _
+    Public Function SearchCigarInventory(ByVal SearchText As String)
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            If Trim(SearchText) = String.Empty Then
+                cmd.CommandText = "SELECT * FROM Cigars"
+            Else
+                cmd.CommandText = " SELECT * FROM Cigars" &
+                             " WHERE SKU LIKE '%" & SearchText & "%' OR Name LIKE '%" & SearchText & "%' OR " &
+                             " BoxPrice LIKE '%" & SearchText & "%' OR SinglePrice LIKE '%" & SearchText & "%' OR Length LIKE '%" & SearchText & "%' OR Brand LIKE '%" & SearchText & "%' OR Ring LIKE '%" & SearchText & "%'"
+            End If
+
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+        End Using
+        If dt.Rows.Count > 0 Then
+
+            CigarList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim C As New Cigar
+                C.CigarID = item("CigarID")
+                C.ProductID = item("ProductID")
+                C.Brand = item("Brand")
+                C.SKU = item("SKU")
+                C.Name = item("Name")
+                C.Description = item("Description")
+                C.SinglePrice = Math.Round(item("SinglePrice"), 2)
+                C.BoxPrice = Math.Round(item("BoxPrice"), 2)
+                C.Length = item("Length")
+                C.Ring = item("Ring")
+                C.BoxCount = item("BoxCount")
+                C.BoxQty = item("BoxQty")
+                C.SingleQty = item("SingleQty")
+                C.IsBoxSaleOnly = item("IsBoxSaleOnly")
+                C.IsSingleSaleOnly = item("IsSingleSaleOnly")
+
+                CigarList.Add(C)
+            Next
+            Return CigarList
+        Else
+            Return 0
+        End If
+    End Function
+
 
  
 

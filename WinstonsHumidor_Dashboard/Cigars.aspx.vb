@@ -200,7 +200,17 @@ Public Class Cigars
     End Sub
 
     Protected Sub btnDeleteCigar_Click(sender As Object, e As EventArgs) Handles btnDeleteCigar.Click
-
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "sp_Delete_Cigars"
+            cmd.Parameters.AddWithValue("@ProductID", hfCigarProductID.Value)
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        ClearForm()
     End Sub
 
     Public Sub ClearForm()
