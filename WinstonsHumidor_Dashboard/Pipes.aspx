@@ -11,7 +11,7 @@
 <body>
     <form id="form1" runat="server">
    
-  <nav class="navbar navbar-default" style="margin-bottom:0">
+   <nav class="navbar navbar-default" style="margin-bottom:0">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -21,26 +21,28 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-        <a id="lnkHome" class="navbar-brand" href="#">Winston's Humidor</a>
+        <a id="lnkHome" class="navbar-brand" href="Default.aspx">Winston's Humidor</a>
     </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
+              <li><a href="News.aspx">News Post</a></li>
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Product Management <span class="caret"></span></a>
                   <ul class="dropdown-menu">
                       <li><a id="lnkAccessories" href="Accessories.aspx">Accessories</a></li>
                       <li><a id="lnkApparel" href="Apparel.aspx">Apparel</a></li>
-                      <li><a id="lnkCigars" href="#">Cigars</a></li>
-                      <li><a id="lnkCoffee" href="#">Coffee</a></li>
-                      <li><a id="lnkPipes" href="#">Pipes</a></li>
+                      <li><a id="lnkCigars" href="Cigars.aspx">Cigars</a></li>
+                      <li><a id="lnkCoffee" href="Coffee.aspx">Coffee</a></li>
+                      <li><a id="lnkPipes" href="Pipes.aspx">Pipes</a></li>
+                      <li><a  href="PipeTobacco.aspx">Pipe Tobacco</a></li>
                   </ul>
               </li>
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
                   <ul class="dropdown-menu">
                       <li><a id="lnkSecurity" href="#">Security</a></li>
-                      <li><a id="lnkConfiguation" href="#">Configuration</a></li>
+                      <li><a id="lnkConfiguation" href="Configuration.aspx">Configuration</a></li>
                   </ul>
               </li>
               <li><a href="#">Sign Out</a></li>
