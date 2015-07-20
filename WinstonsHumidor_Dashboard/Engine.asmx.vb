@@ -98,6 +98,14 @@ Public Class Engine
         Public Qty As String
 
     End Class
+
+    Public Class NewsPosts
+        Public NewsPostID As String
+        Public PostTitle As String
+        Public PostDate As String
+        Public PostedBy As String
+        Public HTML As String
+    End Class
      
 #Region "Accessories"
     Dim Accessories As New List(Of Accessory)
@@ -657,6 +665,85 @@ Public Class Engine
 
 
 
+
+#End Region
+
+#Region "News Posts"
+
+    Dim NewsPostList As New List(Of NewsPosts)
+    <WebMethod()> _
+    Public Function LoadPostHistory()
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM NewsPosts"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+        If dt.Rows.Count > 0 Then
+
+            NewsPostList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim NP As New NewsPosts
+                NP.NewsPostID = item("PostID")
+                NP.PostTitle = item("PostTitle")
+                NP.PostDate = item("PostDate")
+                NP.PostedBy = item("PostedBy")
+                NP.HTML = item("HTML")
+                NewsPostList.Add(NP)
+            Next
+            Return NewsPostList
+        Else
+            Return 0
+        End If
+
+    End Function
+    <WebMethod()> _
+    Public Function SearchPostHistory(ByVal SearchText As String)
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            If Trim(SearchText) = String.Empty Then
+                cmd.CommandText = "SELECT * FROM NewsPosts"
+            Else
+                cmd.CommandText = " SELECT * FROM NewsPosts" &
+                             " WHERE PostTitle LIKE '%" & SearchText & "%'"
+            End If
+
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+        End Using
+       If dt.Rows.Count > 0 Then
+
+            NewsPostList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim NP As New NewsPosts
+                NP.NewsPostID = item("PostID")
+                NP.PostTitle = item("PostTitle")
+                NP.PostDate = item("PostDate")
+                NP.PostedBy = item("PostedBy")
+                NP.HTML = item("HTML")
+                NewsPostList.Add(NP)
+            Next
+            Return NewsPostList
+        Else
+            Return 0
+        End If
+
+    End Function
 
 #End Region
 

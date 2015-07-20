@@ -1,11 +1,6 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Default.aspx.vb" Inherits="WinstonsHumidor_Dashboard._Default" %>
 
-<%@ Register Assembly="DevExpress.Web.ASPxHtmlEditor.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxHtmlEditor" TagPrefix="dx" %>
 
-<%@ Register Assembly="DevExpress.Web.ASPxRichEdit.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxRichEdit" TagPrefix="dx" %>
-
-<%@ Register TagPrefix="dx" Namespace="DevExpress.Web" Assembly="DevExpress.Web.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" %>
-<%@ Register assembly="DevExpress.Web.ASPxSpellChecker.v14.2, Version=14.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" namespace="DevExpress.Web.ASPxSpellChecker" tagprefix="dx" %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -74,20 +69,10 @@
                 <br />
             </div>
         </div>
-        <!-- end Home Section -->
+       
 
 
-        <div id="NewsPost" class="container">
-            <div class="col-lg-12">
-                <h3>Whats new?<br />
-                    <small>Keep your customers up to date with any events, new product releases, and more!</small></h3>
-                    <dx:ASPxHtmlEditor ID="ASPxHtmlEditor1" runat="server" ToolbarMode="Ribbon" Width="1137px"></dx:ASPxHtmlEditor>
-                <br />
-                <br />
-                <br />
-            </div>
-        </div>
-        <!-- end News Post Section -->
+       
 
     </form>
 </body>
