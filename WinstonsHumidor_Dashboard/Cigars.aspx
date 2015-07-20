@@ -208,20 +208,17 @@
             $("#<%=txtCigarBoxPrice.ClientID%>").val('$' + BoxPrice);
             $("#<%=txtCigarSinglePrice.ClientID%>").val('$' + SinglePrice);
          
-            alert('Single Only: ' + IsSingleOnly + ' and Box Only: ' + IsBoxOnly);
-
-            // issue here - can only set check attributes one time. ??
+            // issue here - can only set chec
             if (IsBoxOnly == 'True') {
-                $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").attr("checked", true);
+                $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").prop("checked", true);
             } else {
-                $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").attr("checked", false);
+                $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").prop("checked", false);
             }
 
-
             if (IsSingleOnly == 'True') {
-                $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").attr("checked", true);
+                $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").prop("checked", true);
             } else {
-                $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").attr("checked", false);
+                $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").prop("checked", false);
             }
         })
 
