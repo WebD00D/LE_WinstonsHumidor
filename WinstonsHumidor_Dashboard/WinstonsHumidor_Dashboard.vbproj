@@ -103,6 +103,7 @@
     <Content Include="fontawesome\fontawesome-webfont.svg" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery.min.js" />
+    <Content Include="Pipes.aspx" />
     <Content Include="styles\bootstrap.min.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -166,6 +167,13 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Pipes.aspx.designer.vb">
+      <DependentUpon>Pipes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pipes.aspx.vb">
+      <DependentUpon>Pipes.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
