@@ -51,6 +51,24 @@ Public Class Engine
         Public Qty As String
     End Class
 
+    Public Class Cigar
+        Public CigarID As String
+        Public ProductID As String
+        Public Brand As String
+        Public SKU As String
+        Public Name As String
+        Public Length As String
+        Public Ring As String
+        Public BoxCount As String
+        Public BoxQty As String
+        Public SingleQty As String
+        Public BoxPrice As String
+        Public SinglePrice As String
+        Public Description As String
+        Public IsSingleSaleOnly As String
+        Public IsBoxSaleOnly As String
+    End Class
+
 
 #Region "Accessories"
     Dim Accessories As New List(Of Accessory)
@@ -307,6 +325,60 @@ Public Class Engine
 
 #End Region
 
+#Region "Cigars"
 
+    Dim CigarList As New List(Of Cigar)
+
+    <WebMethod()> _
+    Public Function GetCigarInventory()
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM Cigars"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+        If dt.Rows.Count > 0 Then
+
+            CigarList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim C As New Cigar
+                C.CigarID = item("CigarID")
+                C.ProductID = item("ProductID")
+                C.Brand = item("Brand")
+                C.SKU = item("SKU")
+                C.Name = item("Name")
+                C.Description = item("Description")
+                C.SinglePrice = Math.Round(item("SinglePrice"), 2)
+                C.BoxPrice = Math.Round(item("BoxPrice"), 2)
+                C.Length = item("Length")
+                C.Ring = item("Ring")
+                C.BoxCount = item("BoxCount")
+                C.BoxQty = item("BoxQty")
+                C.SingleQty = item("SingleQty")
+                C.IsBoxSaleOnly = item("IsBoxSaleOnly")
+                C.IsSingleSaleOnly = item("IsSingleSaleOnly")
+
+                CigarList.Add(C)
+            Next
+            Return CigarList
+        Else
+            Return 0
+        End If
+
+    End Function
+
+
+
+ 
+
+#End Region
 
 End Class

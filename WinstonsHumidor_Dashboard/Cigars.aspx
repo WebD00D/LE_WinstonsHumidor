@@ -93,18 +93,19 @@
                        <asp:TextBox runat="server" ID="txtCigarSingleQty" CssClass="form-control"></asp:TextBox></li>
                </ul>
                    <ul class="list-inline">
-                   <li><h6>Box Price</h6>
-                       <asp:TextBox runat="server" ID="txtCigarBoxPrice" CssClass="form-control"></asp:TextBox></li>
-                    <li><h6>Single Price</h6>
-                       <asp:TextBox runat="server" ID="txtCigarSinglePrice" CssClass="form-control"></asp:TextBox></li>
-                </ul>
-               <ul class="list-inline">
                    <li><h6>Box Sale Only</h6>
                        <asp:CheckBox runat="server" ID="ckCigarIsBoxSaleOnly" />
                    </li>
                    <li><h6>Single Sale Only</h6>
                        <asp:CheckBox runat="server" ID="ckCigarIsSingleSaleOnly" />
                    </li>
+                </ul>
+               <ul class="list-inline">
+               
+                       <li><h6>Box Price</h6>
+                       <asp:TextBox runat="server" ID="txtCigarBoxPrice" CssClass="form-control"></asp:TextBox></li>
+                    <li><h6>Single Price</h6>
+                       <asp:TextBox runat="server" ID="txtCigarSinglePrice" CssClass="form-control"></asp:TextBox></li>
                     <li><h6>Image</h6>
                        <asp:FileUpload runat="server" ID="fuCigarImage" CssClass="form-control"/>
                    </li>
@@ -137,6 +138,92 @@
         $("#Title").html("Cigar Management");
       
 
+        $.ajax({
+            type: "POST",
+            url: "Engine.asmx/GetCigarInventory",
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                //take data and append as list item parameters to be selected by user
+                var result = data.d;
+                $("#CigarList").empty();
+                $.each(result, function (index, item) {
+
+                    var content =
+
+                     "<a href='#' data-boxprice='"+ item.BoxPrice +"' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                            "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Box Price: <b>$" + item.BoxPrice + "</b></li><li>Single Price: <b>$" + item.SinglePrice + "</b></li></ul></a>";
+                    $(content).hide().appendTo("#CigarList").fadeIn();
+
+                })
+
+            },
+            failure: function (msg) {
+                alert(msg);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        }) //end ajax
+
+
+        $("#CigarList").delegate(".cigarItem", "click", function (e) {
+
+            e.preventDefault();
+
+        
+
+
+            var ProductID = $(this).attr('id');
+            var SKU = $(this).attr("data-SKU");
+            var Name = $(this).attr('data-Name');
+            var Brand = $(this).attr('data-Brand');
+           
+            var Description = $(this).attr('data-description');
+            var Qty = $(this).attr('data-Qty');
+            var Body = $(this).attr('data-body');
+            var Length = $(this).attr('data-length');
+            var Ring = $(this).attr('data-brand');
+            var BoxCount = $(this).attr('data-BoxCount');
+            var BoxQty = $(this).attr('data-BoxQty');
+            var SingleQty = $(this).attr('data-SingleQty');
+            var BoxPrice = $(this).attr('data-boxprice');
+            var SinglePrice = $(this).attr('data-singleprice');
+
+            var IsSingleOnly = $(this).attr('data-singleonly');
+            var IsBoxOnly = $(this).attr('data-boxonly');
+
+            $("#<%=hfCigarProductID.ClientID%>").val(ProductID);
+            $("#<%=txtCigarSKU.ClientID%>").val(SKU);
+            $("#<%=txtCigarName.ClientID%>").val(Name);
+            $("#<%=txtCigarBrand.ClientID%>").val(Brand);
+            $("#<%=txtCigarDescription.ClientID%>").val(Description);
+            $("#<%=txtCigarLength.ClientID%>").val(Length);
+            $("#<%=txtCigarRing.ClientID%>").val(Ring);
+            $("#<%=txtCigarBoxCount.ClientID%>").val(BoxCount);
+            $("#<%=txtCigarBoxQty.ClientID%>").val(BoxQty);
+            $("#<%=txtCigarSingleQty.ClientID%>").val(SingleQty);
+            $("#<%=txtCigarBoxPrice.ClientID%>").val('$' + BoxPrice);
+            $("#<%=txtCigarSinglePrice.ClientID%>").val('$' + SinglePrice);
+         
+            alert('Single Only: ' + IsSingleOnly + ' and Box Only: ' + IsBoxOnly);
+
+            // issue here - can only set check attributes one time. ??
+            if (IsBoxOnly == 'True') {
+                $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").attr("checked", true);
+            } else {
+                $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").attr("checked", false);
+            }
+
+
+            if (IsSingleOnly == 'True') {
+                $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").attr("checked", true);
+            } else {
+                $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").attr("checked", false);
+            }
+        })
 
     })
 </script>
