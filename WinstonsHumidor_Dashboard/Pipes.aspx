@@ -62,7 +62,7 @@
         <div id="Pipes" class="container">
            <div class="col-lg-12">
                 <h3>Pipes</h3>
-                <input id="txtPipeSearch" class="form-control" placeholder="Search cigars by SKU, brand, name, price, length, or ring gauge."/>
+                <input id="txtPipeSearch" class="form-control" placeholder="Search pipes by SKU, brand, name, price, material, shape, and style."/>
                <label id="lblPipeSearchMessage" style="color:red"></label>
                <br />
                 <div id="PipeList" class="list-group" style="overflow-y:scroll;max-height:200px"></div>
@@ -146,13 +146,9 @@
 
                     var content =
 
-                     "<a href='#' data-material='"+ item.Material +"' data-bodyshape='"+ item.BodyShape +"' data-stemshape='"+ item.StemShape +"' data-bowlfinish='"+ item.BowlFinish +"' data-price='"+ item.Price+"' data-qty='"+ item.Qty +"'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                     "<a href='#' data-material='"+ item.Material +"' data-bodyshape='"+ item.BodyShape +"' data-stemshape='"+ item.StemShape +"' data-bowlfinish='"+ item.BowlFinish +"' data-price='"+ item.Price+"' data-qty='"+ item.Qty +"'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#PipeList").fadeIn();
-
-
-                  
- 
 
                 })
 
@@ -165,7 +161,85 @@
             }
         }) //end ajax
 
+        $("#PipeList").delegate(".pipeitem", "click", function (e) {
 
+            e.preventDefault();
+
+            var ProductID = $(this).attr('id');
+            var SKU = $(this).attr("data-SKU");
+            var Name = $(this).attr('data-Name');
+            var Brand = $(this).attr('data-brand');
+            var Description = $(this).attr('data-description');
+            var Qty = $(this).attr('data-qty');
+            var price = $(this).attr('data-price');
+            var BowlFinish = $(this).attr('data-bowlfinish');
+            var StemShape = $(this).attr('data-stemshape');
+            var BodyShape = $(this).attr('data-bodyshape');
+            var Material = $(this).attr('data-material');
+
+          
+            $("#<%=hfPipeProductID.ClientID%>").val(ProductID);
+            $("#<%=txtPipeSKU.ClientID%>").val(SKU);
+            $("#<%=txtPipeName.ClientID%>").val(Name);
+            $("#<%=txtPipeBrand.ClientID%>").val(Brand);
+            $("#<%=txtPipeDescription.ClientID%>").val(Description);
+            $("#<%=txtPipeQty.ClientID%>").val(Qty);
+            $("#<%=txtPipePrice.ClientID%>").val('$' + price);
+            $("#<%=txtPipeBowlFinish.ClientID%>").val(BowlFinish);
+            $("#<%=txtPipeStemShape.ClientID%>").val(StemShape);
+            $("#<%=txtPipeBodyShape.ClientID%>").val(BodyShape);
+            $("#<%=txtPipeMaterial.ClientID%>").val(Material);
+           
+        })
+
+
+
+        $("#txtPipeSearch").keyup(function () {
+            $("#lblPipeSearchMessage").empty();
+            var AccessoryToSearch = $("#txtPipeSearch").val();
+            if ($("#txtPipeSearch").val().length > 0) {
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "Engine.asmx/SearchPipeInventory",
+                    data: "{SearchText:'" + AccessoryToSearch + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        //take data and append as list item parameters to be selected by user
+                        var result = data.d;
+
+                        if (result == 0) {
+
+                            $("#PipeList").empty();
+                            $("#lblPipeSearchMessage").text("No products found matching search query");
+                            return;
+                        }
+
+
+                        $("#PipeList").empty();
+                        $.each(result, function (index, item) {
+
+                            var content =
+
+                       "<a href='#' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
+                            "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
+                            $(content).hide().appendTo("#PipeList").fadeIn();
+                        })
+
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }) //end ajax 
+
+            }
+        })
 
 
     })

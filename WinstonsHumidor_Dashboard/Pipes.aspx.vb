@@ -144,10 +144,30 @@ Public Class Pipes
     End Sub
 
     Protected Sub btnDeletePipe_Click(sender As Object, e As EventArgs) Handles btnDeletePipe.Click
-
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = "sp_Delete_Pipes"
+            cmd.Parameters.AddWithValue("@ProductID", hfPipeProductID.Value)
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        ClearForm()
     End Sub
 
     Private Sub ClearForm()
+        txtPipeSKU.Text = ""
+        txtPipeName.Text = ""
+        txtPipeBrand.Text = ""
+        txtPipeMaterial.Text = ""
+        txtPipeBodyShape.Text = ""
+        txtPipeStemShape.Text = ""
+        txtPipeBowlFinish.Text = ""
+        txtPipeQty.Text = ""
+        txtPipePrice.Text = ""
+        lblPipeMessage.Text = ""
 
     End Sub
 End Class

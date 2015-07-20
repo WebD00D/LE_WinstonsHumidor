@@ -490,6 +490,57 @@ Public Class Engine
         End If
 
     End Function
+
+
+    <WebMethod()> _
+    Public Function SearchPipeInventory(ByVal SearchText As String)
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            If Trim(SearchText) = String.Empty Then
+                cmd.CommandText = "SELECT * FROM Pipes"
+            Else
+                cmd.CommandText = " SELECT * FROM Pipes" &
+                             " WHERE SKU LIKE '%" & SearchText & "%' OR Name LIKE '%" & SearchText & "%' OR " &
+                             " Price LIKE '%" & SearchText & "%' OR Material LIKE '%" & SearchText & "%' OR BodyShape LIKE '%" & SearchText & "%' OR Brand LIKE '%" & SearchText & "%' OR StemShape LIKE '%" & SearchText & "%' OR BowlFinish LIKE '%" & SearchText & "%'"
+            End If
+
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+        End Using
+         If dt.Rows.Count > 0 Then
+
+            PipeList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim P As New Pipe
+                P.PipeID = item("PipeID")
+                P.ProductID = item("ProductID")
+                P.Brand = item("Brand")
+                P.SKU = item("SKU")
+                P.Name = item("Name")
+                P.Description = item("Description")
+                P.Price = Math.Round(item("Price"), 2)
+                P.Qty = item("Qty")
+                P.StemShape = item("StemShape")
+                P.BowlFinish = item("BowlFinish")
+                P.BodyShape = item("BodyShape")
+                P.Material = item("Material")
+                PipeList.Add(P)
+            Next
+            Return PipeList
+        Else
+            Return 0
+        End If
+    End Function
+
+
+
+
 #End Region
 
 End Class
