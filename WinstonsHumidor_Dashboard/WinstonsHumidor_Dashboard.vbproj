@@ -97,6 +97,7 @@
     <Content Include="Apparel.aspx" />
     <Content Include="Cigars.aspx" />
     <Content Include="Coffee.aspx" />
+    <Content Include="Configuration.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Engine.asmx" />
     <Content Include="fontawesome\font-awesome.min.css" />
@@ -137,6 +138,13 @@
     </Compile>
     <Compile Include="Coffee.aspx.vb">
       <DependentUpon>Coffee.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Configuration.aspx.designer.vb">
+      <DependentUpon>Configuration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration.aspx.vb">
+      <DependentUpon>Configuration.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.vb">
