@@ -84,6 +84,21 @@ Public Class Engine
         Public Material As String
     End Class
 
+    Public Class PipeTobacco
+        Public PipeTobaccoID As String
+        Public ProductID As String
+        Public SKU As String
+        Public Brand As String
+        Public Tobacco As String
+        Public Style As String
+        Public Cut As String
+        Public Strength As String
+        Public Price As String
+        Public Description As String
+        Public Qty As String
+
+    End Class
+     
 #Region "Accessories"
     Dim Accessories As New List(Of Accessory)
 
@@ -537,6 +552,108 @@ Public Class Engine
             Return 0
         End If
     End Function
+
+
+
+
+#End Region
+
+#Region "Pipe Tobacco"
+
+    Dim PipeTobaccoList As New List(Of PipeTobacco)
+
+    <WebMethod()> _
+    Public Function GetPipeTobaccoInventory()
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM PipeTobacco"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+        If dt.Rows.Count > 0 Then
+
+            PipeTobaccoList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim PT As New PipeTobacco
+                PT.PipeTobaccoID = item("PipeTobaccoID")
+                PT.ProductID = item("ProductID")
+                PT.Brand = item("Brand")
+                PT.SKU = item("SKU")
+                PT.Tobacco = item("Tobacco")
+                PT.Description = item("Description")
+                PT.Price = Math.Round(item("Price"), 2)
+                PT.Qty = item("Qty")
+                PT.Style = item("Style")
+                PT.Cut = item("Cut")
+                PT.Strength = item("Strength")
+
+                PipeTobaccoList.Add(PT)
+            Next
+            Return PipeTobaccoList
+        Else
+            Return 0
+        End If
+
+       
+
+    End Function
+
+
+    <WebMethod()> _
+    Public Function SearchPipeTobaccoInventory(ByVal SearchText As String)
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            If Trim(SearchText) = String.Empty Then
+                cmd.CommandText = "SELECT * FROM PipeTobacco"
+            Else
+                cmd.CommandText = " SELECT * FROM PipeTobacco" &
+                             " WHERE SKU LIKE '%" & SearchText & "%' OR Tobacco LIKE '%" & SearchText & "%' OR " &
+                             " Price LIKE '%" & SearchText & "%' OR Strength LIKE '%" & SearchText & "%' OR Cut LIKE '%" & SearchText & "%' OR Brand LIKE '%" & SearchText & "%' OR Style LIKE '%" & SearchText & "%'"
+            End If
+
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+        End Using
+        If dt.Rows.Count > 0 Then
+
+            PipeTobaccoList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim PT As New PipeTobacco
+                PT.PipeTobaccoID = item("PipeTobaccoID")
+                PT.ProductID = item("ProductID")
+                PT.Brand = item("Brand")
+                PT.SKU = item("SKU")
+                PT.Tobacco = item("Tobacco")
+                PT.Description = item("Description")
+                PT.Price = Math.Round(item("Price"), 2)
+                PT.Qty = item("Qty")
+                PT.Style = item("Style")
+                PT.Cut = item("Cut")
+                PT.Strength = item("Strength")
+
+                PipeTobaccoList.Add(PT)
+            Next
+            Return PipeTobaccoList
+        Else
+            Return 0
+        End If
+
+    End Function
+
 
 
 

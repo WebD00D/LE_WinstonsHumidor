@@ -104,6 +104,7 @@
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="Pipes.aspx" />
+    <Content Include="PipeTobacco.aspx" />
     <Content Include="styles\bootstrap.min.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -173,6 +174,13 @@
     </Compile>
     <Compile Include="Pipes.aspx.vb">
       <DependentUpon>Pipes.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="PipeTobacco.aspx.designer.vb">
+      <DependentUpon>PipeTobacco.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PipeTobacco.aspx.vb">
+      <DependentUpon>PipeTobacco.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
   </ItemGroup>

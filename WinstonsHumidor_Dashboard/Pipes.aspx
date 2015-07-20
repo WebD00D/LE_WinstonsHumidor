@@ -92,9 +92,9 @@
                    </li>
                </ul>
                <ul class="list-inline">
-                   <li><h6>Qty</h6>
+                   <li><h6>Qty </h6>
                        <asp:TextBox runat="server" ID="txtPipeQty" CssClass="form-control"></asp:TextBox></li>
-                    <li><h6>Price</h6>
+                    <li><h6>Price </h6>
                        <asp:TextBox runat="server" ID="txtPipePrice" CssClass="form-control"></asp:TextBox></li>
                </ul>
              
