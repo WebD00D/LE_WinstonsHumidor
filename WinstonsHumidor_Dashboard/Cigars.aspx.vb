@@ -193,9 +193,6 @@ Public Class Cigars
         ClearForm()
 
 
-	
-
-
 
     End Sub
 

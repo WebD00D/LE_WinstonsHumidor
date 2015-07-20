@@ -131,5 +131,42 @@
         $("#Title").html("Pipe Management");
       
 
+        $.ajax({
+            type: "POST",
+            url: "Engine.asmx/GetPipeInventory",
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                //take data and append as list item parameters to be selected by user
+                var result = data.d;
+                $("#PipeList").empty();
+                $.each(result, function (index, item) {
+
+                    var content =
+
+                     "<a href='#' data-material='"+ item.Material +"' data-bodyshape='"+ item.BodyShape +"' data-stemshape='"+ item.StemShape +"' data-bowlfinish='"+ item.BowlFinish +"' data-price='"+ item.Price+"' data-qty='"+ item.Qty +"'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                            "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
+                    $(content).hide().appendTo("#PipeList").fadeIn();
+
+
+                  
+ 
+
+                })
+
+            },
+            failure: function (msg) {
+                alert(msg);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        }) //end ajax
+
+
+
+
     })
 </script>

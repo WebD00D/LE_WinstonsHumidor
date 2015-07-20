@@ -69,6 +69,20 @@ Public Class Engine
         Public IsBoxSaleOnly As String
     End Class
 
+    Public Class Pipe
+        Public PipeID As String
+        Public ProductID As String
+        Public Brand As String
+        Public Name As String
+        Public SKU As String
+        Public Description As String
+        Public Price As String
+        Public Qty As String
+        Public BowlFinish As String
+        Public StemShape As String
+        Public BodyShape As String
+        Public Material As String
+    End Class
 
 #Region "Accessories"
     Dim Accessories As New List(Of Accessory)
@@ -429,6 +443,53 @@ Public Class Engine
 
  
 
+#End Region
+
+#Region "Pipes"
+
+    Dim PipeList As New List(Of Pipe)
+
+    <WebMethod()> _
+    Public Function GetPipeInventory()
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM Pipes"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+        If dt.Rows.Count > 0 Then
+
+            PipeList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim P As New Pipe
+                P.PipeID = item("PipeID")
+                P.ProductID = item("ProductID")
+                P.Brand = item("Brand")
+                P.SKU = item("SKU")
+                P.Name = item("Name")
+                P.Description = item("Description")
+                P.Price = Math.Round(item("Price"), 2)
+                P.Qty = item("Qty")
+                P.StemShape = item("StemShape")
+                P.BowlFinish = item("BowlFinish")
+                P.BodyShape = item("BodyShape")
+                P.Material = item("Material")
+                PipeList.Add(P)
+            Next
+            Return PipeList
+        Else
+            Return 0
+        End If
+
+    End Function
 #End Region
 
 End Class
