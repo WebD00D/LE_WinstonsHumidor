@@ -19,7 +19,7 @@ Public Class Apparel
         txtApparelNames.BorderColor = Nothing
         txtApparelSKU.BorderColor = Nothing
 
-        lblApparelMessage.BorderColor = Nothing
+        lblApparelMessage.Text = ""
 
         If Trim(txtApparelSKU.Text) = String.Empty Then
             lblApparelMessage.Text = "A unique SKU is required."
