@@ -140,6 +140,15 @@ Partial Public Class Apparel
     Protected WithEvents fuApprelImg As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''ckApparelIsFeatured control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckApparelIsFeatured As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''btnSaveApprel control.
     '''</summary>
     '''<remarks>

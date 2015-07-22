@@ -59,7 +59,7 @@
 
 
            
-        <div id="Coffee" class="container">
+        <div id="Cigars" class="container">
            <div class="col-lg-12">
                 <h3>Cigars</h3>
                 <input id="txtCigarSearch" class="form-control" placeholder="Search cigars by SKU, brand, name, price, length, or ring gauge."/>
@@ -207,7 +207,7 @@
             $("#<%=txtCigarBoxPrice.ClientID%>").val('$' + BoxPrice);
             $("#<%=txtCigarSinglePrice.ClientID%>").val('$' + SinglePrice);
          
-            // issue here - can only set chec
+            
             if (IsBoxOnly == 'True') {
                 $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").prop("checked", true);
             } else {

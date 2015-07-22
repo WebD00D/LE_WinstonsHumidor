@@ -132,6 +132,7 @@ Public Class Apparel
             cmd.Parameters.AddWithValue("@XXL", CInt(XXL.Text))
             cmd.Parameters.AddWithValue("@XXXL", CInt(XXXL.Text))
             cmd.Parameters.AddWithValue("@Img", fuApprelImg.FileBytes)
+            cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckApparelIsFeatured.Checked))
 
             If storedProcedure = "sp_Insert_Accessories" Then
                 cmd.Parameters.AddWithValue("@Category", "Apparel")
@@ -171,5 +172,6 @@ Public Class Apparel
         XL.Text = ""
         XXL.Text = ""
         XXXL.Text = ""
+        ckApparelIsFeatured.Checked = False
     End Sub
 End Class

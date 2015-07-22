@@ -85,6 +85,9 @@
                 <asp:TextBox ID="txtAccessoryPrice" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Product Image</h6>
                 <asp:FileUpload ID="fuAccessoryImage" runat="server" CssClass="form-control" />
+                <h6>Featured Item</h6>
+                <asp:CheckBox ID="ckAccessoryFeaturedItem" runat="server"/>
+                <br />
                 <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" /></li>
@@ -133,7 +136,7 @@
   
                             var content =
 
-                            "<a href='#' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
+                            "<a href='#' data-featured='" + item.IsFeatured + "' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
                     "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#AccessoryList").fadeIn();
                         })
@@ -158,6 +161,7 @@
             var Price = $(this).attr('data-price');
             var Description = $(this).attr('data-description');
             var Qty = $(this).attr('data-Qty');
+            var Featured = $(this).attr('data-featured');
            
             $("#<%=hfAccessoryProductID.ClientID%>").val(ProductID);
             $("#<%=txtAccessorySKU.ClientID%>").val(SKU);
@@ -165,7 +169,16 @@
             $("#<%=txtAccessoryBrand.ClientID%>").val(Brand);
             $("#<%=txtAccessoryDescription.ClientID%>").val(Description);
             $("#<%=txtAccessoryQty.ClientID%>").val(Qty);
-            $("#<%=txtAccessoryPrice.ClientID%>").val('$'+ Price);
+            $("#<%=txtAccessoryPrice.ClientID%>").val('$' + Price);
+
+            alert(Featured);
+
+            if (Featured == 'True') {
+                $("#<%=ckAccessoryFeaturedItem.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckAccessoryFeaturedItem.ClientID%>").prop("checked", false);
+            }
+
 
         })
 

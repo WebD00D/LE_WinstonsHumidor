@@ -20,6 +20,7 @@ Public Class Engine
         Public Description As String
         Public Brand As String
         Public Price As String
+        Public IsFeatured As String
     End Class
 
     Public Class Apparel
@@ -36,6 +37,7 @@ Public Class Engine
         Public XL As String
         Public XXL As String
         Public XXXL As String
+        Public IsFeatured As String
     End Class
 
     Public Class Coffee
@@ -136,6 +138,7 @@ Public Class Engine
             A.ProductID = CStr(item("ProductID"))
             Dim DecPrice As Decimal = Decimal.Round(item("Price"), 2)
             A.Price = CStr(DecPrice)
+            A.IsFeatured = item("IsFeatured")
             Accessories.Add(A)
         Next
         Return Accessories
@@ -172,6 +175,7 @@ Public Class Engine
             A.ProductID = CStr(item("ProductID"))
             Dim DecPrice As Decimal = Decimal.Round(item("Price"), 2)
             A.Price = CStr(DecPrice)
+            A.IsFeatured = item("IsFeatured")
             Accessories.Add(A)
         Next
         Return Accessories
@@ -216,6 +220,7 @@ Public Class Engine
                 A.XL = item("XL_Qty")
                 A.XXL = item("XXL_Qty")
                 A.XXXL = item("XXXL_Qty")
+                A.IsFeatured = item("IsFeatured")
                 ApparelList.Add(A)
             Next
             Return ApparelList
@@ -259,6 +264,7 @@ Public Class Engine
                 A.XL = item("XL_Qty")
                 A.XXL = item("XXL_Qty")
                 A.XXXL = item("XXXL_Qty")
+                A.IsFeatured = item("IsFeatured")
                 ApparelList.Add(A)
             Next
             Return ApparelList

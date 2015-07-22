@@ -88,6 +88,7 @@ Public Class Accessories
             cmd.Parameters.AddWithValue("@Price", CDec(txtAccessoryPrice.Text))
             cmd.Parameters.AddWithValue("@Brand", txtAccessoryBrand.Text)
             cmd.Parameters.AddWithValue("@Description", txtAccessoryDescription.Value)
+            cmd.Parameters.AddWithValue("@FeaturedItem", CByte(ckAccessoryFeaturedItem.Checked))
 
             If storedProcedure = "sp_Insert_Accessories" Then
                 cmd.Parameters.AddWithValue("@Category", "Accessory")
@@ -142,6 +143,7 @@ Public Class Accessories
         txtAccessoryName.Text = ""
         txtAccessorySKU.Text = ""
         txtAccessoryBrand.Text = ""
+        ckAccessoryFeaturedItem.Checked = False
         hfAccessoryProductID.Value = Nothing
 
     End Sub

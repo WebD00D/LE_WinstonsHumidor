@@ -103,8 +103,9 @@
                     <li>  <h6>Product Image</h6>
                 <asp:FileUpload ID="fuApprelImg" runat="server" CssClass="form-control" /></li>
                 </ul>
-               
-              
+               <h6>Is Featured</h6>
+               <asp:CheckBox runat="server" ID="ckApparelIsFeatured"/>
+                <br />
                 <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveApprel" runat="server" CssClass="btn btn-success" Text="Save Apparel" /></li>
@@ -140,7 +141,7 @@
 
                     var content =
 
-                     "<a href='#' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
+                     "<a href='#' data-featured='"+ item.IsFeatured +"' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#ApparelList").fadeIn();
 
@@ -172,6 +173,7 @@
             var XL = $(this).attr('data-XL');
             var XXL = $(this).attr('data-XXL');
             var XXXL = $(this).attr('data-XXXL');
+            var Featured = $(this).attr('data-featured');
 
             $("#<%=hfApparelProductID.ClientID%>").val(ProductID);
             $("#<%=txtApparelSKU.ClientID%>").val(SKU);
@@ -185,6 +187,14 @@
             $("#<%=XXL.ClientID%>").val(XXL);
             $("#<%=XXXL.ClientID%>").val(XXXL);
             $("#<%=txtApparelPrice.ClientID%>").val('$' + Price);
+
+            if (Featured == 'True') {
+                $("#<%=ckApparelIsFeatured.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckApparelIsFeatured.ClientID%>").prop("checked", false);
+            }
+
+
 
         })
 
