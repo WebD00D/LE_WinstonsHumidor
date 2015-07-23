@@ -113,6 +113,15 @@ Partial Public Class Coffee
     Protected WithEvents fuCoffeeImage As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''ckCoffeeIsFeatured control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckCoffeeIsFeatured As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''btnSaveCoffee control.
     '''</summary>
     '''<remarks>

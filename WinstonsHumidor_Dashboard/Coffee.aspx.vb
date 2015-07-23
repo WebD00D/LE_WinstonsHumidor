@@ -102,6 +102,7 @@ Public Class Coffee
             cmd.Parameters.AddWithValue("@Description", txtCoffeeDescription.Value)
             cmd.Parameters.AddWithValue("@Image", fuCoffeeImage.FileBytes)
             cmd.Parameters.AddWithValue("@Brand", txtCoffeeBrand.Text)
+            cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckCoffeeIsFeatured.Checked))
 
             If storedProcedure = "sp_Insert_Coffee" Then
                 cmd.Parameters.AddWithValue("@Category", "Coffee")
@@ -143,5 +144,6 @@ Public Class Coffee
         txtCoffeePrice.Text = ""
         txtCoffeeDescription.Value = ""
         lblCoffeeMessage.Text = String.Empty
+        ckCoffeeIsFeatured.Checked = False
     End Sub
 End Class

@@ -179,6 +179,7 @@ Public Class Cigars
             cmd.Parameters.AddWithValue("@IsSingleSaleOnly", CByte(ckCigarIsSingleSaleOnly.Checked))
             cmd.Parameters.AddWithValue("@IsBoxSaleOnly", CInt(ckCigarIsBoxSaleOnly.Checked))
             cmd.Parameters.AddWithValue("@Image", fuCigarImage.FileBytes)
+            cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckCigarIsFeatured.Checked))
 
             If storedProcedure = "sp_Insert_Cigars" Then
                 cmd.Parameters.AddWithValue("@Category", "Cigars")
@@ -224,5 +225,6 @@ Public Class Cigars
         lblCigarMessage.Text = " "
         ckCigarIsBoxSaleOnly.Checked = False
         ckCigarIsSingleSaleOnly.Checked = False
+        ckCigarIsFeatured.Checked = False
     End Sub
 End Class

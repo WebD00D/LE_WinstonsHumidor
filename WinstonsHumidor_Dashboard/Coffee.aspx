@@ -96,8 +96,8 @@
                        <asp:FileUpload runat="server" ID="fuCoffeeImage" CssClass="form-control"/>
                    </li>
                </ul>
-
-               
+               <h6>Is Featured</h6>
+                <asp:CheckBox runat="server" ID="ckCoffeeIsFeatured"/>
                 <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveCoffee" runat="server" CssClass="btn btn-success" Text="Save Coffee" /></li>
@@ -138,7 +138,7 @@
 
                     var content =
 
-                     "<a href='#' data-brand='"+ item.Brand +"' data-roast='"+ item.Roast  +"' data-body='"+ item.Body +"' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
+                     "<a href='#'  data-featured='"+ item.IsFeatured + "' data-brand='"+ item.Brand +"' data-roast='"+ item.Roast  +"' data-body='"+ item.Body +"' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#CoffeeList").fadeIn();
 
@@ -167,7 +167,7 @@
             var Body = $(this).attr('data-body');
             var Roast = $(this).attr('data-roast');
             var Brand = $(this).attr('data-brand');
-
+            var Featured = $(this).attr('data-featured');
 
             $("#<%=hfCoffeeProductID.ClientID%>").val(ProductID);
             $("#<%=txtCoffeeSKU.ClientID%>").val(SKU);
@@ -178,6 +178,15 @@
             $("#<%=txtCoffeeRoast.ClientID%>").val(Roast);
             $("#<%=txtCoffeeBody.ClientID%>").val(Body);
             $("#<%=txtCoffeeBrand.ClientID%>").val(Brand);
+
+
+            if (Featured == 'True') {
+                $("#<%=ckCoffeeIsFeatured.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckCoffeeIsFeatured.ClientID%>").prop("checked", false);
+            }
+
+
 
         })
 
@@ -211,7 +220,7 @@
 
                             var content =
 
-                               "<a href='#' data-roast='" + item.Roast + "' data-body='" + item.Body + "' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
+                                 "<a href='#'  data-featured='" + item.IsFeatured + "' data-brand='" + item.Brand + "' data-roast='" + item.Roast + "' data-body='" + item.Body + "' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#CoffeeList").fadeIn();
                         })

@@ -125,6 +125,7 @@ Public Class Pipes
             cmd.Parameters.AddWithValue("@Price", CDec(txtPipePrice.Text))
             cmd.Parameters.AddWithValue("@Description", txtPipeDescription.Value)
             cmd.Parameters.AddWithValue("@Image", fuPipeImage.FileBytes)
+            cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipesIsFeatured.Checked))
 
             If storedProcedure = "sp_Insert_Pipes" Then
                 cmd.Parameters.AddWithValue("@Category", "Pipes")
@@ -168,6 +169,6 @@ Public Class Pipes
         txtPipeQty.Text = ""
         txtPipePrice.Text = ""
         lblPipeMessage.Text = ""
-
+        ckPipesIsFeatured.Checked = False
     End Sub
 End Class

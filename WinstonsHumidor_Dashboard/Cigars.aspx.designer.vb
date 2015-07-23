@@ -158,6 +158,15 @@ Partial Public Class Cigars
     Protected WithEvents fuCigarImage As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''ckCigarIsFeatured control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckCigarIsFeatured As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
     '''btnSaveCigar control.
     '''</summary>
     '''<remarks>

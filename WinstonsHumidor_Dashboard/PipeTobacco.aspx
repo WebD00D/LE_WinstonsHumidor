@@ -102,7 +102,8 @@
                        <asp:FileUpload runat="server" ID="fuPipeTobaccoImage" CssClass="form-control"/>
                    </li>
                </ul>
-
+               <h6>Is Featured</h6>
+               <asp:CheckBox runat="server" ID="ckPipeTobaccoIsFeatured"/>
                
                 <br />
                 <ul class="list-inline">
@@ -145,7 +146,7 @@
 
                     var content =
 
-                     "<a href='#' data-strength='"+ item.Strength +"' data-cut='"+ item.Cut +"' data-style='"+ item.Style +"' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
+                     "<a href='#' data-featured='" + item.IsFeatured + "' data-strength='" + item.Strength + "' data-cut='" + item.Cut + "' data-style='" + item.Style + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Tobacco: <b>" + item.Tobacco + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#PipeTobaccoList").fadeIn();
 
@@ -176,7 +177,7 @@
             var Cut = $(this).attr('data-cut');
             var Style = $(this).attr('data-style');
             var Strength = $(this).attr('data-strength');
-           
+            var Featured = $(this).attr('data-featured');
 
 
             $("#<%=hfPipeTobaccoProductID.ClientID%>").val(ProductID);
@@ -190,6 +191,13 @@
             $("#<%=txtPipeTobaccoStrength.ClientID%>").val(Strength);
             $("#<%=txtPipeTobaccoCut.ClientID%>").val(Cut);
             
+
+            if (Featured == 'True') {
+                $("#<%=ckPipeTobaccoIsFeatured.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckPipeTobaccoIsFeatured.ClientID%>").prop("checked", false);
+            }
+
 
         })
 
@@ -223,7 +231,7 @@
                         $.each(result, function (index, item) {
 
                             var content =
-                            "<a href='#' data-strength='" + item.Strength + "' data-cut='" + item.Cut + "' data-style='" + item.Style + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
+                            "<a href='#' data-featured='" + item.IsFeatured + "' data-strength='" + item.Strength + "' data-cut='" + item.Cut + "' data-style='" + item.Style + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Tobacco: <b>" + item.Tobacco + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#PipeTobaccoList").fadeIn();
                         })

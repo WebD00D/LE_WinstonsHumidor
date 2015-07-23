@@ -51,6 +51,7 @@ Public Class Engine
         Public Roast As String
         Public Price As String
         Public Qty As String
+        Public IsFeatured As String
     End Class
 
     Public Class Cigar
@@ -69,6 +70,7 @@ Public Class Engine
         Public Description As String
         Public IsSingleSaleOnly As String
         Public IsBoxSaleOnly As String
+        Public IsFeatured As String
     End Class
 
     Public Class Pipe
@@ -84,6 +86,7 @@ Public Class Engine
         Public StemShape As String
         Public BodyShape As String
         Public Material As String
+        Public IsFeatured As String
     End Class
 
     Public Class PipeTobacco
@@ -98,6 +101,7 @@ Public Class Engine
         Public Price As String
         Public Description As String
         Public Qty As String
+        Public IsFeatured As String
 
     End Class
 
@@ -311,6 +315,7 @@ Public Class Engine
                 C.Qty = CStr(item("Qty"))
                 C.Roast = item("Roast")
                 C.Body = item("Body")
+                C.IsFeatured = item("IsFeatured")
                 CoffeeList.Add(C)
             Next
             Return CoffeeList
@@ -356,6 +361,7 @@ Public Class Engine
                 C.Qty = CStr(item("Qty"))
                 C.Roast = item("Roast")
                 C.Body = item("Body")
+                C.IsFeatured = item("IsFeatured")
                 CoffeeList.Add(C)
             Next
             Return CoffeeList
@@ -408,7 +414,7 @@ Public Class Engine
                 C.SingleQty = item("SingleQty")
                 C.IsBoxSaleOnly = item("IsBoxSaleOnly")
                 C.IsSingleSaleOnly = item("IsSingleSaleOnly")
-
+                C.IsFeatured = item("IsFeatured")
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -460,6 +466,7 @@ Public Class Engine
                 C.SingleQty = item("SingleQty")
                 C.IsBoxSaleOnly = item("IsBoxSaleOnly")
                 C.IsSingleSaleOnly = item("IsSingleSaleOnly")
+                C.IsFeatured = item("IsFeatured")
 
                 CigarList.Add(C)
             Next
@@ -511,6 +518,7 @@ Public Class Engine
                 P.BowlFinish = item("BowlFinish")
                 P.BodyShape = item("BodyShape")
                 P.Material = item("Material")
+                P.IsFeatured = item("IsFeatured")
                 PipeList.Add(P)
             Next
             Return PipeList
@@ -559,6 +567,7 @@ Public Class Engine
                 P.BowlFinish = item("BowlFinish")
                 P.BodyShape = item("BodyShape")
                 P.Material = item("Material")
+                P.IsFeatured = item("IsFeatured")
                 PipeList.Add(P)
             Next
             Return PipeList
@@ -608,7 +617,7 @@ Public Class Engine
                 PT.Style = item("Style")
                 PT.Cut = item("Cut")
                 PT.Strength = item("Strength")
-
+                PT.IsFeatured = item("IsFeatured")
                 PipeTobaccoList.Add(PT)
             Next
             Return PipeTobaccoList
@@ -658,7 +667,7 @@ Public Class Engine
                 PT.Style = item("Style")
                 PT.Cut = item("Cut")
                 PT.Strength = item("Strength")
-
+                PT.IsFeatured = item("IsFeatured")
                 PipeTobaccoList.Add(PT)
             Next
             Return PipeTobaccoList

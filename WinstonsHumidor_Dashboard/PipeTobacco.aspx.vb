@@ -115,6 +115,7 @@ Public Class PipeTobacco
             cmd.Parameters.AddWithValue("@Price", CDec(txtPipeTobaccoPrice.Text))
             cmd.Parameters.AddWithValue("@Description", txtPipeTobaccoDescription.Value)
             cmd.Parameters.AddWithValue("@Image", fuPipeTobaccoImage.FileBytes)
+            cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipeTobaccoIsFeatured.Checked))
 
 
             If storedProcedure = "sp_Insert_PipeTobacco" Then
@@ -166,5 +167,6 @@ Public Class PipeTobacco
         txtPipeTobaccoPrice.BorderColor = Nothing
         fuPipeTobaccoImage.BorderColor = Nothing
         txtPipeTobaccoQty.BorderColor = Nothing
+        ckPipeTobaccoIsFeatured.Checked = False
     End Sub
 End Class
