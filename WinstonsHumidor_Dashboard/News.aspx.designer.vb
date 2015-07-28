@@ -77,6 +77,15 @@ Partial Public Class News
     Protected WithEvents fuPostImage As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''ddlPostType control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlPostType As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''ASPxHtmlEditor1 control.
     '''</summary>
     '''<remarks>

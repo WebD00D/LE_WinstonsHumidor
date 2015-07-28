@@ -96,6 +96,12 @@
                 <ul class="list-inline">
                     <li><h6>Post Title</h6><asp:TextBox runat="server" CssClass="form-control" ID="txtPostTitle"></asp:TextBox></li>
                       <li><h6>Header Image</h6><asp:FileUpload runat="server" ID="fuPostImage" CssClass="form-control"/></li>
+                    <li><h6>Post Type</h6>
+                        <asp:DropDownList ID="ddlPostType" CssClass="form-control" runat="server" >
+                            <asp:ListItem Value="Event">Event</asp:ListItem>
+                            <asp:ListItem Value="News">News</asp:ListItem>
+                        </asp:DropDownList>
+                    </li>
                 </ul>
                     <dx:ASPxHtmlEditor ID="ASPxHtmlEditor1" runat="server" Width="1137px" >
                         <Toolbars>
@@ -233,8 +239,6 @@
 
                 })
 
-               
-                
             },
             failure: function (msg) {
                 alert(msg);

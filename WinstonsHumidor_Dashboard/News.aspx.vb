@@ -1,4 +1,6 @@
 ﻿Imports System.Data.SqlClient
+Imports System.IO
+Imports System.IO.MemoryStream
 Public Class News
     Inherits System.Web.UI.Page
 
@@ -16,26 +18,33 @@ Public Class News
             StoredProcedure = "sp_Update_NewsPost"
         End If
 
-        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
-        Using cmd As SqlCommand = con.CreateCommand
-            cmd.Connection = con
-            cmd.Connection.Open()
-            cmd.CommandType = CommandType.StoredProcedure
-            cmd.CommandText = StoredProcedure
-            cmd.Parameters.AddWithValue("@PostedBy", "Developer")
+            Dim mStream As New MemoryStream()
+            ASPxHtmlEditor1.Export(DevExpress.Web.ASPxHtmlEditor.HtmlEditorExportFormat.Txt, mStream)
+            Dim PlainText = System.Text.Encoding.UTF8.GetString(mStream.ToArray())
+
+
+            Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+            Using cmd As SqlCommand = con.CreateCommand
+                cmd.Connection = con
+                cmd.Connection.Open()
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandText = StoredProcedure
+                cmd.Parameters.AddWithValue("@PostedBy", "Developer")
             cmd.Parameters.AddWithValue("@HTML", ASPxHtmlEditor1.Html)
-            cmd.Parameters.AddWithValue("@PostImage", fuPostImage.FileBytes)
-            cmd.Parameters.AddWithValue("@PostTitle", txtPostTitle.Text)
-            If StoredProcedure = "sp_Update_NewsPost" Then
-                cmd.Parameters.AddWithValue("@PostID", hfPostID.Value)
-            End If
-            cmd.ExecuteNonQuery()
-            cmd.Connection.Close()
+                cmd.Parameters.AddWithValue("@PostImage", fuPostImage.FileBytes)
+                cmd.Parameters.AddWithValue("@PostTitle", txtPostTitle.Text)
+            cmd.Parameters.AddWithValue("@PlainText", PlainText)
+            cmd.Parameters.AddWithValue("@PostType", ddlPostType.SelectedValue.ToString())
+                If StoredProcedure = "sp_Update_NewsPost" Then
+                    cmd.Parameters.AddWithValue("@PostID", hfPostID.Value)
+                End If
+                cmd.ExecuteNonQuery()
+                cmd.Connection.Close()
 
-        End Using
+            End Using
 
-        lblPostMessage.Text = "Post successfully saved!"
-        lblPostMessage.ForeColor = Drawing.Color.Green
+            lblPostMessage.Text = "Post successfully saved!"
+            lblPostMessage.ForeColor = Drawing.Color.Green
 
     End Sub
 
@@ -60,6 +69,7 @@ Public Class News
         txtPostTitle.Text = dt.Rows(0).Item("PostTitle")
         ASPxHtmlEditor1.Html = dt.Rows(0).Item("HTML")
         hfPostID.Value = dt.Rows(0).Item("PostID")
+        ddlPostType.SelectedValue = dt.Rows(0).Item("PostType")
 
 
     End Sub

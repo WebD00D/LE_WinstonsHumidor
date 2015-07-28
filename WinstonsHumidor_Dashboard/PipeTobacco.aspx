@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="PipeTobacco.aspx.vb" Inherits="WinstonsHumidor_Dashboard.PipeTobacco" %>
-
+<% %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
