@@ -86,6 +86,15 @@ Partial Public Class Cigars
     Protected WithEvents txtCigarRing As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtCigarBody control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCigarBody As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''txtCigarBoxCount control.
     '''</summary>
     '''<remarks>

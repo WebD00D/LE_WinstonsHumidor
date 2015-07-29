@@ -18,7 +18,7 @@ Public Class Cigars
         txtCigarBoxPrice.BorderColor = Nothing
         txtCigarSinglePrice.BorderColor = Nothing
         lblCigarMessage.Text = " "
-
+        txtCigarBody.BorderColor = Nothing
 
       
 
@@ -53,12 +53,20 @@ Public Class Cigars
             txtCigarRing.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
+        If Trim(txtCigarBody.Text) = String.Empty Then
+            lblCigarMessage.Text = "Please specify the body for cigar: Mild, Medium, or Full."
+            lblCigarMessage.ForeColor = Drawing.Color.Red
+            txtCigarBody.BorderColor = Drawing.Color.Red
+            Exit Sub
+        End If
+
         If Trim(txtCigarBoxCount.Text) = String.Empty Or Not IsNumeric(txtCigarBoxCount.Text) Then
             lblCigarMessage.Text = "A numeric value is required for box count."
             lblCigarMessage.ForeColor = Drawing.Color.Red
             txtCigarBoxCount.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
+
 
         If Trim(txtCigarBoxQty.Text) = String.Empty Or Not IsNumeric(txtCigarBoxQty.Text) Then
             lblCigarMessage.Text = "A numeric value is required for box quantity."
@@ -180,6 +188,7 @@ Public Class Cigars
             cmd.Parameters.AddWithValue("@IsBoxSaleOnly", CInt(ckCigarIsBoxSaleOnly.Checked))
             cmd.Parameters.AddWithValue("@Image", fuCigarImage.FileBytes)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckCigarIsFeatured.Checked))
+            cmd.Parameters.AddWithValue("@Body", txtCigarBody.Text)
 
             If storedProcedure = "sp_Insert_Cigars" Then
                 cmd.Parameters.AddWithValue("@Category", "Cigars")
@@ -223,6 +232,7 @@ Public Class Cigars
         txtCigarBoxPrice.Text = " "
         txtCigarSinglePrice.Text = " "
         lblCigarMessage.Text = " "
+        txtCigarBody.Text = " "
         ckCigarIsBoxSaleOnly.Checked = False
         ckCigarIsSingleSaleOnly.Checked = False
         ckCigarIsFeatured.Checked = False

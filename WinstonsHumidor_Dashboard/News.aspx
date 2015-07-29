@@ -102,6 +102,10 @@
                             <asp:ListItem Value="News">News</asp:ListItem>
                         </asp:DropDownList>
                     </li>
+                    <li><h6>Instagram Hashtag</h6>
+        <asp:TextBox runat="server" ID="txtHashtag" CssClass="form-control"></asp:TextBox>
+                    </li>
+            
                 </ul>
                     <dx:ASPxHtmlEditor ID="ASPxHtmlEditor1" runat="server" Width="1137px" >
                         <Toolbars>
@@ -233,7 +237,7 @@
 
                     var content =
 
-                     "<a href='#' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "' data-html='" + item.HTML + "' id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
+                     "<a href='#' data-hashtag='"+ item.Hashtag +"' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "' data-html='" + item.HTML + "' id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
                             "<ul class='list-inline'><li>Post Date: <b>" + item.PostDate + "</b></li><li>Post Title: <b>" + item.PostTitle + "</b></li></ul></a>";
                     $(content).hide().appendTo("#PostList").fadeIn();
 
@@ -288,7 +292,7 @@
 
                             var content =
 
-                             "<a href='#' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "' data-html='" + item.HTML + "' id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
+                             "<a href='#' data-hashtag='" + item.Hashtag + "' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "' data-html='" + item.HTML + "' id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
                             "<ul class='list-inline'><li>Post Date: <b>" + item.PostDate + "</b></li><li>Post Title: <b>" + item.PostTitle + "</b></li></ul></a>";
                             $(content).hide().appendTo("#PostList").fadeIn();
                         })

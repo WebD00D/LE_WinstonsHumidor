@@ -22,6 +22,8 @@ Public Class Configuration
 
             txtConfigurationTaxPercentage.Text = dt.Rows(0).Item("TaxRatePercentage")
             txtConfigurationShippingCost.Text = Math.Round(dt.Rows(0).Item("ShippingRate"), 2)
+            txtConfigurationDiscountCode.Text = dt.Rows(0).Item("DiscountCode")
+            ckConfigurationDiscountCodeValid.Checked = CBool(dt.Rows(0).Item("DiscountCodeIsValid"))
 
         End If
     End Sub
@@ -34,7 +36,7 @@ Public Class Configuration
             cmd.Connection = con
             cmd.Connection.Open()
             cmd.CommandType = CommandType.Text
-            cmd.CommandText = "UPDATE Configuration SET TaxRatePercentage = " & CDec(txtConfigurationTaxPercentage.Text) & " , ShippingRate = " & CDec(txtConfigurationShippingCost.Text)
+            cmd.CommandText = "UPDATE Configuration SET TaxRatePercentage = " & CDec(txtConfigurationTaxPercentage.Text) & " , ShippingRate = " & CDec(txtConfigurationShippingCost.Text) & " , DiscountCode = '" & txtConfigurationDiscountCode.Text & "', DiscountCodeIsValid = " & CByte(ckConfigurationDiscountCodeValid.Checked)
             cmd.ExecuteNonQuery()
             cmd.Connection.Close()
             lblConfigMessage.Text = "Successfully updated configuration settings!"

@@ -35,6 +35,7 @@ Public Class News
                 cmd.Parameters.AddWithValue("@PostTitle", txtPostTitle.Text)
             cmd.Parameters.AddWithValue("@PlainText", PlainText)
             cmd.Parameters.AddWithValue("@PostType", ddlPostType.SelectedValue.ToString())
+            cmd.Parameters.AddWithValue("@Hashtag", txtHashtag.Text)
                 If StoredProcedure = "sp_Update_NewsPost" Then
                     cmd.Parameters.AddWithValue("@PostID", hfPostID.Value)
                 End If
@@ -69,6 +70,7 @@ Public Class News
         txtPostTitle.Text = dt.Rows(0).Item("PostTitle")
         ASPxHtmlEditor1.Html = dt.Rows(0).Item("HTML")
         hfPostID.Value = dt.Rows(0).Item("PostID")
+        txtHashtag.Text = dt.Rows(0).Item("Hashtag")
         ddlPostType.SelectedValue = dt.Rows(0).Item("PostType")
 
 
@@ -77,6 +79,7 @@ Public Class News
     Protected Sub btnClearForm_Click(sender As Object, e As EventArgs) Handles btnClearForm.Click
         txtPostTitle.Text = ""
         ASPxHtmlEditor1.Html = ""
+        txtHashtag.Text = " "
         hfPostID.Value = Nothing
     End Sub
 
@@ -96,5 +99,6 @@ Public Class News
         ASPxHtmlEditor1.Html = ""
         hfPostID.Value = Nothing
         lblPostMessage.Text = "Post Deleted."
+        txtHashtag.Text = " "
     End Sub
 End Class

@@ -71,6 +71,12 @@
                          <h6>Shipping Cost</h6>
                 <asp:TextBox ID="txtConfigurationShippingCost" runat="server" CssClass="form-control"></asp:TextBox>
                    </li>
+                   <li><h6>Discount Code</h6>
+                       <asp:TextBox runat="server" ID="txtConfigurationDiscountCode" CssClass="form-control"></asp:TextBox>
+                   </li>
+                   <li><h6>Discount Code Active</h6>
+                       <asp:CheckBox runat="server" ID="ckConfigurationDiscountCodeValid"/>
+                   </li>
                 
                 </ul>
              

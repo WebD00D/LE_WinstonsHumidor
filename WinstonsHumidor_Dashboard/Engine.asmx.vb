@@ -71,6 +71,7 @@ Public Class Engine
         Public IsSingleSaleOnly As String
         Public IsBoxSaleOnly As String
         Public IsFeatured As String
+        Public Body As String
     End Class
 
     Public Class Pipe
@@ -111,6 +112,7 @@ Public Class Engine
         Public PostDate As String
         Public PostedBy As String
         Public HTML As String
+        Public Hashtag As String
     End Class
      
 #Region "Accessories"
@@ -415,6 +417,7 @@ Public Class Engine
                 C.IsBoxSaleOnly = item("IsBoxSaleOnly")
                 C.IsSingleSaleOnly = item("IsSingleSaleOnly")
                 C.IsFeatured = item("IsFeatured")
+                C.Body = item("Body")
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -467,7 +470,7 @@ Public Class Engine
                 C.IsBoxSaleOnly = item("IsBoxSaleOnly")
                 C.IsSingleSaleOnly = item("IsSingleSaleOnly")
                 C.IsFeatured = item("IsFeatured")
-
+                C.Body = item("Body")
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -713,6 +716,7 @@ Public Class Engine
                 NP.PostDate = item("PostDate")
                 NP.PostedBy = item("PostedBy")
                 NP.HTML = item("HTML")
+                NP.Hashtag = item("Hashtag")
                 NewsPostList.Add(NP)
             Next
             Return NewsPostList
@@ -751,6 +755,7 @@ Public Class Engine
                 NP.PostDate = item("PostDate")
                 NP.PostedBy = item("PostedBy")
                 NP.HTML = item("HTML")
+                NP.Hashtag = item("Hashtag")
                 NewsPostList.Add(NP)
             Next
             Return NewsPostList
