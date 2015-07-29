@@ -11,6 +11,8 @@ Public Class News
 
     
     Protected Sub Unnamed1_Click(sender As Object, e As EventArgs) Handles btnSavePost.Click
+        lblPostMessage.ForeColor = Nothing
+        lblPostMessage.Text = ""
         Dim StoredProcedure = Nothing
         If hfPostID.Value = Nothing Then
             StoredProcedure = "sp_Insert_NewsPosts"
@@ -18,34 +20,50 @@ Public Class News
             StoredProcedure = "sp_Update_NewsPost"
         End If
 
-            Dim mStream As New MemoryStream()
-            ASPxHtmlEditor1.Export(DevExpress.Web.ASPxHtmlEditor.HtmlEditorExportFormat.Txt, mStream)
-            Dim PlainText = System.Text.Encoding.UTF8.GetString(mStream.ToArray())
+        Dim mStream As New MemoryStream()
+        ASPxHtmlEditor1.Export(DevExpress.Web.ASPxHtmlEditor.HtmlEditorExportFormat.Txt, mStream)
+        Dim PlainText = System.Text.Encoding.UTF8.GetString(mStream.ToArray())
 
 
-            Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
-            Using cmd As SqlCommand = con.CreateCommand
-                cmd.Connection = con
-                cmd.Connection.Open()
-                cmd.CommandType = CommandType.StoredProcedure
-                cmd.CommandText = StoredProcedure
-                cmd.Parameters.AddWithValue("@PostedBy", "Developer")
+        If ddlPostType.SelectedValue = "Event" AndAlso Trim(dpEventDate.Text) = Nothing Then
+            lblPostMessage.Text = "Must specify an event date when creating an event"
+            lblPostMessage.ForeColor = Drawing.Color.Red
+            Exit Sub
+        End If
+
+        If ddlPostType.SelectedValue = "Event" AndAlso Trim(txtEventLocation.Text) = String.Empty Then
+            lblPostMessage.Text = "Must specify an event location when creating an event"
+            lblPostMessage.ForeColor = Drawing.Color.Red
+            Exit Sub
+        End If
+
+
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.StoredProcedure
+            cmd.CommandText = StoredProcedure
+            cmd.Parameters.AddWithValue("@PostedBy", "Developer")
             cmd.Parameters.AddWithValue("@HTML", ASPxHtmlEditor1.Html)
-                cmd.Parameters.AddWithValue("@PostImage", fuPostImage.FileBytes)
-                cmd.Parameters.AddWithValue("@PostTitle", txtPostTitle.Text)
+            cmd.Parameters.AddWithValue("@PostImage", fuPostImage.FileBytes)
+            cmd.Parameters.AddWithValue("@PostTitle", txtPostTitle.Text)
             cmd.Parameters.AddWithValue("@PlainText", PlainText)
             cmd.Parameters.AddWithValue("@PostType", ddlPostType.SelectedValue.ToString())
             cmd.Parameters.AddWithValue("@Hashtag", txtHashtag.Text)
-                If StoredProcedure = "sp_Update_NewsPost" Then
-                    cmd.Parameters.AddWithValue("@PostID", hfPostID.Value)
-                End If
-                cmd.ExecuteNonQuery()
-                cmd.Connection.Close()
+            cmd.Parameters.AddWithValue("@EventDate", dpEventDate.Text)
+            cmd.Parameters.AddWithValue("@EventLocation", txtEventLocation.Text)
+            If StoredProcedure = "sp_Update_NewsPost" Then
+                cmd.Parameters.AddWithValue("@PostID", hfPostID.Value)
+            End If
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
 
-            End Using
+        End Using
 
-            lblPostMessage.Text = "Post successfully saved!"
-            lblPostMessage.ForeColor = Drawing.Color.Green
+        lblPostMessage.Text = "Post successfully saved!"
+        lblPostMessage.ForeColor = Drawing.Color.Green
 
     End Sub
 
@@ -72,6 +90,24 @@ Public Class News
         hfPostID.Value = dt.Rows(0).Item("PostID")
         txtHashtag.Text = dt.Rows(0).Item("Hashtag")
         ddlPostType.SelectedValue = dt.Rows(0).Item("PostType")
+
+        If Not IsDBNull(dt.Rows(0).Item("EventLocation")) Then
+            txtEventLocation.Text = dt.Rows(0).Item("EventLocation")
+        Else
+            txtEventLocation.Text = ""
+        End If
+
+
+        If IsDBNull(dt.Rows(0).Item("EventDate")) Then
+            dpEventDate.Text = Date.Now.ToString("yyyy-MM-dd")
+        Else
+            Dim EventDate As Date = dt.Rows(0).Item("EventDate")
+
+
+            dpEventDate.Text = EventDate.ToString("yyyy-MM-dd")
+            '  txtExpenseDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+        End If
+
 
 
     End Sub

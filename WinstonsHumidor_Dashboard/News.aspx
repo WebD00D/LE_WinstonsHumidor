@@ -102,6 +102,14 @@
                             <asp:ListItem Value="News">News</asp:ListItem>
                         </asp:DropDownList>
                     </li>
+                    <li>
+                        <h6>Event Date</h6>
+                        <asp:TextBox TextMode="Date" runat="server" ID="dpEventDate" CssClass="form-control"></asp:TextBox>
+                    </li>
+                    <li>
+                        <h6>Event Location</h6>
+                        <asp:TextBox runat="server" ID="txtEventLocation" CssClass="form-control"></asp:TextBox>
+                    </li>
                     <li><h6>Instagram Hashtag</h6>
         <asp:TextBox runat="server" ID="txtHashtag" CssClass="form-control"></asp:TextBox>
                     </li>
