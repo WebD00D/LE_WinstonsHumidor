@@ -119,7 +119,7 @@ Public Class PipeTobacco
 
 
             If storedProcedure = "sp_Insert_PipeTobacco" Then
-                cmd.Parameters.AddWithValue("@Category", "Pipe Tobacco")
+                cmd.Parameters.AddWithValue("@Category", "PipeTobacco")
 
             Else
                 cmd.Parameters.AddWithValue("@ProductID", CInt(hfPipeTobaccoProductID.Value))
