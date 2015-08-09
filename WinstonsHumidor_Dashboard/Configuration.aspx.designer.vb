@@ -50,6 +50,15 @@ Partial Public Class Configuration
     Protected WithEvents txtConfigurationDiscountCode As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtDiscountCodeAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtDiscountCodeAmount As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''ckConfigurationDiscountCodeValid control.
     '''</summary>
     '''<remarks>

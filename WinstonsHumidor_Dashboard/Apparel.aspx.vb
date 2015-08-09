@@ -134,7 +134,7 @@ Public Class Apparel
             cmd.Parameters.AddWithValue("@Img", fuApprelImg.FileBytes)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckApparelIsFeatured.Checked))
 
-            If storedProcedure = "sp_Insert_Accessories" Then
+            If storedProcedure = "sp_Insert_Apparel" Then
                 cmd.Parameters.AddWithValue("@Category", "Apparel")
 
             Else

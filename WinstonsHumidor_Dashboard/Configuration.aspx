@@ -74,6 +74,9 @@
                    <li><h6>Discount Code</h6>
                        <asp:TextBox runat="server" ID="txtConfigurationDiscountCode" CssClass="form-control"></asp:TextBox>
                    </li>
+                       <li><h6>Discount Amount</h6>
+                       <asp:TextBox runat="server" ID="txtDiscountCodeAmount" CssClass="form-control"></asp:TextBox>
+                   </li>
                    <li><h6>Discount Code Active</h6>
                        <asp:CheckBox runat="server" ID="ckConfigurationDiscountCodeValid"/>
                    </li>
