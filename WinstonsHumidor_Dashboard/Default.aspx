@@ -7,7 +7,7 @@
 <head runat="server">
     <title>Dashboard</title>
     <link href="styles/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-   
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -65,7 +65,37 @@
             <div class="col-lg-12">
                 <h3>Order Management<br />
                    </h3>
-                Do this part last
+           
+                <div class="list-group" id="orderlist">
+                    
+                
+                  
+                  
+                   
+                </div>
+       
+                <div class="bs-example">
+    <div class="panel-group" id="accordion">
+       <%-- <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">1. What is HTML?</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <p>HTML stands for HyperText Markup Language. HTML is the main markup language for describing the structure of Web pages. <a href="http://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+                </div>
+            </div>
+        </div>--%>
+        
+      
+    </div>
+</div>
+
+
+
+
                 <br />
                 <br />
                 <br />
@@ -84,6 +114,169 @@
 <script>
     $(document).ready(function () {
    
+
+
+
+        $("#orderlist").delegate(".vieworder", "click", function () {
+
+            alert($(this).attr("data-order"));
+        })
+
+
+        $.ajax({
+            type: "POST",
+            url: "Engine.asmx/LoadOrders",
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var result = data.d;
+                $("#accordion").empty();
+                $.each(result, function (index, item) {
+
+                  
+                    var shiplabel;
+                    var updateship;
+                    var shiptext;
+                    var fa;
+                    var fa2;
+                    var isshipped;
+                    if (item.HasShipped == 'HAS SHIPPED') {
+                        shiplabel = 'label label-success'
+                        updateship = 'btn btn-sm btn-danger'
+                        shiptext = 'Cancel Shipment'
+                        isshipped = '1';
+                        fa2 = 'fa fa-close'
+                        fa = 'fa fa-check'
+                    } else {
+                        shiplabel = 'label label-danger'
+                        updateship = 'btn btn-sm btn-primary'
+                        fa = 'fa fa-close'
+                        fa2 = 'fa fa-truck'
+                        isshipped = '2';
+                        shiptext = 'Mark as Shipped'
+                    }
+
+
+                    var content = "  <div class='panel panel-default'> " +
+                                    "  <div class='panel-heading'> " +
+                                    "  <ul class='panel-title list-inline'><li> " +
+                                    "  <a class='btn btn-default' data-toggle='collapse' data-parent='#accordion' href='#" + item.AccordionNbr + "'><i class='fa fa-search'></i> <b>view</b></a></li>"+
+                                    " <li><label class='" + shiplabel + "'><i class='" + fa + "'></i> " + item.HasShipped + "</label></li> <li><b>Order ID: </b>" + item.OrderID + "</li><li><b>Total: </b>$" + item.OrderTotal + "</li> </h4></div>" +
+                                    "  <div id=" + item.AccordionNbr + " class='panel-collapse collapse'> " +
+                                    "  <div class='panel-body '>" +
+                                    " <b>Customer Information: </b><br /><i class='fa fa-user'></i> " + item.CustomerName + " <br /><i class='fa fa-envelope'></i> " + item.Email + "  <br /><i class='fa fa-home'></i> " + item.Address + "    <br /><br /> <ol class='" + item.AccordionNbr + "'></ol><br /><a data-shipped='"+ isshipped +"' id=" + item.OrderID + " class='"+ updateship +" markasshipped'><i class='"+ fa2 +"'></i> "+ shiptext +"<a/></div></div></div>"
+               
+                    $(content).appendTo("#accordion");
+
+
+                  //  OrderDetailID
+                  //  OrderID 
+                  //  ProductId 
+                  //  ItemName 
+                  //  Category 
+                  //  Qty 
+                  //  Note 
+                  //  Price 
+                  //  BasePrice 
+
+
+                    //second ajax call
+                    $.ajax({
+                        type: "POST",
+                        url: "Engine.asmx/LoadOrderDetails",
+                        data: "{OrderID:"+ item.OrderID  +"}",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            var result = data.d;
+                            $.each(result, function (index, order) {
+
+                                var orderitems = "<li><ul class='list-inline'><li><b>Category: </b>"+ order.Category +"</li><li><b>Item: </b>" + order.ItemName + "</li><li><b> Details: </b>"+ order.Note +"</li><li><b>Qty: </b>" + order.Qty + "</li></ul></li>"
+                                $(orderitems).appendTo("." + item.AccordionNbr);
+
+                            })
+
+                        },
+                        failure: function (msg) {
+                            alert(msg);
+                        },
+                        error: function (err) {
+                            alert(err);
+                        }
+                    }) //end ajax
+
+                    // end second ajax call
+
+               
+                })
+                
+            },
+            failure: function (msg) {
+                alert(msg);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        }) //end ajax
+
+
+        $("#accordion").delegate(".markasshipped", "click", function () {
+           
+            var order = $(this).attr('id');
+            var shipped = $(this).attr('data-shipped');
+           
+            if (shipped == 1) {
+               
+                //second ajax call
+                $.ajax({
+                    type: "POST",
+                    url: "Engine.asmx/CancelShipping",
+                    data: "{OrderID:" + order + "}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        window.location.reload(true); s
+
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }) //end ajax
+            } else {
+                //second ajax call
+                $.ajax({
+                    type: "POST",
+                    url: "Engine.asmx/MarkAsShipped",
+                    data: "{OrderID:" + order + "}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        window.location.reload(true); s
+
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                }) //end ajax
+            }
+            
+           
+            return;
+          
+         
+
+
+
+        })
       
 
     })

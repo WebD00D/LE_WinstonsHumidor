@@ -267,6 +267,7 @@
             e.preventDefault();
             var PostID = $(this).attr('id');
             $("#<%=hfPostID.ClientID%>").val(PostID);
+            $("#<%=lblPostMessage.ClientID%>").val("");
             
         })
 

@@ -104,6 +104,7 @@
     <Content Include="fontawesome\fontawesome-webfont.svg" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery.min.js" />
+    <Content Include="Login.aspx" />
     <Content Include="News.aspx" />
     <Content Include="Pipes.aspx" />
     <Content Include="PipeTobacco.aspx" />
@@ -158,6 +159,13 @@
     <Compile Include="Engine.asmx.vb">
       <DependentUpon>Engine.asmx</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.vb">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

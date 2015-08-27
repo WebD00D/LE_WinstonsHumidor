@@ -114,6 +114,31 @@ Public Class Engine
         Public HTML As String
         Public Hashtag As String
     End Class
+
+    Public Class Orders
+        Public OrderID As Integer
+        Public OrderDate As String
+        Public OrderTotal As Decimal
+        Public HasShipped As String
+        Public AccordionNbr As String
+        Public CustomerName As String
+
+        Public Address As String
+        Public Email As String
+        Public PhoneNbr As String
+    End Class
+
+    Public Class OrderDetail
+        Public OrderDetailID As Integer
+        Public OrderID As Integer
+        Public ProductId As Integer
+        Public ItemName As String
+        Public Category As String
+        Public Qty As Decimal
+        Public Note As String
+        Public Price As Decimal
+        Public BasePrice As Decimal
+    End Class
      
 #Region "Accessories"
     Dim Accessories As New List(Of Accessory)
@@ -764,6 +789,155 @@ Public Class Engine
         End If
 
     End Function
+
+#End Region
+
+#Region "Manage Orders"
+
+
+    <WebMethod(True)> _
+    Public Function MarkAsShipped(ByVal OrderID As Integer)
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "UPDATE Orders SET IsShipped = 1 WHERE OrderID = " & OrderID
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        Return ""
+    End Function
+
+    <WebMethod(True)> _
+    Public Function CancelShipping(ByVal OrderID As Integer)
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "UPDATE Orders SET IsShipped = 0 WHERE OrderID = " & OrderID
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        Return ""
+    End Function
+
+
+    <WebMethod(True)> _
+    Public Function LoadOrderDetails(ByVal OrderID As Integer)
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM OrderDetails WHERE OrderID = " & OrderID
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+        Dim OrderDetailsList As New List(Of OrderDetail)
+
+        If dt.Rows.Count > 0 Then
+            For i As Integer = 0 To dt.Rows.Count - 1
+                Dim Item As New OrderDetail
+
+                Item.ItemName = dt.Rows(i).Item("ItemName")
+                Item.Category = dt.Rows(i).Item("Category")
+                Item.ProductId = dt.Rows(i).Item("ProductID")
+                Item.OrderDetailID = dt.Rows(i).Item("OrderDetailsID")
+                Item.OrderID = dt.Rows(i).Item("OrderID")
+                Item.Qty = dt.Rows(i).Item("Qty")
+                Item.Note = dt.Rows(i).Item("Notes")
+                Item.Price = dt.Rows(i).Item("Price")
+                Item.BasePrice = dt.Rows(i).Item("BasePrice")
+
+                OrderDetailsList.Add(Item)
+            Next
+        End If
+        Return OrderDetailsList
+
+    End Function
+
+
+    <WebMethod(True)> _
+    Public Function LoadOrders()
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM Orders ORDER BY OrderDate DESC"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+
+        Dim OrderList As New List(Of Orders)
+        Dim AccordionCount As Integer = 0
+        If dt.Rows.Count > 0 Then
+            For i As Integer = 0 To dt.Rows.Count - 1
+                Dim Order As New Orders
+                Order.OrderID = dt.Rows(i).Item("OrderID")
+                Order.OrderTotal = dt.Rows(i).Item("OrderTotal")
+                If dt.Rows(i).Item("IsShipped") = True Then
+                    Order.HasShipped = "HAS SHIPPED"
+                Else
+                    Order.HasShipped = "NOT SHIPPED"
+                End If
+
+                Order.OrderDate = CDate(dt.Rows(i).Item("OrderDate")).ToString("M/dd/yyyy")
+                Order.AccordionNbr = CStr("Acc" & AccordionCount)
+                Order.CustomerName = dt.Rows(i).Item("FirtName") & " " & dt.Rows(i).Item("LastName")
+                Order.Address = dt.Rows(i).Item("Street") & " " & dt.Rows(i).Item("City") & " " & dt.Rows(i).Item("State") & " " & dt.Rows(i).Item("Zip")
+                Order.Email = dt.Rows(i).Item("Email")
+                AccordionCount += 1
+                OrderList.Add(Order)
+            Next
+        End If
+        Return OrderList
+
+
+
+
+
+        'Dim ReturnList As New List(Of ShoppingCart)
+
+        'For i As Integer = 0 To InMyCart.Count - 1
+        '    Dim sc As New ShoppingCart
+        '    Dim ProductID As Integer = InMyCart(i).ProductID
+        '    Dim Qty As Integer = InMyCart(i).Qty
+        '    Dim Notes As String = InMyCart(i).Notes
+        '    Dim Price As Decimal = InMyCart(i).Price
+        '    Dim DisplayName As String = InMyCart(i).ItemName
+        '    Dim Category As String = InMyCart(i).Category
+        '    '  Dim Item As String = GetItemDetails(ProductID)
+        '    sc.ProductID = ProductID
+        '    sc.Qty = Qty
+        '    sc.ItemName = DisplayName
+        '    sc.Category = Category
+        '    sc.Notes = Notes
+        '    sc.Price = Math.Round(Price, 2)
+        '    ReturnList.Add(sc)
+        'Next
+        'Return ReturnList
+
+
+    End Function
+
 
 #End Region
 

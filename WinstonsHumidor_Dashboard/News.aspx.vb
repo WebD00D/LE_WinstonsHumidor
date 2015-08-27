@@ -64,10 +64,20 @@ Public Class News
 
         lblPostMessage.Text = "Post successfully saved!"
         lblPostMessage.ForeColor = Drawing.Color.Green
+        txtPostTitle.Text = ""
+        ASPxHtmlEditor1.Html = ""
+        txtHashtag.Text = " "
+        dpEventDate.Text = Nothing
 
+        hfPostID.Value = Nothing
     End Sub
 
     Protected Sub btnLoadPostHTML_Click(sender As Object, e As EventArgs) Handles btnLoadPostHTML.Click
+
+        If hfPostID.Value = Nothing Or hfPostID.Value = "" Then
+            Exit Sub
+        End If
+
 
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
         Dim dt As New DataTable
