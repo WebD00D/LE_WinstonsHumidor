@@ -108,10 +108,12 @@
     <Content Include="News.aspx" />
     <Content Include="Pipes.aspx" />
     <Content Include="PipeTobacco.aspx" />
+    <Content Include="Security.aspx" />
     <Content Include="styles\bootstrap.min.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="WinstonHumidor_Cigar_Brown.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accessories.aspx.designer.vb">
@@ -205,6 +207,13 @@
     </Compile>
     <Compile Include="PipeTobacco.aspx.vb">
       <DependentUpon>PipeTobacco.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Security.aspx.designer.vb">
+      <DependentUpon>Security.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Security.aspx.vb">
+      <DependentUpon>Security.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
   </ItemGroup>

@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class Login
+Partial Public Class Security
 
     '''<summary>
     '''form1 control.
@@ -41,13 +41,13 @@ Partial Public Class Login
     Protected WithEvents txtPassword As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''btnLogin control.
+    '''btnUpdateUser control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnLogin As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnUpdateUser As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''lblMsg control.

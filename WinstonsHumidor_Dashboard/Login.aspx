@@ -10,12 +10,22 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div class="col-lg-4 col-lg-offset-4">
+    <div class="col-lg-4 col-lg-offset-4 " style="margin-top:5%">
+        <div class="col-lg-12 text-center">
+               <img height="200"  src="WinstonHumidor_Cigar_Brown.png" />
+        </div>
+     
+        <br />
         <label>Username</label>
         <asp:TextBox runat="server" ID="txtUsername" CssClass="form-control"></asp:TextBox>
         <br />
         <label>Password</label>
         <asp:TextBox runat="server" TextMode="Password" ID="txtPassword" CssClass="form-control"></asp:TextBox>
+        <br />
+        <asp:Button runat="server" ID="btnLogin" CssClass="btn btn-default" Text="Sign In"/>
+        <br />
+        <br />
+     <asp:Label runat="server" ID="lblMsg"></asp:Label>
     </div>
     </form>
 </body>
