@@ -8,11 +8,16 @@
       <link href="styles/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     
 </head>
-<body>
+<body style="background-color:#795135">
     <form id="form1" runat="server">
-    <div class="col-lg-4 col-lg-offset-4 " style="margin-top:5%">
+    <div class="col-lg-4 col-lg-offset-4 " style="margin-top:5%;background-color:white;padding:15px;border-radius:8px" >
         <div class="col-lg-12 text-center">
-               <img height="200"  src="WinstonHumidor_Cigar_Brown.png" />
+           
+                  <img height="100"  src="WinstonHumidor_Cigar_Brown.png" />
+            <br />
+            <h3><b>Welcome back!</b></h3>
+            <p style="font-style:initial">Please enter your administrative username and password.</p>
+          
         </div>
      
         <br />
@@ -22,7 +27,7 @@
         <label>Password</label>
         <asp:TextBox runat="server" TextMode="Password" ID="txtPassword" CssClass="form-control"></asp:TextBox>
         <br />
-        <asp:Button runat="server" ID="btnLogin" CssClass="btn btn-default" Text="Sign In"/>
+        <asp:Button runat="server" Font-Size="X-Large" ID="btnLogin" CssClass="btn btn-warning btn-block"  Text="Sign In"/>
         <br />
         <br />
      <asp:Label runat="server" ID="lblMsg"></asp:Label>

@@ -24,9 +24,9 @@
         <a id="lnkHome" class="navbar-brand" href="Default.aspx">Winston's Humidor</a>
     </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-                 <li><a href="News.aspx">News Post</a></li>
+                 <li><a href="News.aspx">Blog / Events Post</a></li>
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Product Management <span class="caret"></span></a>
                   <ul class="dropdown-menu">
@@ -41,11 +41,11 @@
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                      <li><a id="lnkSecurity" href="#">Security</a></li>
+                      <li><a id="lnkSecurity" href="Security.aspx">Security</a></li>
                       <li><a id="lnkConfiguation" href="Configuration.aspx">Configuration</a></li>
                   </ul>
               </li>
-              <li><a href="#">Sign Out</a></li>
+              <li><a href="Login.aspx">Sign Out</a></li>
           </ul>
       </div>
       <!-- /.navbar-collapse -->
@@ -70,7 +70,7 @@
                <br />
                 <div id="AccessoryList" class="list-group" style="overflow-y:scroll;max-height:200px"></div>
                 <asp:HiddenField runat="server" ID="hfAccessoryProductID"/>
-           
+                <asp:HiddenField runat="server" ID="hfNextUpProductID" />
                 <h6>SKU</h6>
                 <asp:TextBox ID="txtAccessorySKU" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Name</h6>
@@ -150,17 +150,104 @@
                 }
             }) //end ajax 
        
-
+            var oldsku;
+            var oldname;
+            var oldbrand;
+            var olddescription;
+            var oldqty;
+            var oldprice;
+            
         $("#AccessoryList").delegate(".accessoryitem", "click", function (e) {
            
+       if ($("#<%=hfAccessoryProductID.ClientID%>").val().length != 0) {
+                // a value has been set
+           e.preventDefault();
+           var changemade = false;
+
+           if ($("#<%=txtAccessorySKU.ClientID%>").val() != oldsku) {
+               changemade = true;
+           }
+           if ($("#<%=txtAccessoryName.ClientID%>").val() != oldname) {
+               changemade = true;
+           }
+           if ($("#<%=txtAccessoryBrand.ClientID%>").val() != oldbrand) {
+               changemade = true;
+               return;
+           }
+           if ($("#<%=txtAccessoryDescription.ClientID%>").val() != olddescription) {
+               changemade = true;
+           }
+           if ($("#<%=txtAccessoryQty.ClientID%>").val() != oldqty) {
+               changemade = true;
+ 
+           }
+           if ($("#<%=txtAccessoryPrice.ClientID%>").val() != oldprice) {
+               changemade = true;
+           }
+          
+           if ($("#<%=fuAccessoryImage.ClientID%>").val() != "") {
+               alert("has file now")
+               changemade = true;
+           }
+            
+         
+           if (changemade == true) {
+               if (confirm('Changes have been made to the current item. If you wish to save, please click "Cancel", and save your changes. To ignore, please click "OK".')) {
+                   var fileUpload = document.getElementById("<%=fuAccessoryImage.ClientID%>");
+                   var id = fileUpload.id;
+                   var name = fileUpload.name;
+
+                   //Create a new FileUpload element.
+                   var newFileUpload = document.createElement("INPUT");
+                   newFileUpload.type = "FILE";
+
+                   //Append it next to the original FileUpload.
+                   fileUpload.parentNode.insertBefore(newFileUpload, fileUpload.nextSibling);
+
+                   //Remove the original FileUpload.
+                   fileUpload.parentNode.removeChild(fileUpload);
+
+                   //Set the Id and Name to the new FileUpload.
+                   newFileUpload.id = id;
+                   newFileUpload.name = name;
+                  // return false;
+                  // return;
+               }
+               else {
+                   return;
+               }
+           }
+
+
+            } else {
+                // The user has clicked an item for the firs time sice the 
+                // page has loaded. we don't want to call the save method if no product id has been set. 
+            }
+
+       
+            // save current selection before showing selected item data
+        
             e.preventDefault();
             var ProductID = $(this).attr('id');
+
             var SKU = $(this).attr("data-SKU");
+            oldsku = SKU
+           
             var Brand = $(this).attr('data-brand');
+            oldbrand = Brand
+
             var Name = $(this).attr('data-Name');
+            oldname = Name
+
             var Price = $(this).attr('data-price');
+            oldprice = '$' + Price
+
             var Description = $(this).attr('data-description');
+            olddescription = Description
+
             var Qty = $(this).attr('data-Qty');
+            oldqty = Qty
+
             var Featured = $(this).attr('data-featured');
            
             $("#<%=hfAccessoryProductID.ClientID%>").val(ProductID);

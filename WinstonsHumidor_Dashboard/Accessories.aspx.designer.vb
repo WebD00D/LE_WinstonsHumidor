@@ -32,6 +32,15 @@ Partial Public Class Accessories
     Protected WithEvents hfAccessoryProductID As Global.System.Web.UI.WebControls.HiddenField
 
     '''<summary>
+    '''hfNextUpProductID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents hfNextUpProductID As Global.System.Web.UI.WebControls.HiddenField
+
+    '''<summary>
     '''txtAccessorySKU control.
     '''</summary>
     '''<remarks>

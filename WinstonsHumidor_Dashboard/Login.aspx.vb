@@ -25,7 +25,7 @@ Public Class Login
                 cmd.Connection = con
                 cmd.Connection.Open()
                 cmd.CommandType = CommandType.Text
-                cmd.CommandText = "SELECT Username,Password FROM AdminUsers"
+                cmd.CommandText = "SELECT UPPER(Username) Username,Password FROM AdminUsers"
                 Using da As New SqlDataAdapter
                     da.SelectCommand = cmd
                     da.Fill(dt)
@@ -34,7 +34,7 @@ Public Class Login
             End Using
 
             Dim EnteredUsername As String = txtUsername.Text
-            If EnteredUsername = dt.Rows(0).Item("Username") Then
+            If EnteredUsername.ToUpper() = dt.Rows(0).Item("Username") Then
                 Dim EnteredPassword As String
                 Using md5Hash As MD5 = MD5.Create()
                     EnteredPassword = GetHash(md5Hash, txtPassword.Text)
