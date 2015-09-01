@@ -163,22 +163,99 @@
             }
         }) //end ajax
 
+        var oldsku;
+        var oldname;
+        var oldbrand;
+        var olddescription;
+        var oldqty;
+        var oldprice;
+        var oldbowlfinish;
+        var oldstemshape;
+        var oldbodyshape;
+        var oldmaterial;
+        var oldfeatured;
+        var featuredstate;
         $("#PipeList").delegate(".pipeitem", "click", function (e) {
 
             e.preventDefault();
 
+
+            if ($("#<%=hfPipeProductID.ClientID%>").val().length != 0) {
+
+                var changemade = false;
+
+                if ($("#<%=txtPipeSKU.ClientID%>").val() != oldsku) { changemade = true; }
+                if ($("#<%=txtPipeName.ClientID%>").val() != oldname) { changemade = true; }
+                if ($("#<%=txtPipePrice.ClientID%>").val() != '$' + oldprice) { changemade = true; }
+                if ($("#<%=txtPipeDescription.ClientID%>").val() != olddescription) { changemade = true; }
+                if ($("#<%=txtPipeQty.ClientID%>").val() != oldqty) { changemade = true; }
+                if ($("#<%=txtPipeBrand.ClientID%>").val() != oldbrand) { changemade = true; }
+                if ($("#<%=txtPipeBowlFinish.ClientID%>").val() != oldbowlfinish) { changemade = true; }
+                if ($("#<%=txtPipeBodyShape.ClientID%>").val() != oldbodyshape) { changemade = true; }
+                if ($("#<%=txtPipeStemShape.ClientID%>").val() != oldstemshape) { changemade = true; }
+                if ($("#<%=txtPipeMaterial.ClientID%>").val() != oldmaterial) { changemade = true; }
+                if ($("#<%=fuPipeImage.ClientID%>").val() != "") { changemade = true; }
+
+                if ($("#<%=ckPipesIsFeatured.ClientID%>").is(":checked")) {
+                    featuredState = 'Y'
+                } else {
+                    featuredState = 'N'
+                }
+                if (oldfeatured == 'True') {
+                    if (featuredState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldfeatured == 'False') {
+                    if (featuredState == 'Y') {
+                        changemade = true;
+                    }
+                }
+                if (changemade == true) {
+                    if (confirm('Changes have been made to the current item. If you wish to save, please click "Cancel", and save your changes. To ignore, please click "OK".')) {
+                        var fileUpload = document.getElementById("<%=fuPipeImage.ClientID%>");
+                        var id = fileUpload.id;
+                        var name = fileUpload.name;
+                        var newFileUpload = document.createElement("INPUT");
+                        newFileUpload.type = "FILE";
+                        fileUpload.parentNode.insertBefore(newFileUpload, fileUpload.nextSibling);
+                        fileUpload.parentNode.removeChild(fileUpload);
+                        newFileUpload.id = id;
+                        newFileUpload.name = name;
+                    } else {
+                        return;
+                    }
+                }
+
+
+            } else {
+                // The user has clicked an item for the firs time sice the 
+                // page has loaded. we don't want to call the save method if no product id has been set. 
+            }
+
             var ProductID = $(this).attr('id');
             var SKU = $(this).attr("data-SKU");
+            oldsku = SKU
             var Name = $(this).attr('data-Name');
+            oldname = Name;
             var Brand = $(this).attr('data-brand');
+            oldbrand = Brand;
             var Description = $(this).attr('data-description');
+            olddescription = Description;
             var Qty = $(this).attr('data-qty');
+            oldqty = Qty;
             var price = $(this).attr('data-price');
+            oldprice = price;
             var BowlFinish = $(this).attr('data-bowlfinish');
+            oldbowlfinish = BowlFinish;
             var StemShape = $(this).attr('data-stemshape');
+            oldstemshape = StemShape;
             var BodyShape = $(this).attr('data-bodyshape');
+            oldbodyshape = BodyShape;
             var Material = $(this).attr('data-material');
+            oldmaterial = Material;
             var Featured = $(this).attr('data-featured');
+            oldfeatured = Featured;
           
             $("#<%=hfPipeProductID.ClientID%>").val(ProductID);
             $("#<%=txtPipeSKU.ClientID%>").val(SKU);

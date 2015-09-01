@@ -156,6 +156,8 @@
             var olddescription;
             var oldqty;
             var oldprice;
+            var oldfeatured;
+            var newfeatured;
             
         $("#AccessoryList").delegate(".accessoryitem", "click", function (e) {
            
@@ -167,26 +169,48 @@
            if ($("#<%=txtAccessorySKU.ClientID%>").val() != oldsku) {
                changemade = true;
            }
+       
            if ($("#<%=txtAccessoryName.ClientID%>").val() != oldname) {
                changemade = true;
            }
+          
            if ($("#<%=txtAccessoryBrand.ClientID%>").val() != oldbrand) {
                changemade = true;
-               return;
            }
+           
            if ($("#<%=txtAccessoryDescription.ClientID%>").val() != olddescription) {
                changemade = true;
            }
+         
            if ($("#<%=txtAccessoryQty.ClientID%>").val() != oldqty) {
                changemade = true;
- 
            }
-           if ($("#<%=txtAccessoryPrice.ClientID%>").val() != oldprice) {
+           
+           if ($("#<%=txtAccessoryPrice.ClientID%>").val() != '$' + oldprice) {
                changemade = true;
            }
           
+
+           var currentstate;
+           if ($("#<%=ckAccessoryFeaturedItem.ClientID%>").is(":checked")) {
+               currentstate = 'Y'
+           } else {
+               currentstate = 'N'
+           }
+
+           if (oldfeatured == 'True') {
+               if (currentstate == 'N') {
+                   changemade = true;
+               }
+           }
+           if (oldfeatured == 'False') {
+               if (currentstate == 'Y') {
+                   changemade = true;
+               }
+           }
+
+          
            if ($("#<%=fuAccessoryImage.ClientID%>").val() != "") {
-               alert("has file now")
                changemade = true;
            }
             
@@ -211,7 +235,8 @@
                    newFileUpload.id = id;
                    newFileUpload.name = name;
                   // return false;
-                  // return;
+                   // return;
+                  
                }
                else {
                    return;
@@ -240,7 +265,7 @@
             oldname = Name
 
             var Price = $(this).attr('data-price');
-            oldprice = '$' + Price
+            oldprice = Price
 
             var Description = $(this).attr('data-description');
             olddescription = Description
@@ -249,6 +274,7 @@
             oldqty = Qty
 
             var Featured = $(this).attr('data-featured');
+            oldfeatured = Featured
            
             $("#<%=hfAccessoryProductID.ClientID%>").val(ProductID);
             $("#<%=txtAccessorySKU.ClientID%>").val(SKU);

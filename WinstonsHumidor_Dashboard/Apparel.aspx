@@ -157,23 +157,159 @@
             }
         }) //end ajax 
 
+        var oldsku;
+        var oldname;
+        var oldbrand;
+        var olddescription;
+        var oldxs;
+        var oldsm;
+        var oldmd;
+        var oldlg;
+        var oldxl;
+        var oldxxl;
+        var oldxxxl;
+        var oldprice;
+        var oldfeatured;
+        var newfeatured;
 
         $("#ApparelList").delegate(".apparelitem", "click", function (e) {
+
+
+            if ($("#<%=hfApparelProductID.ClientID%>").val().length != 0) {
+                // a value has been set
+                e.preventDefault();
+                var changemade = false;
+               
+                if ($("#<%=txtApparelSKU.ClientID%>").val() != oldsku) {
+                    changemade = true;
+                }
+               
+                if ($("#<%=txtApparelNames.ClientID%>").val() != oldname) {
+                    changemade = true;
+                }
+              
+                if ($("#<%=txtApprarelDescriptions.ClientID%>").val() != olddescription) {
+                    changemade = true;
+                }
+               
+                if ($("#<%=XS.ClientID%>").val() != oldxs) {
+                    changemade = true;
+                }
+             
+                if ($("#<%=SM.ClientID%>").val() != oldsm) {
+                    changemade = true;
+                }
+              
+                if ($("#<%=MD.ClientID%>").val() != oldmd) {
+                    changemade = true;
+                }
+                
+                if ($("#<%=LG.ClientID%>").val() != oldlg) {
+                    changemade = true;
+                }
+               
+                if ($("#<%=XL.ClientID%>").val() != oldxl) {
+                    changemade = true;
+                }
+             
+                if ($("#<%=XXL.ClientID%>").val() != oldxxl) {
+                    changemade = true;
+                }
+               
+                if ($("#<%=XXXL.ClientID%>").val() != oldxxxl) {
+                    changemade = true;
+                }
+            
+              
+                if ($("#<%=txtApparelPrice.ClientID%>").val() != '$' + oldprice) {
+                    changemade = true;
+                }
+           
+
+                var currentstate;
+                if ($("#<%=ckApparelIsFeatured.ClientID%>").is(":checked")) {
+                    currentstate = 'Y'
+                } else {
+                    currentstate = 'N'
+                }
+
+                if (oldfeatured == 'True') {
+                    if (currentstate == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldfeatured == 'False') {
+                    if (currentstate == 'Y') {
+                        changemade = true;
+                    }
+                }
+
+                if ($("#<%=fuApprelImg.ClientID%>").val() != "") {
+                    changemade = true;
+                }
+
+                if (changemade == true) {
+                    if (confirm('Changes have been made to the current item. If you wish to save, please click "Cancel", and save your changes. To ignore, please click "OK".')) {
+                        var fileUpload = document.getElementById("<%=fuApprelImg.ClientID%>");
+                        var id = fileUpload.id;
+                        var name = fileUpload.name;
+
+                        //Create a new FileUpload element.
+                        var newFileUpload = document.createElement("INPUT");
+                        newFileUpload.type = "FILE";
+
+                        //Append it next to the original FileUpload.
+                        fileUpload.parentNode.insertBefore(newFileUpload, fileUpload.nextSibling);
+
+                        //Remove the original FileUpload.
+                        fileUpload.parentNode.removeChild(fileUpload);
+
+                        //Set the Id and Name to the new FileUpload.
+                        newFileUpload.id = id;
+                        newFileUpload.name = name;
+                        // return false;
+                        // return;
+                    }
+                    else {
+                        return;
+                    }
+                }
+
+
+            } else {
+                // The user has clicked an item for the firs time sice the 
+                // page has loaded. we don't want to call the save method if no product id has been set. 
+            }
+
+
+
 
             e.preventDefault();
             var ProductID = $(this).attr('id');
             var SKU = $(this).attr("data-SKU");
+            oldsku = SKU
             var Name = $(this).attr('data-Name');
+            oldname = Name
             var Price = $(this).attr('data-price');
+            oldprice = Price
             var Description = $(this).attr('data-description');
+            olddescription = Description
             var XS = $(this).attr('data-XS');
+            oldxs = XS
             var SM = $(this).attr('data-SM');
+            oldsm = SM
             var MD = $(this).attr('data-MD');
+            oldmd = MD
             var LG = $(this).attr('data-LG');
+            oldlg = LG
             var XL = $(this).attr('data-XL');
+            oldxl = XL
             var XXL = $(this).attr('data-XXL');
+            oldxxl = XXL
             var XXXL = $(this).attr('data-XXXL');
+            oldxxxl = XXXL
             var Featured = $(this).attr('data-featured');
+            oldfeatured = Featured
 
             $("#<%=hfApparelProductID.ClientID%>").val(ProductID);
             $("#<%=txtApparelSKU.ClientID%>").val(SKU);
@@ -190,6 +326,7 @@
 
             if (Featured == 'True') {
                 $("#<%=ckApparelIsFeatured.ClientID%>").prop("checked", true);
+               
             } else {
                 $("#<%=ckApparelIsFeatured.ClientID%>").prop("checked", false);
             }

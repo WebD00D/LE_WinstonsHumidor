@@ -176,31 +176,175 @@
         }) //end ajax
 
 
+        var oldsku;
+        var oldname;
+        var oldbrand;
+        var olddescription;
+        var oldbody;
+        var oldlength;
+        var oldring;
+        var oldboxcount;
+        var oldboxqty;
+        var oldsingleqty;
+        var oldboxprice;
+        var oldsingleprice;
+        var oldissingleonly;
+        var oldisboxonly;
+        var oldfeatured;
+
         $("#CigarList").delegate(".cigarItem", "click", function (e) {
 
             e.preventDefault();
 
+
+         
+            if ($("#<%=hfCigarProductID.ClientID%>").val().length != 0) {
+                var changemade = false;
+                if ($("#<%=txtCigarSKU.ClientID%>").val() != oldsku) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarName.ClientID%>").val() != oldname) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarBrand.ClientID%>").val() != oldbrand) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarDescription.ClientID%>").val() != olddescription) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarBody.ClientID%>").val() != oldbody) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarLength.ClientID%>").val() != oldlength) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarRing.ClientID%>").val() != oldring) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarBoxCount.ClientID%>").val() != oldboxcount) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarBoxQty.ClientID%>").val() != oldboxqty) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarBoxPrice.ClientID%>").val() != '$' + oldboxprice) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarSingleQty.ClientID%>").val() != oldsingleqty) {
+                    changemade = true;
+                }
+                if ($("#<%=txtCigarSinglePrice.ClientID%>").val() != '$' + oldsingleprice) {
+                    changemade = true;
+                }
+                if ($("#<%=fuCigarImage.ClientID%>").val() != "") {
+                    changemade = true;
+                }
+            
+                var currentSinglyOnlyState;
+                if ($("#<%=ckCigarIsSingleSaleOnly.ClientID%>").is(":checked")) {
+                    currentSinglyOnlyState = 'Y'
+                }else {
+                    currentSinglyOnlyState = 'N'
+                }
+                var currentBoxOnlyState;
+                if ($("#<%=ckCigarIsBoxSaleOnly.ClientID%>").is(":checked")) {
+                    currentBoxOnlyState = 'Y'
+                }else {
+                    currentBoxOnlyState = 'N'
+                }
+                var featuredState;
+                if ($("#<%=ckCigarIsFeatured.ClientID%>").is(":checked")) {
+                    featuredState = 'Y'
+                } else {
+                    featuredState = 'N'
+                }
+
+                if (oldissingleonly == 'True') {
+                    if (currentSinglyOnlyState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldissingleonly == 'False') {
+                    if (currentSinglyOnlyState == 'Y') {
+                        changemade = true;
+                    }
+                }
+                if (oldisboxonly == 'True') {
+                    if (currentBoxOnlyState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldisboxonly == 'False') {
+                    if (currentBoxOnlyState == 'Y') {
+                        changemade = true;
+                    }
+                }
+                if (oldfeatured == 'True') {
+                    if (featuredState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldfeatured == 'False') {
+                    if (featuredState == 'Y') {
+                        changemade = true;
+                    }
+                }
+
+                if (changemade == true) {
+                    if (confirm('Changes have been made to the current item. If you wish to save, please click "Cancel", and save your changes. To ignore, please click "OK".')) {
+                        var fileUpload = document.getElementById("<%=fuCigarImage.ClientID%>");
+                        var id = fileUpload.id;
+                        var name = fileUpload.name;
+                        var newFileUpload = document.createElement("INPUT");
+                        newFileUpload.type = "FILE";
+                        fileUpload.parentNode.insertBefore(newFileUpload, fileUpload.nextSibling);
+                        fileUpload.parentNode.removeChild(fileUpload);
+                        newFileUpload.id = id;
+                        newFileUpload.name = name;
+                    }
+                    else {
+                        return;
+                    }
+                }
+
+            } else {
+                // The user has clicked an item for the firs time sice the 
+                // page has loaded. we don't want to call the save method if no product id has been set. 
+            }
+
             var ProductID = $(this).attr('id');
             var SKU = $(this).attr("data-SKU");
+            oldsku = SKU;
             var Name = $(this).attr('data-Name');
+            oldname = Name;
             var Brand = $(this).attr('data-Brand');
-           
+            oldbrand = Brand;
             var Description = $(this).attr('data-description');
+            olddescription = Description;
             var Qty = $(this).attr('data-Qty');
-            var Body = $(this).attr('data-body');
+          
             var Length = $(this).attr('data-length');
+            oldlength = Length;
             var Ring = $(this).attr('data-ring');
+            oldring = Ring;
             var BoxCount = $(this).attr('data-BoxCount');
+            oldboxcount = BoxCount;
             var BoxQty = $(this).attr('data-BoxQty');
+            oldboxqty = BoxQty;
             var SingleQty = $(this).attr('data-SingleQty');
+            oldsingleqty = SingleQty;
             var BoxPrice = $(this).attr('data-boxprice');
+            oldboxprice = BoxPrice;
             var SinglePrice = $(this).attr('data-singleprice');
+            oldsingleprice = SinglePrice;
             var Body = $(this).attr('data-body');
+            oldbody = Body;
             var IsSingleOnly = $(this).attr('data-singleonly');
+            oldissingleonly = IsSingleOnly;
             var IsBoxOnly = $(this).attr('data-boxonly');
-
+            oldisboxonly = IsBoxOnly;
             var Featured = $(this).attr('data-featured');
-
+            oldfeatured = Featured;
 
             $("#<%=hfCigarProductID.ClientID%>").val(ProductID);
             $("#<%=txtCigarSKU.ClientID%>").val(SKU);
@@ -216,16 +360,12 @@
             $("#<%=txtCigarSinglePrice.ClientID%>").val('$' + SinglePrice);
             $("#<%=txtCigarBody.ClientID%>").val(Body);
          
-
-
             if (Featured == 'True') {
                 $("#<%=ckCigarIsFeatured.ClientID%>").prop("checked", true);
             } else {
                 $("#<%=ckCigarIsFeatured.ClientID%>").prop("checked", false);
             }
 
-
-            
             if (IsBoxOnly == 'True') {
                 $("#<%=ckCigarIsBoxSaleOnly.ClientID%>").prop("checked", true);
             } else {

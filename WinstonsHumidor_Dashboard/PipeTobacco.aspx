@@ -163,21 +163,91 @@
         }) //end ajax
 
 
+        var oldsku;
+        var oldtobacco;
+        var oldbrand;
+        var olddescription;
+        var oldqty;
+        var oldprice;
+        var oldcut;
+        var oldstyle;
+        var oldstrength;
+        var oldfeatured;
+        var featuredstate;
+
         $("#PipeTobaccoList").delegate(".pipetobaccoitem", "click", function (e) {
 
             e.preventDefault();
+            if ($("#<%=hfPipeTobaccoProductID.ClientID%>").val().length != 0) {
+                var changemade = false;
+                if ($("#<%=txtPipeTobaccoSKU.ClientID%>").val() != oldsku) { changemade = true; }
+                if ($("#<%=txtPipeTobacco.ClientID%>").val() != oldtobacco) { changemade = true; }
+                if ($("#<%=txtPipeTobaccoBrand.ClientID%>").val() != oldbrand) { changemade = true; }
+                if ($("#<%=txtPipeTobaccoDescription.ClientID%>").val() != olddescription) { changemade = true; }
+                if ($("#<%=txtPipeTobaccoQty.ClientID%>").val() != oldqty) { changemade = true; }
+                if ($("#<%=txtPipeTobaccoPrice.ClientID%>").val() != '$' + oldprice) { changemade = true; }
+                if ($("#<%=txtPipeTobaccoCut.ClientID%>").val() != oldcut) { changemade = true; }
+                if ($("#<%=txtPipeTobaccoStyle.ClientID%>").val() != oldstyle) { changemade = true; }
+                if ($("#<%=txtPipeTobaccoStrength.ClientID%>").val() != oldstrength) { changemade = true; }
+                if ($("#<%=fuPipeTobaccoImage.ClientID%>").val() != "") { changemade = true; }
+
+                if ($("#<%=ckPipeTobaccoIsFeatured.ClientID%>").is(":checked")) {
+                    featuredState = 'Y'
+                } else {
+                    featuredState = 'N'
+                }
+                if (oldfeatured == 'True') {
+                    if (featuredState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldfeatured == 'False') {
+                    if (featuredState == 'Y') {
+                        changemade = true;
+                    }
+                }
+                if (changemade == true) {
+                    if (confirm('Changes have been made to the current item. If you wish to save, please click "Cancel", and save your changes. To ignore, please click "OK".')) {
+                        var fileUpload = document.getElementById("<%=fuPipeTobaccoImage.ClientID%>");
+                        var id = fileUpload.id;
+                        var name = fileUpload.name;
+                        var newFileUpload = document.createElement("INPUT");
+                        newFileUpload.type = "FILE";
+                        fileUpload.parentNode.insertBefore(newFileUpload, fileUpload.nextSibling);
+                        fileUpload.parentNode.removeChild(fileUpload);
+                        newFileUpload.id = id;
+                        newFileUpload.name = name;
+                    } else {
+                        return;
+                    }
+                }
+
+            } else {
+                // The user has clicked an item for the firs time sice the 
+                // page has loaded. we don't want to call the save method if no product id has been set. 
+            }
 
             var ProductID = $(this).attr('id');
             var SKU = $(this).attr("data-SKU");
+            oldsku = SKU;
             var Tobacco = $(this).attr('data-tobacco');
+            oldtobacco = Tobacco;
             var Brand = $(this).attr('data-brand');
+            oldbrand = Brand;
             var Description = $(this).attr('data-description');
+            olddescription = Description;
             var Qty = $(this).attr('data-qty');
+            oldqty = Qty;
             var price = $(this).attr('data-price');
+            oldprice = price;
             var Cut = $(this).attr('data-cut');
+            oldcut = Cut;
             var Style = $(this).attr('data-style');
+            oldstyle = Style;
             var Strength = $(this).attr('data-strength');
+            oldstrength = Strength;
             var Featured = $(this).attr('data-featured');
+            oldfeatured = Featured;
 
 
             $("#<%=hfPipeTobaccoProductID.ClientID%>").val(ProductID);

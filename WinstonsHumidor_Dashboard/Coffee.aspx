@@ -154,20 +154,89 @@
             }
         }) //end ajax
 
-
+        var oldsku;
+        var oldname;
+        var oldprice;
+        var olddescription;
+        var oldqty;
+        var oldbody;
+        var oldroast;
+        var oldbrand;
+        var oldfeatured;
+        var featuredState;
         $("#CoffeeList").delegate(".coffeeitem", "click", function (e) {
 
             e.preventDefault();
+
+            if ($("#<%=hfCoffeeProductID.ClientID%>").val().length != 0) {
+
+                var changemade = false;
+
+                if ($("#<%=txtCoffeeSKU.ClientID%>").val() != oldsku) { changemade = true; }
+                if ($("#<%=txtCoffeeName.ClientID%>").val() != oldname) { changemade = true; }
+                if ($("#<%=txtCoffeePrice.ClientID%>").val() != '$' + oldprice) { changemade = true; }
+                if ($("#<%=txtCoffeeDescription.ClientID%>").val() != olddescription) { changemade = true; }
+                if ($("#<%=txtCoffeeQty.ClientID%>").val() != oldqty) { changemade = true; }
+                if ($("#<%=txtCoffeeBody.ClientID%>").val() != oldbody) { changemade = true; }
+                if ($("#<%=txtCoffeeRoast.ClientID%>").val() != oldroast) { changemade = true; }
+                if ($("#<%=txtCoffeeBrand.ClientID%>").val() != oldbrand) { changemade = true; }
+                if ($("#<%=fuCoffeeImage.ClientID%>").val() != "") { changemade = true; }
+
+                if ($("#<%=ckCoffeeIsFeatured.ClientID%>").is(":checked")) {
+                    featuredState = 'Y'
+                } else {
+                    featuredState = 'N'
+                }
+                if (oldfeatured == 'True') {
+                    if (featuredState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldfeatured == 'False') {
+                    if (featuredState == 'Y') {
+                        changemade = true;
+                    }
+                }
+                if (changemade == true) {
+                    if (confirm('Changes have been made to the current item. If you wish to save, please click "Cancel", and save your changes. To ignore, please click "OK".')) {
+                        var fileUpload = document.getElementById("<%=fuCoffeeImage.ClientID%>");
+                        var id = fileUpload.id;
+                        var name = fileUpload.name;
+                        var newFileUpload = document.createElement("INPUT");
+                        newFileUpload.type = "FILE";
+                        fileUpload.parentNode.insertBefore(newFileUpload, fileUpload.nextSibling);
+                        fileUpload.parentNode.removeChild(fileUpload);
+                        newFileUpload.id = id;
+                        newFileUpload.name = name;
+                    } else {
+                        return;
+                    }
+                }
+
+            } else {
+            // The user has clicked an item for the firs time sice the 
+            // page has loaded. we don't want to call the save method if no product id has been set. 
+            }
+          
             var ProductID = $(this).attr('id');
             var SKU = $(this).attr("data-SKU");
+            oldsku = SKU;
             var Name = $(this).attr('data-Name');
+            oldname = Name;
             var Price = $(this).attr('data-price');
+            oldprice = Price;
             var Description = $(this).attr('data-description');
+            olddescription = Description;
             var Qty = $(this).attr('data-Qty');
+            oldqty = Qty;
             var Body = $(this).attr('data-body');
+            oldbody = Body;
             var Roast = $(this).attr('data-roast');
+            oldroast = Roast;
             var Brand = $(this).attr('data-brand');
+            oldbrand = Brand;
             var Featured = $(this).attr('data-featured');
+            oldfeatured = Featured;
 
             $("#<%=hfCoffeeProductID.ClientID%>").val(ProductID);
             $("#<%=txtCoffeeSKU.ClientID%>").val(SKU);
