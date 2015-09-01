@@ -13,6 +13,8 @@ Public Class Accessories
         txtAccessoryName.BorderColor = Nothing
         txtAccessorySKU.BorderColor = Nothing
         txtAccessoryBrand.BorderColor = Nothing
+        txtAccessorySalePrice.BorderColor = Nothing
+        ckAccessoryIsOnSale.BorderColor = Nothing
 
         If Trim(txtAccessorySKU.Text) = String.Empty Then
             lblAccessoryMessage.Text = "A unique SKU is required."
@@ -44,7 +46,31 @@ Public Class Accessories
             txtAccessoryPrice.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
+        Dim SalePrice As Decimal = 0.0
+        If ckAccessoryIsOnSale.Checked Then
+            If Not IsNumeric(txtAccessorySalePrice.Text) Then
+                lblAccessoryMessage.Text = "Sale price must be of numeric value."
+                lblAccessoryMessage.ForeColor = Drawing.Color.Red
+                txtAccessorySalePrice.BorderColor = Drawing.Color.Red
+                Exit Sub
 
+            End If
+        End If
+
+        'check to make sure that Is On sale was not checked by accident by making sure 
+        'there is an actual price in the txtAccessorySalePrice.text
+        If ckAccessoryIsOnSale.Checked AndAlso IsNumeric(txtAccessorySalePrice.Text) Then
+            Dim CheckThePrice As Decimal = Math.Round(CDec(txtAccessorySalePrice.Text), 2)
+            If CheckThePrice = 0.0 Then
+                ckAccessoryIsOnSale.BorderColor = Drawing.Color.Red
+                lblAccessoryMessage.Text = "You've marked this item as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblAccessoryMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SalePrice = txtAccessorySalePrice.Text
+            End If
+
+        End If
 
         'Check If SKU already exists. If so, then call update, else insert new.
 
@@ -89,6 +115,8 @@ Public Class Accessories
             cmd.Parameters.AddWithValue("@Brand", txtAccessoryBrand.Text)
             cmd.Parameters.AddWithValue("@Description", txtAccessoryDescription.Value)
             cmd.Parameters.AddWithValue("@FeaturedItem", CByte(ckAccessoryFeaturedItem.Checked))
+            cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckAccessoryIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
 
             If storedProcedure = "sp_Insert_Accessories" Then
                 cmd.Parameters.AddWithValue("@Category", "Accessory")

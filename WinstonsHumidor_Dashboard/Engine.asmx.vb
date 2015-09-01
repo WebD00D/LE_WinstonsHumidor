@@ -21,6 +21,8 @@ Public Class Engine
         Public Brand As String
         Public Price As String
         Public IsFeatured As String
+        Public IsOnSale As String
+        Public SalePrice As String
     End Class
 
     Public Class Apparel
@@ -170,6 +172,9 @@ Public Class Engine
             Dim DecPrice As Decimal = Decimal.Round(item("Price"), 2)
             A.Price = CStr(DecPrice)
             A.IsFeatured = item("IsFeatured")
+            A.IsOnSale = item("IsOnSale")
+            Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+            A.SalePrice = CStr(DecSalePrice)
             Accessories.Add(A)
         Next
         Return Accessories

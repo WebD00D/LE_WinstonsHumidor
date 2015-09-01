@@ -95,6 +95,24 @@ Partial Public Class Accessories
     Protected WithEvents txtAccessoryPrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''ckAccessoryIsOnSale control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckAccessoryIsOnSale As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''txtAccessorySalePrice control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAccessorySalePrice As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''fuAccessoryImage control.
     '''</summary>
     '''<remarks>

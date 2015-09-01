@@ -83,6 +83,15 @@
                 <asp:TextBox ID="txtAccessoryQty" runat="server" CssClass="form-control"></asp:TextBox>
                 <h6>Price</h6>
                 <asp:TextBox ID="txtAccessoryPrice" runat="server" CssClass="form-control"></asp:TextBox>
+             
+                        <h6>Is On Sale</h6>
+                        <asp:CheckBox ID="ckAccessoryIsOnSale" runat="server"/>
+               
+                    
+                        <h6>Sale Price</h6>
+                        <asp:TextBox ID="txtAccessorySalePrice" runat="server" CssClass="form-control"></asp:TextBox>
+                    
+               
                 <h6>Product Image</h6>
                 <asp:FileUpload ID="fuAccessoryImage" runat="server" CssClass="form-control" />
                 <h6>Featured Item</h6>
@@ -136,7 +145,7 @@
   
                             var content =
 
-                            "<a href='#' data-featured='" + item.IsFeatured + "' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
+                            "<a href='#' data-isonsale='"+ item.IsOnSale +"' data-saleprice='"+ item.SalePrice +"' data-featured='" + item.IsFeatured + "' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
                     "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#AccessoryList").fadeIn();
                         })
@@ -158,6 +167,8 @@
             var oldprice;
             var oldfeatured;
             var newfeatured;
+            var oldisonsale;
+            var oldsaleprice;
             
         $("#AccessoryList").delegate(".accessoryitem", "click", function (e) {
            
@@ -208,6 +219,26 @@
                    changemade = true;
                }
            }
+
+
+           var currentsalestate;
+           if ($("#<%=ckAccessoryIsOnSale.ClientID%>").is(":checked")) {
+               currentsalestate = 'Y'
+           } else {
+               currentsalestate = 'N'
+           }
+
+           if (oldisonsale == 'True') {
+               if (currentsalestate == 'N') {
+                   changemade = true;
+               }
+           }
+           if (oldisonsale == 'False') {
+               if (currentsalestate == 'Y') {
+                   changemade = true;
+               }
+           }
+
 
           
            if ($("#<%=fuAccessoryImage.ClientID%>").val() != "") {
@@ -275,6 +306,13 @@
 
             var Featured = $(this).attr('data-featured');
             oldfeatured = Featured
+
+
+            var IsOnSale = $(this).attr('data-isonsale');
+            oldisonsale = IsOnSale
+
+            var SalePrice = $(this).attr('data-saleprice')
+            oldsaleprice = SalePrice
            
             $("#<%=hfAccessoryProductID.ClientID%>").val(ProductID);
             $("#<%=txtAccessorySKU.ClientID%>").val(SKU);
@@ -283,6 +321,7 @@
             $("#<%=txtAccessoryDescription.ClientID%>").val(Description);
             $("#<%=txtAccessoryQty.ClientID%>").val(Qty);
             $("#<%=txtAccessoryPrice.ClientID%>").val('$' + Price);
+            $("#<%=txtAccessorySalePrice.ClientID%>").val('$' + SalePrice)
 
      
 
@@ -292,6 +331,11 @@
                 $("#<%=ckAccessoryFeaturedItem.ClientID%>").prop("checked", false);
             }
 
+            if (IsOnSale == 'True') {
+                $("#<%=ckAccessoryIsOnSale.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckAccessoryIsOnSale.ClientID%>").prop("checked", false);
+            }
 
         })
 
