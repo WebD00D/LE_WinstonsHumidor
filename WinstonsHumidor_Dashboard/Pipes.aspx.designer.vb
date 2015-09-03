@@ -122,6 +122,24 @@ Partial Public Class Pipes
     Protected WithEvents txtPipePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''ckPipesIsOnSale control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckPipesIsOnSale As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''txtPipesSalePrice control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtPipesSalePrice As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''fuPipeImage control.
     '''</summary>
     '''<remarks>

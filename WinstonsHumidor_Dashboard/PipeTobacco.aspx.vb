@@ -17,6 +17,7 @@ Public Class PipeTobacco
         txtPipeTobaccoPrice.BorderColor = Nothing
         fuPipeTobaccoImage.BorderColor = Nothing
         txtPipeTobaccoQty.BorderColor = Nothing
+        txtPipeTobaccoSalePrice.BorderColor = Nothing
         lblPipeTobaccoMessage.Text = " "
 
         If Trim(txtPipeTobaccoSKU.Text) = String.Empty Then
@@ -70,6 +71,28 @@ Public Class PipeTobacco
         End If
 
 
+        Dim SalePrice As Decimal = 0.0
+        If ckPipeTobaccoIsOnSale.Checked Then
+            If Not IsNumeric(txtPipeTobaccoSalePrice.Text) Then
+                lblPipeTobaccoMessage.Text = "Sale price must be of numeric value."
+                lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red
+                txtPipeTobaccoSalePrice.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+        'check to make sure that Is On sale was not checked by accident by making sure 
+        'there is an actual price in the txtAccessorySalePrice.text
+        If ckPipeTobaccoIsOnSale.Checked AndAlso IsNumeric(txtPipeTobaccoSalePrice.Text) Then
+            Dim CheckThePrice As Decimal = Math.Round(CDec(txtPipeTobaccoSalePrice.Text), 2)
+            If CheckThePrice = 0.0 Then
+                lblPipeTobaccoMessage.Text = "You've marked this item as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SalePrice = txtPipeTobaccoSalePrice.Text
+            End If
+        End If
+
         'check if SKU Exists
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
         Dim dt As New DataTable
@@ -116,7 +139,8 @@ Public Class PipeTobacco
             cmd.Parameters.AddWithValue("@Description", txtPipeTobaccoDescription.Value)
             cmd.Parameters.AddWithValue("@Image", fuPipeTobaccoImage.FileBytes)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipeTobaccoIsFeatured.Checked))
-
+            cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckPipeTobaccoIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
 
             If storedProcedure = "sp_Insert_PipeTobacco" Then
                 cmd.Parameters.AddWithValue("@Category", "PipeTobacco")
@@ -168,5 +192,8 @@ Public Class PipeTobacco
         fuPipeTobaccoImage.BorderColor = Nothing
         txtPipeTobaccoQty.BorderColor = Nothing
         ckPipeTobaccoIsFeatured.Checked = False
+        ckPipeTobaccoIsOnSale.Checked = False
+        hfPipeTobaccoProductID.Value = Nothing
+        txtPipeTobaccoSalePrice.Text = ""
     End Sub
 End Class

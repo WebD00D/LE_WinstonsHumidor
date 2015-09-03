@@ -100,6 +100,16 @@
                     </li>
                     <li> <h6>Price</h6>
                 <asp:TextBox ID="txtApparelPrice" runat="server" CssClass="form-control"></asp:TextBox></li>
+                <li> <h6>Is On Sale</h6>
+                      <asp:CheckBox ID="ckApparelIsOnSale" runat="server"/>
+                </li>
+                   
+                      <li>
+                          <h6>Sale Price</h6>
+                        <asp:TextBox ID="txtApparelSalePrice" runat="server" CssClass="form-control"></asp:TextBox>
+                      </li>
+              
+
                     <li>  <h6>Product Image</h6>
                 <asp:FileUpload ID="fuApprelImg" runat="server" CssClass="form-control" /></li>
                 </ul>
@@ -141,7 +151,7 @@
 
                     var content =
 
-                     "<a href='#' data-featured='"+ item.IsFeatured +"' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
+                     "<a href='#' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#ApparelList").fadeIn();
 
@@ -171,6 +181,8 @@
         var oldprice;
         var oldfeatured;
         var newfeatured;
+        var oldisonsale;
+        var oldsaleprice;
 
         $("#ApparelList").delegate(".apparelitem", "click", function (e) {
 
@@ -244,6 +256,28 @@
                     }
                 }
 
+
+                var currentsalestate;
+                if ($("#<%=ckApparelIsOnSale.ClientID%>").is(":checked")) {
+                    currentsalestate = 'Y'
+                } else {
+                    currentsalestate = 'N'
+                }
+
+                if (oldisonsale == 'True') {
+                    if (currentsalestate == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldisonsale == 'False') {
+                    if (currentsalestate == 'Y') {
+                        changemade = true;
+                    }
+                }
+
+
+
+
                 if ($("#<%=fuApprelImg.ClientID%>").val() != "") {
                     changemade = true;
                 }
@@ -310,6 +344,10 @@
             oldxxxl = XXXL
             var Featured = $(this).attr('data-featured');
             oldfeatured = Featured
+            var IsOnSale = $(this).attr('data-isonsale');
+            oldisonsale = IsOnSale
+            var SalePrice = $(this).attr('data-saleprice')
+            oldsaleprice = SalePrice
 
             $("#<%=hfApparelProductID.ClientID%>").val(ProductID);
             $("#<%=txtApparelSKU.ClientID%>").val(SKU);
@@ -323,6 +361,7 @@
             $("#<%=XXL.ClientID%>").val(XXL);
             $("#<%=XXXL.ClientID%>").val(XXXL);
             $("#<%=txtApparelPrice.ClientID%>").val('$' + Price);
+            $("#<%=txtApparelSalePrice.ClientID%>").val('$' + SalePrice)
 
             if (Featured == 'True') {
                 $("#<%=ckApparelIsFeatured.ClientID%>").prop("checked", true);
@@ -330,7 +369,11 @@
             } else {
                 $("#<%=ckApparelIsFeatured.ClientID%>").prop("checked", false);
             }
-
+            if (IsOnSale == 'True') {
+                $("#<%=ckApparelIsOnSale.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckApparelIsOnSale.ClientID%>").prop("checked", false);
+            }
 
 
         })
@@ -366,7 +409,7 @@
 
                             var content =
 
-                            "<a href='#' data-featured='" + item.IsFeatured + "' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
+                            "<a href='#' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#ApparelList").fadeIn();
                         })

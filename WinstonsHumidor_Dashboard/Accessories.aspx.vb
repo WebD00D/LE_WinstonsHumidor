@@ -69,7 +69,6 @@ Public Class Accessories
             Else
                 SalePrice = txtAccessorySalePrice.Text
             End If
-
         End If
 
         'Check If SKU already exists. If so, then call update, else insert new.
@@ -164,6 +163,7 @@ Public Class Accessories
     End Sub
 
     Public Sub ClearAccessoryForm()
+
         txtAccessoryDescription.Value = ""
         txtAccessoryQty.Text = ""
         txtAccessoryPrice.Text = ""
@@ -172,6 +172,8 @@ Public Class Accessories
         txtAccessorySKU.Text = ""
         txtAccessoryBrand.Text = ""
         ckAccessoryFeaturedItem.Checked = False
+        ckAccessoryIsOnSale.Checked = False
+        txtAccessorySalePrice.Text = ""
         hfAccessoryProductID.Value = Nothing
 
     End Sub

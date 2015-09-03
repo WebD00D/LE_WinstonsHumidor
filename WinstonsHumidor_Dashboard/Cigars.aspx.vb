@@ -124,9 +124,66 @@ Public Class Cigars
             ckCigarIsSingleSaleOnly.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
+
+
+        Dim SingleSalePrice As Decimal = 0.0
+        If ckCigarSingleIsOnSale.Checked Then
+            If Not IsNumeric(txtSingleSalePrice.Text) Then
+                lblCigarMessage.Text = "Single sale price must be of numeric value."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtSingleSalePrice.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+        Dim BoxSalePrice As Decimal = 0.0
+        If ckCigarBoxIsOnSale.Checked Then
+            If Not IsNumeric(txtBoxSalePrice.Text) Then
+                lblCigarMessage.Text = "Box sale price must be of numeric value."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtBoxSalePrice.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+
+        If ckCigarIsBoxSaleOnly.Checked = True AndAlso ckCigarSingleIsOnSale.Checked = True Then
+            lblCigarMessage.Text = "To set singles on sale, please uncheck 'Is Box Sale Only'"
+            lblCigarMessage.ForeColor = Drawing.Color.Red
+            Exit Sub
+        End If
+
+        If ckCigarIsSingleSaleOnly.Checked = True AndAlso ckCigarBoxIsOnSale.Checked = True Then
+            lblCigarMessage.Text = "To set boxes on sale, please uncheck 'Is Single Sale Only'"
+            lblCigarMessage.ForeColor = Drawing.Color.Red
+            Exit Sub
+        End If
+
+
+        'check to make sure that Is On sale was not checked by accident by making sure 
+        'there is an actual price in the txtAccessorySalePrice.text
+        If ckCigarSingleIsOnSale.Checked AndAlso IsNumeric(txtSingleSalePrice.Text) Then
+            Dim CheckTheSinglePrice As Decimal = Math.Round(CDec(txtSingleSalePrice.Text), 2)
+            If CheckTheSinglePrice = 0.0 Then
+                lblCigarMessage.Text = "You've marked singles as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SingleSalePrice = txtSingleSalePrice.Text
+            End If
+        End If
+        If ckCigarBoxIsOnSale.Checked AndAlso IsNumeric(txtBoxSalePrice.Text) Then
+            Dim CheckTheBoxPrice As Decimal = Math.Round(CDec(txtBoxSalePrice.Text), 2)
+            If CheckTheBoxPrice = 0.0 Then
+                lblCigarMessage.Text = "You've marked boxes as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                BoxSalePrice = txtBoxSalePrice.Text
+            End If
+        End If
+
+
         'End Validation
-
-
 
         Dim SinglePrice As Decimal = 0
         Dim BoxPrice As Decimal = 0
@@ -189,6 +246,14 @@ Public Class Cigars
             cmd.Parameters.AddWithValue("@Image", fuCigarImage.FileBytes)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckCigarIsFeatured.Checked))
             cmd.Parameters.AddWithValue("@Body", txtCigarBody.Text)
+            cmd.Parameters.AddWithValue("@SingleIsOnSale", CByte(ckCigarSingleIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@BoxIsOnSale", CByte(ckCigarBoxIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@SingleSalePrice", SingleSalePrice)
+            cmd.Parameters.AddWithValue("@BoxSalePrice", BoxSalePrice)
+  
+	
+
+
 
             If storedProcedure = "sp_Insert_Cigars" Then
                 cmd.Parameters.AddWithValue("@Category", "Cigars")
@@ -236,5 +301,11 @@ Public Class Cigars
         ckCigarIsBoxSaleOnly.Checked = False
         ckCigarIsSingleSaleOnly.Checked = False
         ckCigarIsFeatured.Checked = False
+        ckCigarBoxIsOnSale.Checked = False
+        ckCigarSingleIsOnSale.Checked = False
+        txtSingleSalePrice.Text = " "
+        txtBoxSalePrice.Text = " "
+        txtCigarDescription.Value = " "
+        hfCigarProductID.Value = Nothing
     End Sub
 End Class

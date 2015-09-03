@@ -158,6 +158,42 @@ Partial Public Class Cigars
     Protected WithEvents txtCigarSinglePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''ckCigarBoxIsOnSale control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckCigarBoxIsOnSale As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''ckCigarSingleIsOnSale control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckCigarSingleIsOnSale As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''txtBoxSalePrice control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtBoxSalePrice As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtSingleSalePrice control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSingleSalePrice As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''fuCigarImage control.
     '''</summary>
     '''<remarks>

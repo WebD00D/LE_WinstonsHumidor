@@ -19,7 +19,7 @@ Public Class Pipes
         txtPipeQty.BorderColor = Nothing
         txtPipePrice.BorderColor = Nothing
         fuPipeImage.BorderColor = Nothing
-
+        txtPipesSalePrice.BorderColor = Nothing
         lblPipeMessage.ForeColor = Nothing
         lblPipeMessage.Text = " "
 
@@ -79,6 +79,29 @@ Public Class Pipes
             Exit Sub
         End If
 
+        Dim SalePrice As Decimal = 0.0
+        If ckPipesIsOnSale.Checked Then
+            If Not IsNumeric(txtPipesSalePrice.Text) Then
+                lblPipeMessage.Text = "Sale price must be of numeric value."
+                lblPipeMessage.ForeColor = Drawing.Color.Red
+                txtPipesSalePrice.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+        'check to make sure that Is On sale was not checked by accident by making sure 
+        'there is an actual price in the txtAccessorySalePrice.text
+        If ckPipesIsOnSale.Checked AndAlso IsNumeric(txtPipesSalePrice.Text) Then
+            Dim CheckThePrice As Decimal = Math.Round(CDec(txtPipesSalePrice.Text), 2)
+            If CheckThePrice = 0.0 Then
+                lblPipeMessage.Text = "You've marked this item as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblPipeMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SalePrice = txtPipesSalePrice.Text
+            End If
+        End If
+
+
         'check if SKU Exists
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
         Dim dt As New DataTable
@@ -126,7 +149,8 @@ Public Class Pipes
             cmd.Parameters.AddWithValue("@Description", txtPipeDescription.Value)
             cmd.Parameters.AddWithValue("@Image", fuPipeImage.FileBytes)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipesIsFeatured.Checked))
-
+            cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckPipesIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
             If storedProcedure = "sp_Insert_Pipes" Then
                 cmd.Parameters.AddWithValue("@Category", "Pipes")
 
@@ -170,5 +194,8 @@ Public Class Pipes
         txtPipePrice.Text = ""
         lblPipeMessage.Text = ""
         ckPipesIsFeatured.Checked = False
+        hfPipeProductID.Value = Nothing
+        txtPipesSalePrice.Text = " "
+        ckPipesIsOnSale.Checked = False
     End Sub
 End Class

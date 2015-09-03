@@ -131,6 +131,24 @@ Partial Public Class Apparel
     Protected WithEvents txtApparelPrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''ckApparelIsOnSale control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckApparelIsOnSale As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''txtApparelSalePrice control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtApparelSalePrice As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''fuApprelImg control.
     '''</summary>
     '''<remarks>

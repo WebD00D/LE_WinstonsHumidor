@@ -40,6 +40,8 @@ Public Class Engine
         Public XXL As String
         Public XXXL As String
         Public IsFeatured As String
+        Public IsOnSale As String
+        Public SalePrice As String
     End Class
 
     Public Class Coffee
@@ -54,6 +56,8 @@ Public Class Engine
         Public Price As String
         Public Qty As String
         Public IsFeatured As String
+        Public IsOnSale As String
+        Public SalePrice As String
     End Class
 
     Public Class Cigar
@@ -73,6 +77,10 @@ Public Class Engine
         Public IsSingleSaleOnly As String
         Public IsBoxSaleOnly As String
         Public IsFeatured As String
+        Public SingleIsOnSale As String
+        Public BoxIsOnSale As String
+        Public SingleSalePrice As String
+        Public BoxSalePrice As String
         Public Body As String
     End Class
 
@@ -90,6 +98,8 @@ Public Class Engine
         Public BodyShape As String
         Public Material As String
         Public IsFeatured As String
+        Public IsOnSale As String
+        Public SalePrice As String
     End Class
 
     Public Class PipeTobacco
@@ -105,6 +115,8 @@ Public Class Engine
         Public Description As String
         Public Qty As String
         Public IsFeatured As String
+        Public IsOnSale As String
+        Public SalePrice As String
 
     End Class
 
@@ -212,6 +224,9 @@ Public Class Engine
             Dim DecPrice As Decimal = Decimal.Round(item("Price"), 2)
             A.Price = CStr(DecPrice)
             A.IsFeatured = item("IsFeatured")
+            A.IsOnSale = item("IsOnSale")
+            Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+            A.SalePrice = CStr(DecSalePrice)
             Accessories.Add(A)
         Next
         Return Accessories
@@ -257,6 +272,9 @@ Public Class Engine
                 A.XXL = item("XXL_Qty")
                 A.XXXL = item("XXXL_Qty")
                 A.IsFeatured = item("IsFeatured")
+                A.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                A.SalePrice = CStr(DecSalePrice)
                 ApparelList.Add(A)
             Next
             Return ApparelList
@@ -301,6 +319,9 @@ Public Class Engine
                 A.XXL = item("XXL_Qty")
                 A.XXXL = item("XXXL_Qty")
                 A.IsFeatured = item("IsFeatured")
+                A.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                A.SalePrice = CStr(DecSalePrice)
                 ApparelList.Add(A)
             Next
             Return ApparelList
@@ -348,6 +369,9 @@ Public Class Engine
                 C.Roast = item("Roast")
                 C.Body = item("Body")
                 C.IsFeatured = item("IsFeatured")
+                C.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                C.SalePrice = CStr(DecSalePrice)
                 CoffeeList.Add(C)
             Next
             Return CoffeeList
@@ -394,6 +418,9 @@ Public Class Engine
                 C.Roast = item("Roast")
                 C.Body = item("Body")
                 C.IsFeatured = item("IsFeatured")
+                C.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                C.SalePrice = CStr(DecSalePrice)
                 CoffeeList.Add(C)
             Next
             Return CoffeeList
@@ -448,6 +475,12 @@ Public Class Engine
                 C.IsSingleSaleOnly = item("IsSingleSaleOnly")
                 C.IsFeatured = item("IsFeatured")
                 C.Body = item("Body")
+                C.SingleIsOnSale = item("SingleIsOnSale")
+                C.BoxIsOnSale = item("BoxIsOnSale")
+                Dim DecSingleSalePrice As Decimal = Decimal.Round(item("SingleSalePrice"), 2)
+                Dim DecBoxSalePrice As Decimal = Decimal.Round(item("BoxSalePrice"), 2)
+                C.SingleSalePrice = CStr(DecSingleSalePrice)
+                C.BoxSalePrice = CStr(DecBoxSalePrice)
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -501,6 +534,12 @@ Public Class Engine
                 C.IsSingleSaleOnly = item("IsSingleSaleOnly")
                 C.IsFeatured = item("IsFeatured")
                 C.Body = item("Body")
+                C.SingleIsOnSale = item("SingleIsOnSale")
+                C.BoxIsOnSale = item("BoxIsOnSale")
+                Dim DecSingleSalePrice As Decimal = Decimal.Round(item("SingleSalePrice"), 2)
+                Dim DecBoxSalePrice As Decimal = Decimal.Round(item("BoxSalePrice"), 2)
+                C.SingleSalePrice = CStr(DecSingleSalePrice)
+                C.BoxSalePrice = CStr(DecBoxSalePrice)
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -552,6 +591,9 @@ Public Class Engine
                 P.BodyShape = item("BodyShape")
                 P.Material = item("Material")
                 P.IsFeatured = item("IsFeatured")
+                P.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                P.SalePrice = CStr(DecSalePrice)
                 PipeList.Add(P)
             Next
             Return PipeList
@@ -601,6 +643,9 @@ Public Class Engine
                 P.BodyShape = item("BodyShape")
                 P.Material = item("Material")
                 P.IsFeatured = item("IsFeatured")
+                P.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                P.SalePrice = CStr(DecSalePrice)
                 PipeList.Add(P)
             Next
             Return PipeList
@@ -651,6 +696,9 @@ Public Class Engine
                 PT.Cut = item("Cut")
                 PT.Strength = item("Strength")
                 PT.IsFeatured = item("IsFeatured")
+                PT.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                PT.SalePrice = CStr(DecSalePrice)
                 PipeTobaccoList.Add(PT)
             Next
             Return PipeTobaccoList
@@ -701,6 +749,9 @@ Public Class Engine
                 PT.Cut = item("Cut")
                 PT.Strength = item("Strength")
                 PT.IsFeatured = item("IsFeatured")
+                PT.IsOnSale = item("IsOnSale")
+                Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
+                PT.SalePrice = CStr(DecSalePrice)
                 PipeTobaccoList.Add(PT)
             Next
             Return PipeTobaccoList

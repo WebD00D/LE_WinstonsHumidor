@@ -14,6 +14,8 @@ Public Class Apparel
         XL.BorderColor = Nothing
         XXL.BorderColor = Nothing
         XXXL.BorderColor = Nothing
+        txtApparelSalePrice.BorderColor = Nothing
+
 
         txtApparelPrice.BorderColor = Nothing
         txtApparelNames.BorderColor = Nothing
@@ -84,6 +86,33 @@ Public Class Apparel
             Exit Sub
         End If
 
+        Dim SalePrice As Decimal = 0.0
+        If ckApparelIsOnSale.Checked Then
+            If Not IsNumeric(txtApparelSalePrice.Text) Then
+                lblApparelMessage.Text = "Sale price must be of numeric value."
+                lblApparelMessage.ForeColor = Drawing.Color.Red
+                lblApparelMessage.BorderColor = Drawing.Color.Red
+                Exit Sub
+
+            End If
+        End If
+
+        'check to make sure that Is On sale was not checked by accident by making sure 
+        'there is an actual price in the txtAccessorySalePrice.text
+        If ckApparelIsOnSale.Checked AndAlso IsNumeric(txtApparelSalePrice.Text) Then
+            Dim CheckThePrice As Decimal = Math.Round(CDec(txtApparelSalePrice.Text), 2)
+            If CheckThePrice = 0.0 Then
+                ckApparelIsOnSale.BorderColor = Drawing.Color.Red
+                lblApparelMessage.Text = "You've marked this item as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblApparelMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SalePrice = txtApparelSalePrice.Text
+            End If
+
+        End If
+
+
         'Check If SKU already exists. If so, then call update, else insert new.
 
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
@@ -133,6 +162,9 @@ Public Class Apparel
             cmd.Parameters.AddWithValue("@XXXL", CInt(XXXL.Text))
             cmd.Parameters.AddWithValue("@Img", fuApprelImg.FileBytes)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckApparelIsFeatured.Checked))
+            cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckApparelIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
+
 
             If storedProcedure = "sp_Insert_Apparel" Then
                 cmd.Parameters.AddWithValue("@Category", "Apparel")
@@ -173,5 +205,8 @@ Public Class Apparel
         XXL.Text = ""
         XXXL.Text = ""
         ckApparelIsFeatured.Checked = False
+        ckApparelIsOnSale.Checked = False
+        txtApparelSalePrice.Text = " "
+        hfApparelProductID.Value = Nothing
     End Sub
 End Class

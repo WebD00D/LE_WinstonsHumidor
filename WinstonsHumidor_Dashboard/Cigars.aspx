@@ -109,17 +109,48 @@
                <ul class="list-inline">
                
                        <li><h6>Box Price</h6>
-                       <asp:TextBox runat="server" ID="txtCigarBoxPrice" CssClass="form-control"></asp:TextBox></li>
-                    <li><h6>Single Price</h6>
+                           <asp:TextBox runat="server" ID="txtCigarBoxPrice" CssClass="form-control"></asp:TextBox></li>
+                   <li>
+                       <h6>Single Price</h6>
                        <asp:TextBox runat="server" ID="txtCigarSinglePrice" CssClass="form-control"></asp:TextBox></li>
-                    <li><h6>Image</h6>
-                       <asp:FileUpload runat="server" ID="fuCigarImage" CssClass="form-control"/>
+                  
+               </ul>
+
+               <ul class="list-inline">
+                   <li><h6>Box Is On Sale</h6>
+                       <asp:CheckBox runat="server" ID="ckCigarBoxIsOnSale"/>
+                   </li>
+                   <li><h6>Single Is On Sale</h6>
+                       <asp:Checkbox runat="server" ID="ckCigarSingleIsOnSale" />
                    </li>
                </ul>
-               <h6>Is Featured</h6>
-               <asp:CheckBox runat="server" ID="ckCigarIsFeatured" />
-               
-                <br />
+
+               <ul class="list-inline">
+                   <li><h6>Box Sale Price</h6>
+                       <asp:TextBox runat="server" ID="txtBoxSalePrice" CssClass="form-control"></asp:TextBox>
+                   </li>
+                   <li><h6>Single Sale Price</h6>
+                       <asp:TextBox runat="server" ID="txtSingleSalePrice" CssClass="form-control"></asp:TextBox>
+                   </li>
+               </ul>
+
+               <ul class="list-inline">
+                  
+                   <li>
+                       <h6>Image</h6>
+                       <asp:FileUpload runat="server" ID="fuCigarImage" CssClass="form-control" />
+                   </li>
+               </ul>
+
+               <ul class="list-inline">
+                    <li>
+                       <h6>Is Featured</h6>
+                       <asp:CheckBox runat="server" ID="ckCigarIsFeatured" />
+                   </li>
+               </ul>
+
+
+               <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveCigar" runat="server" CssClass="btn btn-success" Text="Save Cigar" /></li>
                     <li><asp:Button id="btnDeleteCigar" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
@@ -145,6 +176,10 @@
         $("#Title").html("Cigar Management");
       
 
+       
+
+
+
         $.ajax({
             type: "POST",
             url: "Engine.asmx/GetCigarInventory",
@@ -160,7 +195,7 @@
 
                     var content =
 
-                     "<a href='#' data-body='"+ item.Body +"' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                     "<a href='#' data-boxsaleprice='"+ item.BoxSalePrice +"' data-singlesaleprice='"+ item.SingleSalePrice +"' data-boxisonsale='"+ item.BoxIsOnSale +"' data-singleisonsale='"+ item.SingleIsOnSale +"' data-body='"+ item.Body +"' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Box Price: <b>$" + item.BoxPrice + "</b></li><li>Single Price: <b>$" + item.SinglePrice + "</b></li></ul></a>";
                     $(content).hide().appendTo("#CigarList").fadeIn();
 
@@ -191,13 +226,15 @@
         var oldissingleonly;
         var oldisboxonly;
         var oldfeatured;
+        var oldsingleonsale;
+        var oldboxonsale;
+        var oldsinglesaleprice;
+        var oldboxsaleprice;
 
         $("#CigarList").delegate(".cigarItem", "click", function (e) {
 
             e.preventDefault();
 
-
-         
             if ($("#<%=hfCigarProductID.ClientID%>").val().length != 0) {
                 var changemade = false;
                 if ($("#<%=txtCigarSKU.ClientID%>").val() != oldsku) {
@@ -240,6 +277,50 @@
                     changemade = true;
                 }
             
+
+                if ($("#<%=txtSingleSalePrice.ClientID%>").val() != '$' + oldsinglesaleprice) {
+                    changemade = true;
+                   
+                }
+                if ($("#<%=txtBoxSalePrice.ClientID%>").val() != '$' + oldboxsaleprice) {
+                    changemade = true;
+                }
+
+                var currentSingleIsOnSaleState;
+                if ($("#<%=ckCigarSingleIsOnSale.ClientID%>").is(":checked")) {
+                    currentSingleIsOnSaleState = 'Y'
+                } else {
+                    currentSingleIsOnSaleState = 'N'
+                }
+                var currentBoxIsOnSaleState;
+                if ($("#<%=ckCigarBoxIsOnSale.ClientID%>").is(":checked")) {
+                    currentBoxIsOnSaleState = 'Y'
+                } else {
+                    currentBoxIsOnSaleState = 'N'
+                }
+               
+                if (oldsingleonsale == 'True') {
+                    if (currentSingleIsOnSaleState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldsingleonsale == 'False') {
+                    if (currentSingleIsOnSaleState == 'Y') {
+                        changemade = true;
+                    }
+                }
+                if (oldboxonsale == 'True') {
+                    if (currentBoxIsOnSaleState == 'N') {
+                        changemade = true;
+                    }
+                }
+                if (oldboxonsale == 'False') {
+                    if (currentBoxIsOnSaleState == 'Y') {
+                        changemade = true;
+                    }
+                }
+
+                
                 var currentSinglyOnlyState;
                 if ($("#<%=ckCigarIsSingleSaleOnly.ClientID%>").is(":checked")) {
                     currentSinglyOnlyState = 'Y'
@@ -346,6 +427,15 @@
             var Featured = $(this).attr('data-featured');
             oldfeatured = Featured;
 
+            var SingleOnSale = $(this).attr('data-singleisonsale');
+            oldsingleonsale = SingleOnSale;
+            var BoxOnSale = $(this).attr('data-boxisonsale');
+            oldboxonsale = BoxOnSale;
+            var SingleSalePrice = $(this).attr('data-singlesaleprice');
+            oldsinglesaleprice = SingleSalePrice;
+            var BoxSalePrice = $(this).attr('data-boxsaleprice');
+            oldboxsaleprice = BoxSalePrice
+
             $("#<%=hfCigarProductID.ClientID%>").val(ProductID);
             $("#<%=txtCigarSKU.ClientID%>").val(SKU);
             $("#<%=txtCigarName.ClientID%>").val(Name);
@@ -358,6 +448,8 @@
             $("#<%=txtCigarSingleQty.ClientID%>").val(SingleQty);
             $("#<%=txtCigarBoxPrice.ClientID%>").val('$' + BoxPrice);
             $("#<%=txtCigarSinglePrice.ClientID%>").val('$' + SinglePrice);
+            $("#<%=txtSingleSalePrice.ClientID%>").val('$' + SingleSalePrice);
+            $("#<%=txtBoxSalePrice.ClientID%>").val('$' + BoxSalePrice);
             $("#<%=txtCigarBody.ClientID%>").val(Body);
          
             if (Featured == 'True') {
@@ -377,6 +469,21 @@
             } else {
                 $("#<%=ckCigarIsSingleSaleOnly.ClientID%>").prop("checked", false);
             }
+
+            if (SingleOnSale == 'True') {
+                $("#<%=ckCigarSingleIsOnSale.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckCigarSingleIsOnSale.ClientID%>").prop("checked", false);
+            }
+            if (BoxOnSale == 'True') {
+                $("#<%=ckCigarBoxIsOnSale.ClientID%>").prop("checked", true);
+            } else {
+                $("#<%=ckCigarBoxIsOnSale.ClientID%>").prop("checked", false);
+            }
+
+
+
+
         })
 
         $("#txtCigarSearch").keyup(function () {
@@ -409,7 +516,7 @@
 
                             var content =
 
-                       "<a href='#' data-body='"+ item.Body +"' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                       "<a href='#'  data-boxsaleprice='" + item.BoxSalePrice + "' data-singlesaleprice='" + item.SingleSalePrice + "' data-boxisonsale='" + item.BoxIsOnSale + "' data-singleisonsale='" + item.SingleIsOnSale + "' data-body='" + item.Body + "' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Box Price: <b>$" + item.BoxPrice + "</b></li><li>Single Price: <b>$" + item.SinglePrice + "</b></li></ul></a>";
                             $(content).hide().appendTo("#CigarList").fadeIn();
                         })

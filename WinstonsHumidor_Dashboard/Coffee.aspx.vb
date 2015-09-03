@@ -18,6 +18,7 @@ Public Class Coffee
         txtCoffeeQty.BorderColor = Nothing
         txtCoffeePrice.BorderColor = Nothing
         fuCoffeeImage.BorderColor = Nothing
+        txtCoffeeSalePrice.BorderColor = Nothing
         lblCoffeeMessage.Text = String.Empty
 
         If Trim(txtCoffeeSKU.Text) = String.Empty Then
@@ -55,6 +56,30 @@ Public Class Coffee
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeePrice.BorderColor = Drawing.Color.Red
         End If
+
+        Dim SalePrice As Decimal = 0.0
+        If ckCoffeeIsOnSale.Checked Then
+            If Not IsNumeric(txtCoffeeSalePrice.Text) Then
+                lblCoffeeMessage.Text = "Sale price must be of numeric value."
+                lblCoffeeMessage.ForeColor = Drawing.Color.Red
+                txtCoffeeSalePrice.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+        'check to make sure that Is On sale was not checked by accident by making sure 
+        'there is an actual price in the txtAccessorySalePrice.text
+        If ckCoffeeIsOnSale.Checked AndAlso IsNumeric(txtCoffeeSalePrice.Text) Then
+            Dim CheckThePrice As Decimal = Math.Round(CDec(txtCoffeeSalePrice.Text), 2)
+            If CheckThePrice = 0.0 Then
+                lblCoffeeMessage.Text = "You've marked this item as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblCoffeeMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SalePrice = txtCoffeeSalePrice.Text
+            End If
+        End If
+
 
         'Check If SKU already exists. If so, then call update, else insert new.
 
@@ -103,6 +128,8 @@ Public Class Coffee
             cmd.Parameters.AddWithValue("@Image", fuCoffeeImage.FileBytes)
             cmd.Parameters.AddWithValue("@Brand", txtCoffeeBrand.Text)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckCoffeeIsFeatured.Checked))
+            cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckCoffeeIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
 
             If storedProcedure = "sp_Insert_Coffee" Then
                 cmd.Parameters.AddWithValue("@Category", "Coffee")
@@ -145,5 +172,8 @@ Public Class Coffee
         txtCoffeeDescription.Value = ""
         lblCoffeeMessage.Text = String.Empty
         ckCoffeeIsFeatured.Checked = False
+        hfCoffeeProductID.Value = Nothing
+        ckCoffeeIsOnSale.Checked = False
+        txtCoffeeSalePrice.Text = ""
     End Sub
 End Class
