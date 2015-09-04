@@ -15,6 +15,7 @@ Public Class Accessories
         txtAccessoryBrand.BorderColor = Nothing
         txtAccessorySalePrice.BorderColor = Nothing
         ckAccessoryIsOnSale.BorderColor = Nothing
+        fuAccessoryImage.BorderColor = Nothing
 
         If Trim(txtAccessorySKU.Text) = String.Empty Then
             lblAccessoryMessage.Text = "A unique SKU is required."
@@ -63,7 +64,7 @@ Public Class Accessories
             Dim CheckThePrice As Decimal = Math.Round(CDec(txtAccessorySalePrice.Text), 2)
             If CheckThePrice = 0.0 Then
                 ckAccessoryIsOnSale.BorderColor = Drawing.Color.Red
-                lblAccessoryMessage.Text = "You've marked this item as on sale without a valid price. Please correct, or un check 'Is On Sale'."
+                lblAccessoryMessage.Text = "Failed To Save: You've marked this item as on sale without a valid price. Please correct, or un check 'Is On Sale'."
                 lblAccessoryMessage.ForeColor = Drawing.Color.Red
                 Exit Sub
             Else
@@ -93,16 +94,23 @@ Public Class Accessories
         If dt.Rows().Count > 0 Then
 
             If dt.Rows(0).Item("Category") = "Accessory" Then
-                storedProcedure = "sp_Update_Accessories"
+                If hfAccessoryProductID.Value = Nothing Then
+                    lblAccessoryMessage.Text = "Failed To Save: To update a product, please make sure to have selected the item first from the list."
+                    lblAccessoryMessage.ForeColor = Drawing.Color.Red
+                    Exit Sub
+                Else
+                    storedProcedure = "sp_Update_Accessories"
+                End If
+
             Else
-                lblAccessoryMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
+                lblAccessoryMessage.Text = "Failed To Save: This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
                 lblAccessoryMessage.ForeColor = Drawing.Color.Red
                 Exit Sub
             End If
         Else
             storedProcedure = "sp_Insert_Accessories"
             If Not fuAccessoryImage.HasFile Then
-                lblAccessoryMessage.Text = "Please upload an image for the product"
+                lblAccessoryMessage.Text = "Failed To Save: Please upload an image for the product"
                 lblAccessoryMessage.ForeColor = Drawing.Color.Red
                 fuAccessoryImage.BorderColor = Drawing.Color.Red
                 Exit Sub

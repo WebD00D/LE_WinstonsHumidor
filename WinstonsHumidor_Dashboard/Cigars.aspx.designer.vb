@@ -23,6 +23,15 @@ Partial Public Class Cigars
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''lblCigarMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCigarMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''hfCigarProductID control.
     '''</summary>
     '''<remarks>
@@ -228,13 +237,4 @@ Partial Public Class Cigars
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnDeleteCigar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''lblCigarMessage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblCigarMessage As Global.System.Web.UI.WebControls.Label
 End Class

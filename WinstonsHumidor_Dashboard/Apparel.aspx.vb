@@ -15,7 +15,7 @@ Public Class Apparel
         XXL.BorderColor = Nothing
         XXXL.BorderColor = Nothing
         txtApparelSalePrice.BorderColor = Nothing
-
+        fuApprelImg.BorderColor = Nothing
 
         txtApparelPrice.BorderColor = Nothing
         txtApparelNames.BorderColor = Nothing
@@ -133,7 +133,14 @@ Public Class Apparel
 
         If dt.Rows().Count > 0 Then
             If dt.Rows(0).Item("Category") = "Apparel" Then
-                storedProcedure = "sp_Update_Apparel"
+                If hfApparelProductID.Value = Nothing Then
+                    lblApparelMessage.Text = "Failed To Save: To update a product, please make sure to have selected the item first from the list."
+                    lblApparelMessage.ForeColor = Drawing.Color.Red
+                    Exit Sub
+                Else
+                    storedProcedure = "sp_Update_Apparel"
+                End If
+
             Else
                 lblApparelMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
                 lblApparelMessage.ForeColor = Drawing.Color.Red

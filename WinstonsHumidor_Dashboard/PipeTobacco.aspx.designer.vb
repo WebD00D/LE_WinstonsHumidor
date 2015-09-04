@@ -23,6 +23,15 @@ Partial Public Class PipeTobacco
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''lblPipeTobaccoMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPipeTobaccoMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''hfPipeTobaccoProductID control.
     '''</summary>
     '''<remarks>
@@ -165,13 +174,4 @@ Partial Public Class PipeTobacco
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnDeletePipeTobacco As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''lblPipeTobaccoMessage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblPipeTobaccoMessage As Global.System.Web.UI.WebControls.Label
 End Class

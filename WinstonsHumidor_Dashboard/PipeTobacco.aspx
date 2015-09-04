@@ -62,6 +62,7 @@
 
        <div id="PipeTobacco" class="container">
            <div class="col-lg-12">
+                  <asp:Label  runat="server" ID="lblPipeTobaccoMessage"></asp:Label>
                 <h3>Pipe Tobacco</h3>
                 <input id="txtPipeTobaccoSearch" class="form-control" placeholder="Search pipe tobacco by SKU, brand, style, cut, price, or tobacco."/>
                <label id="lblPipeTobaccoSearchMessage" style="color:red"></label>
@@ -117,7 +118,7 @@
                     <li><asp:Button id="btnDeletePipeTobacco" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
                 <br />
-                <asp:Label  runat="server" ID="lblPipeTobaccoMessage"></asp:Label>
+             
                <br />
                <br />
                <br />

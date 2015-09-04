@@ -121,7 +121,14 @@ Public Class Pipes
 
         If dt.Rows().Count > 0 Then
             If dt.Rows(0).Item("Category") = "Pipes" Then
-                storedProcedure = "sp_Update_Pipes"
+                If hfPipeProductID.Value = Nothing Then
+                    lblPipeMessage.Text = "Failed To Save: To update a product, please make sure to have selected the item first from the list."
+                    lblPipeMessage.ForeColor = Drawing.Color.Red
+                    Exit Sub
+                Else
+                    storedProcedure = "sp_Update_Pipes"
+                End If
+
             Else
                 lblPipeMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
                 lblPipeMessage.ForeColor = Drawing.Color.Red

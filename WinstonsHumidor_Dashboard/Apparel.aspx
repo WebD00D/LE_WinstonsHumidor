@@ -61,6 +61,7 @@
  
         <div id="Apparel" class="container">
            <div class="col-lg-12">
+                   <asp:Label  runat="server" ID="lblApparelMessage"></asp:Label>
                 <h3>Apparel</h3>
                 <input class="form-control" id="txtApparelSearch" placeholder="Search apparel by SKU, name, or price."/>
                <label id="lblApparelSearchMessage" style="color:red"></label>
@@ -122,7 +123,7 @@
                     <li><asp:Button id="btnDeleteApparel" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
                 <br />
-                <asp:Label  runat="server" ID="lblApparelMessage"></asp:Label>
+            
             </div>
         </div>
         <!-- end Apparel Section -->

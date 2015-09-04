@@ -23,6 +23,15 @@ Partial Public Class Pipes
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''lblPipeMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPipeMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''hfPipeProductID control.
     '''</summary>
     '''<remarks>
@@ -174,13 +183,4 @@ Partial Public Class Pipes
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnDeletePipe As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''lblPipeMessage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblPipeMessage As Global.System.Web.UI.WebControls.Label
 End Class

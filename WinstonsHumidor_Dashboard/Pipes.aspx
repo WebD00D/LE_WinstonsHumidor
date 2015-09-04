@@ -63,6 +63,7 @@
                 
         <div id="Pipes" class="container">
            <div class="col-lg-12">
+                  <asp:Label  runat="server" ID="lblPipeMessage"></asp:Label>
                 <h3>Pipes</h3>
                 <input id="txtPipeSearch" class="form-control" placeholder="Search pipes by SKU, brand, name, price, material, shape, and style."/>
                <label id="lblPipeSearchMessage" style="color:red"></label>
@@ -120,7 +121,7 @@
                     <li><asp:Button id="btnDeletePipe" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
                 <br />
-                <asp:Label  runat="server" ID="lblPipeMessage"></asp:Label>
+             
                <br />
                <br />
                <br />

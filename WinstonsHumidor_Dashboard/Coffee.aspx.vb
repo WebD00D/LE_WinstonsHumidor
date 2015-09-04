@@ -25,36 +25,43 @@ Public Class Coffee
             lblCoffeeMessage.Text = "A unique SKU is required."
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeeSKU.BorderColor = Drawing.Color.Red
+            Exit Sub
         End If
         If Trim(txtCoffeeName.Text) = String.Empty Then
             lblCoffeeMessage.Text = "Coffee name required."
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeeName.BorderColor = Drawing.Color.Red
+            Exit Sub
         End If
         If Trim(txtCoffeeBrand.Text) = String.Empty Then
             lblCoffeeMessage.Text = "Coffee brand required."
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeeBrand.BorderColor = Drawing.Color.Red
+            Exit Sub
         End If
         If Trim(txtCoffeeRoast.Text) = String.Empty Then
             lblCoffeeMessage.Text = "Coffee roast required."
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeeRoast.BorderColor = Drawing.Color.Red
+            Exit Sub
         End If
         If Trim(txtCoffeeBody.Text) = String.Empty Then
             lblCoffeeMessage.Text = "Coffee body required"
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeeBody.BorderColor = Drawing.Color.Red
+            Exit Sub
         End If
         If Not IsNumeric(txtCoffeeQty.Text) Then
             lblCoffeeMessage.Text = "Quantity must be of numeric value."
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeeQty.BorderColor = Drawing.Color.Red
+            Exit Sub
         End If
         If Not IsNumeric(txtCoffeePrice.Text) Then
             lblCoffeeMessage.Text = "Price must be of numeric value."
             lblCoffeeMessage.ForeColor = Drawing.Color.Red
             txtCoffeePrice.BorderColor = Drawing.Color.Red
+            Exit Sub
         End If
 
         Dim SalePrice As Decimal = 0.0
@@ -101,7 +108,14 @@ Public Class Coffee
 
         If dt.Rows().Count > 0 Then
             If dt.Rows(0).Item("Category") = "Coffee" Then
-                storedProcedure = "sp_Update_Coffee"
+                If hfCoffeeProductID.Value = Nothing Then
+                    lblCoffeeMessage.Text = "Failed To Save: To update a product, please make sure to have selected the item first from the list."
+                    lblCoffeeMessage.ForeColor = Drawing.Color.Red
+                    Exit Sub
+                Else
+                    storedProcedure = "sp_Update_Coffee"
+                End If
+
             Else
                 lblCoffeeMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
                 lblCoffeeMessage.ForeColor = Drawing.Color.Red

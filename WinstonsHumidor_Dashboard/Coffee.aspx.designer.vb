@@ -23,6 +23,15 @@ Partial Public Class Coffee
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''lblCoffeeMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblCoffeeMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''hfCoffeeProductID control.
     '''</summary>
     '''<remarks>
@@ -156,13 +165,4 @@ Partial Public Class Coffee
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnDeleteCoffee As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''lblCoffeeMessage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblCoffeeMessage As Global.System.Web.UI.WebControls.Label
 End Class

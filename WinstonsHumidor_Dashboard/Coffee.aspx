@@ -63,6 +63,7 @@
         
         <div id="Coffee" class="container">
            <div class="col-lg-12">
+                <asp:Label  runat="server" ID="lblCoffeeMessage"></asp:Label>
                 <h3>Coffee</h3>
                 <input id="txtCoffeeSearch" class="form-control" placeholder="Search coffee by SKU, brand, name, or price."/>
                <label id="lblCoffeeSearchMessage" style="color:red"></label>
@@ -112,7 +113,7 @@
                     <li><asp:Button id="btnDeleteCoffee" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
                 <br />
-                <asp:Label  runat="server" ID="lblCoffeeMessage"></asp:Label>
+               
             </div>
         </div>
       

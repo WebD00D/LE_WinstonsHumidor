@@ -61,6 +61,7 @@
            
         <div id="Cigars" class="container">
            <div class="col-lg-12">
+                <asp:Label  runat="server" ID="lblCigarMessage"></asp:Label>
                 <h3>Cigars</h3>
                 <input id="txtCigarSearch" class="form-control" placeholder="Search cigars by SKU, brand, name, price, length, or ring gauge."/>
                <label id="lblCigarSearchMessage" style="color:red"></label>
@@ -156,7 +157,7 @@
                     <li><asp:Button id="btnDeleteCigar" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
                 <br />
-                <asp:Label  runat="server" ID="lblCigarMessage"></asp:Label>
+               
                <br />
                <br />
                <br />

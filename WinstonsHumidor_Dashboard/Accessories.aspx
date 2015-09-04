@@ -64,6 +64,7 @@
 
         <div id="Accessories" class="container">
             <div class="col-lg-12">
+                       <asp:Label  runat="server" ID="lblAccessoryMessage"></asp:Label>
                 <h3>Accessories</h3>
                 <input id="txtAccessorySearch" class="form-control" placeholder="Search an accessory by SKU, brand, name, or price."/>
                 <label id="lblAccessorySearchMsg" style="color:red"></label>
@@ -103,7 +104,7 @@
                     <li><asp:Button id="btnDeleteAccessory" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
                 <br />
-                <asp:Label  runat="server" ID="lblAccessoryMessage"></asp:Label>
+         
                 <br />
                 <br />
                 <br />

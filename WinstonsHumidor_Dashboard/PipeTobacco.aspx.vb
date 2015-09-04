@@ -112,7 +112,14 @@ Public Class PipeTobacco
 
         If dt.Rows().Count > 0 Then
             If dt.Rows(0).Item("Category") = "PipeTobacco" Then
-                storedProcedure = "sp_Update_PipeTobacco"
+                If hfPipeTobaccoProductID.Value = Nothing Then
+                    lblPipeTobaccoMessage.Text = "Failed To Save: To update a product, please make sure to have selected the item first from the list."
+                    lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red
+                    Exit Sub
+                Else
+                    storedProcedure = "sp_Update_PipeTobacco"
+                End If
+
             Else
                 lblPipeTobaccoMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
                 lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red

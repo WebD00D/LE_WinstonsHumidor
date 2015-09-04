@@ -19,7 +19,7 @@ Public Class Cigars
         txtCigarSinglePrice.BorderColor = Nothing
         lblCigarMessage.Text = " "
         txtCigarBody.BorderColor = Nothing
-
+        fuCigarImage.BorderColor = Nothing
       
 
         'Start Validation
@@ -214,7 +214,14 @@ Public Class Cigars
 
         If dt.Rows().Count > 0 Then
             If dt.Rows(0).Item("Category") = "Cigars" Then
-                storedProcedure = "sp_Update_Cigars"
+                If hfCigarProductID.Value = Nothing Then
+                    lblCigarMessage.Text = "Failed To Save: To update a product, please make sure to have selected the item first from the list."
+                    lblCigarMessage.ForeColor = Drawing.Color.Red
+                    Exit Sub
+                Else
+                    storedProcedure = "sp_Update_Cigars"
+                End If
+
             Else
                 lblCigarMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
                 lblCigarMessage.ForeColor = Drawing.Color.Red

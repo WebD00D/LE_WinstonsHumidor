@@ -23,6 +23,15 @@ Partial Public Class Apparel
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''lblApparelMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblApparelMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''hfApparelProductID control.
     '''</summary>
     '''<remarks>
@@ -183,13 +192,4 @@ Partial Public Class Apparel
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnDeleteApparel As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''lblApparelMessage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblApparelMessage As Global.System.Web.UI.WebControls.Label
 End Class
