@@ -120,7 +120,14 @@ Public Class Pipes
         Dim storedProcedure As String = String.Empty
 
         If dt.Rows().Count > 0 Then
-            storedProcedure = "sp_Update_Pipes"
+            If dt.Rows(0).Item("Category") = "Pipes" Then
+                storedProcedure = "sp_Update_Pipes"
+            Else
+                lblPipeMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
+                lblPipeMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+
         Else
             storedProcedure = "sp_Insert_Pipes"
             If Not fuPipeImage.HasFile Then
@@ -195,6 +202,7 @@ Public Class Pipes
         lblPipeMessage.Text = ""
         ckPipesIsFeatured.Checked = False
         hfPipeProductID.Value = Nothing
+        txtPipeDescription.Value = " "
         txtPipesSalePrice.Text = " "
         ckPipesIsOnSale.Checked = False
     End Sub

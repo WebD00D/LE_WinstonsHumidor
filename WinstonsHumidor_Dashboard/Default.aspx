@@ -64,7 +64,7 @@
         <div id="Home" class="container">
             <div class="col-lg-8 col-lg-offset-2">
               
-           
+                 <h4 id="noorders" class="text-center">(No Orders To Display)</h4>
                 <div class="list-group" id="orderlist">
                     
                 
@@ -113,7 +113,7 @@
 <script>
     $(document).ready(function () {
    
-
+        $("#noorders").hide()
 
 
         $("#orderlist").delegate(".vieworder", "click", function () {
@@ -131,6 +131,14 @@
             success: function (data) {
                 var result = data.d;
                 $("#accordion").empty();
+
+                if (result == 0) {
+                    $("#noorders").show();
+                    return;
+                }
+
+
+                
                 $.each(result, function (index, item) {
 
                   

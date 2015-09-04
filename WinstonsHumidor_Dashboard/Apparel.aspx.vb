@@ -132,7 +132,14 @@ Public Class Apparel
         Dim storedProcedure As String = String.Empty
 
         If dt.Rows().Count > 0 Then
-            storedProcedure = "sp_Update_Apparel"
+            If dt.Rows(0).Item("Category") = "Apparel" Then
+                storedProcedure = "sp_Update_Apparel"
+            Else
+                lblApparelMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
+                lblApparelMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+
         Else
             storedProcedure = "sp_Insert_Apparel"
             If Not fuApprelImg.HasFile Then

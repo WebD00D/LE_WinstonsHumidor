@@ -91,7 +91,14 @@ Public Class Accessories
         Dim storedProcedure As String = String.Empty
 
         If dt.Rows().Count > 0 Then
-            storedProcedure = "sp_Update_Accessories"
+
+            If dt.Rows(0).Item("Category") = "Accessory" Then
+                storedProcedure = "sp_Update_Accessories"
+            Else
+                lblAccessoryMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
+                lblAccessoryMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
         Else
             storedProcedure = "sp_Insert_Accessories"
             If Not fuAccessoryImage.HasFile Then

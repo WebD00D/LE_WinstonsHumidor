@@ -100,7 +100,14 @@ Public Class Coffee
         Dim storedProcedure As String = String.Empty
 
         If dt.Rows().Count > 0 Then
-            storedProcedure = "sp_Update_Coffee"
+            If dt.Rows(0).Item("Category") = "Coffee" Then
+                storedProcedure = "sp_Update_Coffee"
+            Else
+                lblCoffeeMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
+                lblCoffeeMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+
         Else
             storedProcedure = "sp_Insert_Coffee"
             If Not fuCoffeeImage.HasFile Then

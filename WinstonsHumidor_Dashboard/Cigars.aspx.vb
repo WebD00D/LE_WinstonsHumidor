@@ -213,7 +213,14 @@ Public Class Cigars
         Dim storedProcedure As String = String.Empty
 
         If dt.Rows().Count > 0 Then
-            storedProcedure = "sp_Update_Cigars"
+            If dt.Rows(0).Item("Category") = "Cigars" Then
+                storedProcedure = "sp_Update_Cigars"
+            Else
+                lblCigarMessage.Text = "This SKU is already being used by another product in the " & dt.Rows(0).Item("Category") & " category."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+
         Else
             storedProcedure = "sp_Insert_Cigars"
             If Not fuCigarImage.HasFile Then
