@@ -91,9 +91,17 @@
                     
                         <h6>Sale Price</h6>
                         <asp:TextBox ID="txtAccessorySalePrice" runat="server" CssClass="form-control"></asp:TextBox>
-                    
-               
-                <h6>Product Image</h6>
+                    <br />
+                 <h6>Current Image</h6>
+                      <div id="currentImage">
+
+                      </div>
+               <br />
+                <h6>New Image Preview</h6>
+                         <div id="imgPreview">
+
+                         </div>
+                <br />
                 <asp:FileUpload ID="fuAccessoryImage" runat="server" CssClass="form-control" />
                 <h6>Featured Item</h6>
                 <asp:CheckBox ID="ckAccessoryFeaturedItem" runat="server"/>
@@ -121,6 +129,20 @@
 <script>
     $(document).ready(function () {
    
+
+        $("#<%=fuAccessoryImage.ClientID%>").change(function () {
+            $("#imgPreview").empty();
+            $("#imgPreview").show();
+            $("#imgPreview").append("<img />");
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imgPreview img").attr("src", e.target.result);
+                $("#imgPreview img").attr("height", "100px")
+                $("#imgPreview img").attr("width", "200px")
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        })
+
      
             $("#Title").html("Accessory Management");
            
@@ -289,6 +311,11 @@
         
             e.preventDefault();
             var ProductID = $(this).attr('id');
+
+            $("#currentImage").empty();
+            var currentImage = " <img height='200' width='200' src='AccessoryImageHandler.ashx?id=" + ProductID + "' class='img-responsive'/> "
+            $(currentImage).appendTo("#currentImage")
+
 
             var SKU = $(this).attr("data-SKU");
             oldsku = SKU

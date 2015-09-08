@@ -140,15 +140,6 @@ Partial Public Class PipeTobacco
     Protected WithEvents txtPipeTobaccoSalePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''fuPipeTobaccoImage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents fuPipeTobaccoImage As Global.System.Web.UI.WebControls.FileUpload
-
-    '''<summary>
     '''ckPipeTobaccoIsFeatured control.
     '''</summary>
     '''<remarks>
@@ -156,6 +147,15 @@ Partial Public Class PipeTobacco
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ckPipeTobaccoIsFeatured As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''fuPipeTobaccoImage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fuPipeTobaccoImage As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
     '''btnSavePipeTobacco control.

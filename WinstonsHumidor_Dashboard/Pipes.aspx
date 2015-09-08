@@ -109,12 +109,27 @@
                </ul>
              
                <ul class="list-inline">
-                    <li><h6>Image</h6>
+                   <li>  <h6>Is Featured</h6>
+               <asp:CheckBox runat="server" ID="ckPipesIsFeatured"/></li>
+               </ul>
+              
+             <ul class="list-inline">
+                 <li>
+                     <h6>Current Image</h6>
+                     <div id="currentImage">
+
+                      </div>
+                 </li>
+             </ul>
+
+                <ul class="list-inline">
+                    <li><h6>New Image Preview</h6>
+                         <div id="imgPreview" class="text-center">
+
+                         </div>
                        <asp:FileUpload runat="server" ID="fuPipeImage" CssClass="form-control"/>
                    </li>
                </ul>
-               <h6>Is Featured</h6>
-               <asp:CheckBox runat="server" ID="ckPipesIsFeatured"/>
                 <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSavePipe" runat="server" CssClass="btn btn-success" Text="Save Pipe" /></li>
@@ -140,6 +155,21 @@
     $(document).ready(function () {
         $("#Title").html("Pipe Management");
       
+
+        $("#imgPreview").hide()
+
+        $("#<%=fuPipeImage.ClientID%>").change(function () {
+            $("#imgPreview").empty();
+            $("#imgPreview").show();
+            $("#imgPreview").append("<img />");
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imgPreview img").attr("src", e.target.result);
+                $("#imgPreview img").attr("height", "100px")
+                $("#imgPreview img").attr("width", "200px")
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        })
 
         $.ajax({
             type: "POST",
@@ -274,6 +304,11 @@
             }
 
             var ProductID = $(this).attr('id');
+
+            $("#currentImage").empty();
+            var currentImage = " <img height='200' width='200' src='PipeImageHandler.ashx?id=" + ProductID + "' class='img-responsive center-block'/> "
+            $(currentImage).appendTo("#currentImage")
+
             var SKU = $(this).attr("data-SKU");
             oldsku = SKU
             var Name = $(this).attr('data-Name');

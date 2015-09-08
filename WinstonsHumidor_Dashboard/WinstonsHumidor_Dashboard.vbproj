@@ -123,12 +123,21 @@
       <DependentUpon>Accessories.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="AccessoryImageHandler.ashx.vb">
+      <DependentUpon>AccessoryImageHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Apparel.aspx.designer.vb">
       <DependentUpon>Apparel.aspx</DependentUpon>
     </Compile>
     <Compile Include="Apparel.aspx.vb">
       <DependentUpon>Apparel.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ApparelImageHandler.ashx.vb">
+      <DependentUpon>ApparelImageHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="CigarImageHandler.ashx.vb">
+      <DependentUpon>CigarImageHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Cigars.aspx.designer.vb">
       <DependentUpon>Cigars.aspx</DependentUpon>
@@ -143,6 +152,9 @@
     <Compile Include="Coffee.aspx.vb">
       <DependentUpon>Coffee.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="CoffeeImageHandler.ashx.vb">
+      <DependentUpon>CoffeeImageHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Configuration.aspx.designer.vb">
       <DependentUpon>Configuration.aspx</DependentUpon>
@@ -195,6 +207,9 @@
       <DependentUpon>News.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="PipeImageHandler.ashx.vb">
+      <DependentUpon>PipeImageHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Pipes.aspx.designer.vb">
       <DependentUpon>Pipes.aspx</DependentUpon>
     </Compile>
@@ -208,6 +223,9 @@
     <Compile Include="PipeTobacco.aspx.vb">
       <DependentUpon>PipeTobacco.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="PipeTobaccoImageHandler.ashx.vb">
+      <DependentUpon>PipeTobaccoImageHandler.ashx</DependentUpon>
     </Compile>
     <Compile Include="Security.aspx.designer.vb">
       <DependentUpon>Security.aspx</DependentUpon>
@@ -230,6 +248,10 @@
     <Content Include="fontawesome\fontawesome-webfont.eot" />
     <Content Include="fontawesome\fontawesome-webfont.ttf" />
     <Content Include="fontawesome\fontawesome-webfont.woff" />
+    <Content Include="CigarImageHandler.ashx" />
+    <Content Include="AccessoryImageHandler.ashx" />
+    <Content Include="ApparelImageHandler.ashx" />
+    <Content Include="CoffeeImageHandler.ashx" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -240,6 +262,8 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <Content Include="PipeImageHandler.ashx" />
+    <Content Include="PipeTobaccoImageHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -149,15 +149,6 @@ Partial Public Class Pipes
     Protected WithEvents txtPipesSalePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''fuPipeImage control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents fuPipeImage As Global.System.Web.UI.WebControls.FileUpload
-
-    '''<summary>
     '''ckPipesIsFeatured control.
     '''</summary>
     '''<remarks>
@@ -165,6 +156,15 @@ Partial Public Class Pipes
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ckPipesIsFeatured As Global.System.Web.UI.WebControls.CheckBox
+
+    '''<summary>
+    '''fuPipeImage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fuPipeImage As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
     '''btnSavePipe control.

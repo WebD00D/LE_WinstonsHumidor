@@ -93,10 +93,7 @@
                    <li><h6>Qty</h6>
                        <asp:TextBox runat="server" ID="txtCoffeeQty" CssClass="form-control"></asp:TextBox>
                    </li>
-                   <li>
-                       <h6>Image</h6>
-                       <asp:FileUpload runat="server" ID="fuCoffeeImage" CssClass="form-control"/>
-                   </li>
+                
                </ul>
                <ul class="list-inline">
                    <li><h6>Is On Sale</h6><asp:CheckBox runat="server" ID="ckCoffeeIsOnSale"/></li>
@@ -108,6 +105,23 @@
                <h6>Is Featured</h6>
                 <asp:CheckBox runat="server" ID="ckCoffeeIsFeatured"/>
                 <br />
+               <ul class="list-inline">
+                   <li>
+                       <h6>Current Image</h6>
+                       <div id="currentImage">
+
+                      </div>
+                   </li>
+                   </ul>
+               <ul class="list-inline">
+                      <li>
+                       <h6>New Image Preview</h6>
+                          <div id="imgPreview" class="text-center">
+
+                         </div>
+                       <asp:FileUpload runat="server" ID="fuCoffeeImage" CssClass="form-control"/>
+                   </li>
+               </ul>
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveCoffee" runat="server" CssClass="btn btn-success" Text="Save Coffee" /></li>
                     <li><asp:Button id="btnDeleteCoffee" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
@@ -130,6 +144,21 @@
     $(document).ready(function () {
    
         $("#Title").html("Coffee Management");
+
+        $("#imgPreview").hide()
+
+        $("#<%=fuCoffeeImage.ClientID%>").change(function () {
+            $("#imgPreview").empty();
+            $("#imgPreview").show();
+            $("#imgPreview").append("<img />");
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imgPreview img").attr("src", e.target.result);
+                $("#imgPreview img").attr("height", "100px")
+                $("#imgPreview img").attr("width", "200px")
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        })
 
 
         $.ajax({
@@ -253,6 +282,12 @@
             }
           
             var ProductID = $(this).attr('id');
+
+            $("#currentImage").empty();
+            var currentImage = " <img height='200' width='200' src='ApparelImageHandler.ashx?id=" + ProductID + "' class='img-responsive center-block'/> "
+            $(currentImage).appendTo("#currentImage")
+
+
             var SKU = $(this).attr("data-SKU");
             oldsku = SKU;
             var Name = $(this).attr('data-Name');

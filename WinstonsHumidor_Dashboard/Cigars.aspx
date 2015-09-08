@@ -149,10 +149,20 @@
                </ul>
 
                <ul class="list-inline">
+                  <li>
+                      <h6>Current Image</h6>
+                      <div id="currentImage">
+
+                      </div>
+                  </li>
                   
-                   <li>
-                       <h6>Image</h6>
-                       <asp:FileUpload runat="server" ID="fuCigarImage" CssClass="form-control" />
+               </ul>
+               <ul class="list-inline">
+                   <li><h6>New Image Preview</h6>
+                         <div id="imgPreview" class="text-center">
+
+                         </div>
+                         <asp:FileUpload runat="server" ID="fuCigarImage" CssClass="form-control" />
                    </li>
                </ul>
 
@@ -162,6 +172,19 @@
                        <asp:CheckBox runat="server" ID="ckCigarIsFeatured" />
                    </li>
                </ul>
+
+<%--               <ul class="list-inline">
+                   <li><h6>Publish To Shop Date</h6>
+                       <ul class="list-inline">
+                           <li><asp:RadioButtonList runat="server">
+                               <asp:ListItem Value="Now">Publish Now</asp:ListItem>
+                                <asp:ListItem Value="Now">Publish at specific date & time</asp:ListItem>
+                               </asp:RadioButtonList></li>
+                           
+                       </ul>
+                       <asp:TextBox runat="server" TextMode="DateTimeLocal" CssClass="form-control" Enabled="false"></asp:TextBox>
+                   </li>
+               </ul>--%>
 
 
                <br />
@@ -190,6 +213,21 @@
         $("#Title").html("Cigar Management");
       
 
+
+        $("#imgPreview").hide()
+
+        $("#<%=fuCigarImage.ClientID%>").change(function () {
+            $("#imgPreview").empty();
+            $("#imgPreview").show();
+            $("#imgPreview").append("<img />");
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imgPreview img").attr("src", e.target.result);
+                $("#imgPreview img").attr("height", "100px")
+                $("#imgPreview img").attr("width", "200px")
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        })
        
 
 
@@ -417,6 +455,14 @@
             }
 
             var ProductID = $(this).attr('id');
+
+
+            $("#currentImage").empty();
+            var currentImage = " <img height='200' width='200' src='CigarImageHandler.ashx?id=" + ProductID + "' class='img-responsive center-block'/> "
+            $(currentImage).appendTo("#currentImage")
+
+
+
             var SKU = $(this).attr("data-SKU");
             oldsku = SKU;
             var Name = $(this).attr('data-Name');

@@ -104,15 +104,29 @@
                <ul class="list-inline">
                    <li> <h6>Sale Price (per ounce)</h6><asp:TextBox runat="server" ID="txtPipeTobaccoSalePrice" CssClass="form-control"></asp:TextBox></li>
                </ul>
+           <ul class="list-inline">
+               <li><h6>Is Featured</h6>
+               <asp:CheckBox runat="server" ID="ckPipeTobaccoIsFeatured"/></li>
+           </ul>
+          
                <ul class="list-inline">
-                    <li><h6>Image</h6>
+                   <li><h6>Current Image</h6>
+                       <div id="currentImage">
+
+                      </div>
+                   </li>
+               </ul>
+            
+
+                   <ul class="list-inline">
+                    <li><h6>New Image Preview</h6>
+                        <div id="imgPreview" class="text-center">
+
+                         </div>
                        <asp:FileUpload runat="server" ID="fuPipeTobaccoImage" CssClass="form-control"/>
                    </li>
                </ul>
-               <h6>Is Featured</h6>
-               <asp:CheckBox runat="server" ID="ckPipeTobaccoIsFeatured"/>
-               
-                <br />
+                   <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSavePipeTobacco" runat="server" CssClass="btn btn-success" Text="Save Pipe Tobacco" /></li>
                     <li><asp:Button id="btnDeletePipeTobacco" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
@@ -137,6 +151,23 @@
     $(document).ready(function () {
    
         $("#Title").html("Pipe Tobacco Management");
+
+
+        $("#imgPreview").hide()
+
+        $("#<%=fuPipeTobaccoImage.ClientID%>").change(function () {
+            $("#imgPreview").empty();
+            $("#imgPreview").show();
+            $("#imgPreview").append("<img />");
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#imgPreview img").attr("src", e.target.result);
+                $("#imgPreview img").attr("height", "100px")
+                $("#imgPreview img").attr("width", "200px")
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+        })
+
 
         $.ajax({
             type: "POST",
@@ -258,6 +289,11 @@
             }
 
             var ProductID = $(this).attr('id');
+
+            $("#currentImage").empty();
+            var currentImage = " <img height='200' width='200' src='PipeTobaccoImageHandler.ashx?id=" + ProductID + "' class='img-responsive center-block'/> "
+            $(currentImage).appendTo("#currentImage")
+
             var SKU = $(this).attr("data-SKU");
             oldsku = SKU;
             var Tobacco = $(this).attr('data-tobacco');

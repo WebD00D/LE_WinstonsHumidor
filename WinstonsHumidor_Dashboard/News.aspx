@@ -99,7 +99,7 @@
                     <li><h6>Post Type</h6>
                         <asp:DropDownList ID="ddlPostType" CssClass="form-control" runat="server" >
                             <asp:ListItem Value="Event">Event</asp:ListItem>
-                            <asp:ListItem Value="News">News</asp:ListItem>
+                            <asp:ListItem Value="News">Blog</asp:ListItem>
                         </asp:DropDownList>
                     </li>
                     <li>
