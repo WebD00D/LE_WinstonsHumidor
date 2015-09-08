@@ -203,6 +203,24 @@ Partial Public Class Cigars
     Protected WithEvents txtSingleSalePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtMaxBoxPurchaseAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtMaxBoxPurchaseAmount As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtMaxSinglePurchaseAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtMaxSinglePurchaseAmount As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''fuCigarImage control.
     '''</summary>
     '''<remarks>

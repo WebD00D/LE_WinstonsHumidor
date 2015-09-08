@@ -20,6 +20,8 @@ Public Class Cigars
         lblCigarMessage.Text = " "
         txtCigarBody.BorderColor = Nothing
         fuCigarImage.BorderColor = Nothing
+        txtMaxBoxPurchaseAmount.BorderColor = Nothing
+        txtMaxSinglePurchaseAmount.BorderColor = Nothing
       
 
         'Start Validation
@@ -182,6 +184,24 @@ Public Class Cigars
             End If
         End If
 
+        If Not Trim(txtMaxBoxPurchaseAmount.Text) = String.Empty Then
+            If Not IsNumeric(txtMaxBoxPurchaseAmount.Text) Then
+                lblCigarMessage.Text = "Max box purchase must be a numeric."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtMaxBoxPurchaseAmount.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+        If Not Trim(txtMaxSinglePurchaseAmount.Text) = String.Empty Then
+            If Not IsNumeric(txtMaxSinglePurchaseAmount.Text) Then
+                txtMaxSinglePurchaseAmount.BorderColor = Drawing.Color.Red
+                lblCigarMessage.Text = "Max box purchase must be a numeric."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
 
         'End Validation
 
@@ -262,13 +282,13 @@ Public Class Cigars
             cmd.Parameters.AddWithValue("@Body", txtCigarBody.Text)
             cmd.Parameters.AddWithValue("@SingleIsOnSale", CByte(ckCigarSingleIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@BoxIsOnSale", CByte(ckCigarBoxIsOnSale.Checked))
+
             cmd.Parameters.AddWithValue("@SingleSalePrice", SingleSalePrice)
             cmd.Parameters.AddWithValue("@BoxSalePrice", BoxSalePrice)
   
-	
-
-
-
+            cmd.Parameters.AddWithValue("@MaxBoxPurchaseQty", txtMaxBoxPurchaseAmount.Text)
+            cmd.Parameters.AddWithValue("@MaxSinglePurchaseQty", txtMaxSinglePurchaseAmount.Text)
+  
             If storedProcedure = "sp_Insert_Cigars" Then
                 cmd.Parameters.AddWithValue("@Category", "Cigars")
 
@@ -321,5 +341,7 @@ Public Class Cigars
         txtBoxSalePrice.Text = " "
         txtCigarDescription.Value = " "
         hfCigarProductID.Value = Nothing
+        txtMaxBoxPurchaseAmount.Text = " "
+        txtMaxSinglePurchaseAmount.Text = " "
     End Sub
 End Class

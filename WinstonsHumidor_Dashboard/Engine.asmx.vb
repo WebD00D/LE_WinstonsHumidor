@@ -82,6 +82,8 @@ Public Class Engine
         Public SingleSalePrice As String
         Public BoxSalePrice As String
         Public Body As String
+        Public MaxBoxPurchase As String
+        Public MaxSinglePurchase As String
     End Class
 
     Public Class Pipe
@@ -481,6 +483,8 @@ Public Class Engine
                 Dim DecBoxSalePrice As Decimal = Decimal.Round(item("BoxSalePrice"), 2)
                 C.SingleSalePrice = CStr(DecSingleSalePrice)
                 C.BoxSalePrice = CStr(DecBoxSalePrice)
+                C.MaxBoxPurchase = item("MaxBoxPurchaseAmount")
+                C.MaxSinglePurchase = item("MaxSinglePurchaseAmount")
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -540,6 +544,8 @@ Public Class Engine
                 Dim DecBoxSalePrice As Decimal = Decimal.Round(item("BoxSalePrice"), 2)
                 C.SingleSalePrice = CStr(DecSingleSalePrice)
                 C.BoxSalePrice = CStr(DecBoxSalePrice)
+                C.MaxBoxPurchase = item("MaxBoxPurchaseAmount")
+                C.MaxSinglePurchase = item("MaxSinglePurchaseAmount")
                 CigarList.Add(C)
             Next
             Return CigarList
