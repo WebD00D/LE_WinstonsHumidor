@@ -95,7 +95,8 @@
                     <small>Keep your customers up to date with any events, new product releases, and more!</small></h3>
                 <ul class="list-inline">
                     <li><h6>Post Title</h6><asp:TextBox runat="server" CssClass="form-control" ID="txtPostTitle"></asp:TextBox></li>
-                      <li><h6>Header Image</h6><asp:FileUpload runat="server" ID="fuPostImage" CssClass="form-control"/></li>
+                      <li><h6>Header Image</h6>
+                          <h6><small><b>** To keep up with retina and other high res displays, it is recommended that images be  1920 x 1080 </b></small></h6><asp:FileUpload runat="server" ID="fuPostImage" CssClass="form-control"/></li>
                     <li><h6>Post Type</h6>
                         <asp:DropDownList ID="ddlPostType" CssClass="form-control" runat="server" >
                             <asp:ListItem Value="Event">Event</asp:ListItem>
