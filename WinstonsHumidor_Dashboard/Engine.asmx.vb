@@ -169,6 +169,7 @@ Public Class Engine
         Public Starts As String
         Public Ends As String
         Public IsValid As Boolean
+        Public MaxNbr As Integer
     End Class
 
     <WebMethod()> _
@@ -187,15 +188,18 @@ Public Class Engine
 
 
     <WebMethod()> _
-    Public Function ManageDiscounts(ByVal DiscountID As String, ByVal Code As String, ByVal Amount As String, ByVal Starts As String, ByVal Ends As String, ByVal IsValid As String)
+    Public Function ManageDiscounts(ByVal DiscountID As String, ByVal Code As String, ByVal Amount As String, ByVal Starts As String, ByVal Ends As String, ByVal IsValid As String, ByVal MaxNbr As String)
 
         Dim cmdtext As String = Nothing
-
+        Dim max As Integer = 0
+        If Not Trim(MaxNbr) = String.Empty Then
+            max = MaxNbr
+        End If
 
         If Trim(DiscountID) = String.Empty Then
-            cmdtext = "INSERT INTO Discounts (DiscountCode,DiscountAmount,DiscountCodeIsValid,DiscountStarts,DiscountEnds) VALUES ('" & Code & "'," & CDec(Amount) & "," & CByte(IsValid) & ",'" & CDate(Starts) & "','" & CDate(Ends) & "')"
+            cmdtext = "INSERT INTO Discounts (DiscountCode,DiscountAmount,DiscountCodeIsValid,DiscountStarts,DiscountEnds,MaxNbr) VALUES ('" & Code & "'," & CDec(Amount) & "," & CByte(IsValid) & ",'" & CDate(Starts) & "','" & CDate(Ends) & "'," & max & ")"
         Else
-            cmdtext = "UPDATE Discounts SET DiscountCode = '" & Code & "', DiscountAmount = " & CDec(Amount) & ",DiscountCodeIsValid = " & CByte(IsValid) & ",DiscountStarts = '" & CDate(Starts) & "', DiscountEnds = '" & CDate(Ends) & "' WHERE DiscountID = " & CInt(DiscountID)
+            cmdtext = "UPDATE Discounts SET DiscountCode = '" & Code & "', DiscountAmount = " & CDec(Amount) & ",DiscountCodeIsValid = " & CByte(IsValid) & ",DiscountStarts = '" & CDate(Starts) & "', DiscountEnds = '" & CDate(Ends) & "',MaxNbr='" & max & "' WHERE DiscountID = " & CInt(DiscountID)
         End If
 
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
@@ -239,6 +243,7 @@ Public Class Engine
                 A.IsValid = item("DiscountCodeIsValid")
                 A.Starts = CDate(item("DiscountStarts")).ToString("d")
                 A.Ends = CDate(item("DiscountEnds")).ToString("d")
+                A.MaxNbr = item("MaxNbr")
                 DiscountList.Add(A)
             Next
             Return DiscountList

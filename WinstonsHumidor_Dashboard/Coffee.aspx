@@ -105,6 +105,8 @@
                <h6>Is Featured</h6>
                 <asp:CheckBox runat="server" ID="ckCoffeeIsFeatured"/>
                 <br />
+
+               <h6><b>** To keep up with retina and other high res displays, it is recommended that images be  1080 x 1080 </b></h6>
                <ul class="list-inline">
                    <li>
                        <h6>Current Image</h6>

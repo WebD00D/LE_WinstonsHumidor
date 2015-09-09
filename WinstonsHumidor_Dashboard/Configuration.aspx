@@ -92,6 +92,7 @@
                    <li><h6>Discount Amount</h6><input class="form-control" id="txtDiscountAmount"/></li>
                    <li><h6>Start Date</h6> <input id="txtDiscountStartDate" class="form-control" /></li>
                    <li><h6>End Date</h6> <input id="txtDiscountEndDate" class="form-control" /></li>
+                    <li><h6>Max Usage Number</h6> <input id="txtDiscountMaxNbr" class="form-control" /></li>
                    <li><h6>Discount Code Active</h6><asp:CheckBox ID="ckDiscountCodeActive" runat="server"/></li>
                </ul>
                <ul class="list-inline">
@@ -167,19 +168,19 @@
             }
 
 
-            alert(isvalid);
+           // alert(isvalid);
 
-            alert($("#txtDiscountID").val())
-            alert($("#txtDiscountCode").val())
-           alert($("#txtDiscountAmount").val())
-            alert($("#txtDiscountStartDate").val())
-            alert($("#txtDiscountEndDate").val())
+           // alert($("#txtDiscountID").val())
+           // alert($("#txtDiscountCode").val())
+           //alert($("#txtDiscountAmount").val())
+           // alert($("#txtDiscountStartDate").val())
+           // alert($("#txtDiscountEndDate").val())
 
            
             $.ajax({
                 type: "POST",
                 url: "Engine.asmx/ManageDiscounts",
-                data: "{DiscountID:'"+ $('#txtDiscountID').val() +"',Code:'"+ $('#txtDiscountCode').val() +"',Amount:'"+ $('#txtDiscountAmount').val() +"',Starts:'"+ $('#txtDiscountStartDate').val() +"',Ends:'"+ $('#txtDiscountEndDate').val() +"',IsValid:'"+ isvalid +"'}",
+                data: "{DiscountID:'" + $('#txtDiscountID').val() + "',Code:'" + $('#txtDiscountCode').val() + "',Amount:'" + $('#txtDiscountAmount').val() + "',Starts:'" + $('#txtDiscountStartDate').val() + "',Ends:'" + $('#txtDiscountEndDate').val() + "',IsValid:'" + isvalid + "',MaxNbr:'" + $("#txtDiscountMaxNbr").val() + "'}",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
@@ -212,7 +213,7 @@
                 $.each(result, function (index, item) {
 
                     var content =
-                     "<a href='#' data-isvalid='"+ item.IsValid +"' data-ends='"+ item.Ends +"' data-starts='"+ item.Starts +"' data-amount='"+ item.Amount +"' data-code='"+ item.Code +"' data-discountid="+ item.DiscountID +" class='list-group-item discountitem'>" +
+                     "<a href='#' data-maxnbr='"+ item.MaxNbr +"' data-isvalid='"+ item.IsValid +"' data-ends='"+ item.Ends +"' data-starts='"+ item.Starts +"' data-amount='"+ item.Amount +"' data-code='"+ item.Code +"' data-discountid="+ item.DiscountID +" class='list-group-item discountitem'>" +
                             "<ul class='list-inline'><li>Code: <b>" + item.Code + "</b></li><li>Amount: <b>" + item.Amount + "</b></li><li>Starts: <b>" + item.Starts + "</b></li><li>Ends: <b>" + item.Ends + "</b></li></ul></a>";
                     $(content).hide().appendTo("#discountlist").fadeIn();
                    
@@ -233,6 +234,7 @@
             $("#txtDiscountAmount").val('')
             $("#txtDiscountStartDate").val('')
             $("#txtDiscountEndDate").val('')
+            $("#txtDiscountMaxNbr").val('')
             $("#<%=ckDiscountCodeActive.ClientID%>").prop("checked", false);
         })
 
@@ -247,9 +249,9 @@
             var amount = $(this).attr('data-amount')
             var code = $(this).attr('data-code');
             var discount = $(this).attr('data-discountid')
-
+            var maxnbr = $(this).attr('data-maxnbr')
           
-
+            $("#txtDiscountMaxNbr").val(maxnbr)
             $("#txtDiscountID").val(discount)
             $("#txtDiscountCode").val(code)
             $("#txtDiscountAmount").val(amount)
