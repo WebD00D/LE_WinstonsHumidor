@@ -108,6 +108,15 @@
                 <br />
                 <br />
                 <ul class="list-inline">
+                     <li><h6>Publishing Settings</h6>
+                       <asp:DropDownList ID="ddlShowItem" runat="server" CssClass="form-control">
+                           <asp:ListItem Value="1">Show in Store</asp:ListItem>
+                           <asp:ListItem Value="0">Hide from Store</asp:ListItem>
+                       </asp:DropDownList>
+                    
+                   </li>
+                </ul>
+                <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveAccessory" runat="server" CssClass="btn btn-success" Text="Save Accessory" /></li>
                     <li><asp:Button id="btnDeleteAccessory" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
                 </ul>
@@ -168,7 +177,7 @@
   
                             var content =
 
-                            "<a href='#' data-isonsale='"+ item.IsOnSale +"' data-saleprice='"+ item.SalePrice +"' data-featured='" + item.IsFeatured + "' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
+                            "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
                     "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#AccessoryList").fadeIn();
                         })
@@ -192,6 +201,7 @@
             var newfeatured;
             var oldisonsale;
             var oldsaleprice;
+            var oldshowinstore;
             
         $("#AccessoryList").delegate(".accessoryitem", "click", function (e) {
            
@@ -266,6 +276,8 @@
            }
 
 
+           if ($("#<%=ddlShowItem.ClientID%>").val() != oldshowinstore) { changemade = true; }
+
           
            if ($("#<%=fuAccessoryImage.ClientID%>").val() != "") {
                changemade = true;
@@ -338,6 +350,8 @@
             var Featured = $(this).attr('data-featured');
             oldfeatured = Featured
 
+            var ShowInStore = $(this).attr('data-showinstore')
+            oldshowinstore = ShowInStore
 
             var IsOnSale = $(this).attr('data-isonsale');
             oldisonsale = IsOnSale
@@ -354,7 +368,11 @@
             $("#<%=txtAccessoryPrice.ClientID%>").val('$' + Price);
             $("#<%=txtAccessorySalePrice.ClientID%>").val('$' + SalePrice)
 
-     
+            if (ShowInStore == 'True') {
+                $("#<%=ddlShowItem.ClientID%>").val(1)
+            } else {
+                $("#<%=ddlShowItem.ClientID%>").val(0)
+            }
 
             if (Featured == 'True') {
                 $("#<%=ckAccessoryFeaturedItem.ClientID%>").prop("checked", true);
@@ -401,7 +419,7 @@
 
                             var content =
 
-                                   "<a href='#' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
+                                   "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-Qty='" + item.Qty + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "' data-brand='" + item.Brand + "' data-SKU='" + item.SKU + "' data-accessory='" + item.AccessoryID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item accessoryitem'>" +
                     "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#AccessoryList").fadeIn();
                         })

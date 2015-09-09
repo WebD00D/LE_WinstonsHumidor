@@ -13,7 +13,7 @@ Public Class ApparelImageHandler
         cmd.Connection = con
         cmd.Connection.Open()
         cmd.CommandType = CommandType.Text
-        cmd.CommandText = "SELECT Image FROM [Coffee] WHERE ProductID = " & ProductID
+        cmd.CommandText = "SELECT Image FROM [Apparel] WHERE ProductID = " & ProductID
 
         cmd.Prepare()
         Dim dr As SqlDataReader = cmd.ExecuteReader()

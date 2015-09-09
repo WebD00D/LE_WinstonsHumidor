@@ -164,6 +164,7 @@ Public Class Pipes
             cmd.Parameters.AddWithValue("@Image", fuPipeImage.FileBytes)
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipesIsFeatured.Checked))
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckPipesIsOnSale.Checked))
+            cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
             If storedProcedure = "sp_Insert_Pipes" Then
                 cmd.Parameters.AddWithValue("@Category", "Pipes")

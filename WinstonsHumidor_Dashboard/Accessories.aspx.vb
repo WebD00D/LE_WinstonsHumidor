@@ -131,7 +131,7 @@ Public Class Accessories
             cmd.Parameters.AddWithValue("@FeaturedItem", CByte(ckAccessoryFeaturedItem.Checked))
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckAccessoryIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
-
+            cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
             If storedProcedure = "sp_Insert_Accessories" Then
                 cmd.Parameters.AddWithValue("@Category", "Accessory")
 

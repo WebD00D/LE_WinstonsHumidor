@@ -167,6 +167,15 @@ Partial Public Class Pipes
     Protected WithEvents fuPipeImage As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''ddlShowItem control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlShowItem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''btnSavePipe control.
     '''</summary>
     '''<remarks>

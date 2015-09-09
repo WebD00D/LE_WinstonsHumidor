@@ -22,6 +22,8 @@ Public Class Cigars
         fuCigarImage.BorderColor = Nothing
         txtMaxBoxPurchaseAmount.BorderColor = Nothing
         txtMaxSinglePurchaseAmount.BorderColor = Nothing
+        'dpPubDate.BorderColor = Nothing
+        'dpPubTime.BorderColor = Nothing
       
 
         'Start Validation
@@ -203,6 +205,21 @@ Public Class Cigars
         End If
 
 
+        'Dim PublishDate As Date = Date.Now
+        'If ddlPublishSettings.SelectedValue = 1 Then
+        '    If Not IsDate(dpPubDate.Text & " " & dpPubTime.Text) Then
+        '        dpPubDate.BorderColor = Drawing.Color.Red
+        '        dpPubTime.BorderColor = Drawing.Color.Red
+        '        lblCigarMessage.Text = "Please enter a valid publish date and time."
+        '        lblCigarMessage.ForeColor = Drawing.Color.Red
+        '        Exit Sub
+        '    Else
+        '        PublishDate = dpPubDate.Text & " " & dpPubTime.Text
+        '    End If
+
+        'End If
+
+
         'End Validation
 
         Dim SinglePrice As Decimal = 0
@@ -285,10 +302,12 @@ Public Class Cigars
 
             cmd.Parameters.AddWithValue("@SingleSalePrice", SingleSalePrice)
             cmd.Parameters.AddWithValue("@BoxSalePrice", BoxSalePrice)
-  
+
             cmd.Parameters.AddWithValue("@MaxBoxPurchaseQty", txtMaxBoxPurchaseAmount.Text)
             cmd.Parameters.AddWithValue("@MaxSinglePurchaseQty", txtMaxSinglePurchaseAmount.Text)
-  
+            ' cmd.Parameters.AddWithValue("@PublishDate", PublishDate)
+            cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
+
             If storedProcedure = "sp_Insert_Cigars" Then
                 cmd.Parameters.AddWithValue("@Category", "Cigars")
 
@@ -343,5 +362,7 @@ Public Class Cigars
         hfCigarProductID.Value = Nothing
         txtMaxBoxPurchaseAmount.Text = " "
         txtMaxSinglePurchaseAmount.Text = " "
+        'dpPubDate.Text = " "
+        'dpPubTime.Text = " "
     End Sub
 End Class

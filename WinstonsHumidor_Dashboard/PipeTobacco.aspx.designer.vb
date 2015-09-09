@@ -158,6 +158,15 @@ Partial Public Class PipeTobacco
     Protected WithEvents fuPipeTobaccoImage As Global.System.Web.UI.WebControls.FileUpload
 
     '''<summary>
+    '''ddlShowItem control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ddlShowItem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
     '''btnSavePipeTobacco control.
     '''</summary>
     '''<remarks>

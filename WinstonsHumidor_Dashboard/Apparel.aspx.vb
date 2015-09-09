@@ -178,7 +178,7 @@ Public Class Apparel
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckApparelIsFeatured.Checked))
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckApparelIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
-
+            cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
 
             If storedProcedure = "sp_Insert_Apparel" Then
                 cmd.Parameters.AddWithValue("@Category", "Apparel")

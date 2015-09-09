@@ -151,7 +151,7 @@ Public Class Coffee
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckCoffeeIsFeatured.Checked))
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckCoffeeIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
-
+            cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
             If storedProcedure = "sp_Insert_Coffee" Then
                 cmd.Parameters.AddWithValue("@Category", "Coffee")
 

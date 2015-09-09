@@ -155,6 +155,7 @@ Public Class PipeTobacco
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipeTobaccoIsFeatured.Checked))
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckPipeTobaccoIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
+            cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
 
             If storedProcedure = "sp_Insert_PipeTobacco" Then
                 cmd.Parameters.AddWithValue("@Category", "PipeTobacco")

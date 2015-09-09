@@ -130,6 +130,15 @@
                        <asp:FileUpload runat="server" ID="fuPipeImage" CssClass="form-control"/>
                    </li>
                </ul>
+               <ul class="list-inline">
+                     <li><h6>Publishing Settings</h6>
+                       <asp:DropDownList ID="ddlShowItem" runat="server" CssClass="form-control">
+                           <asp:ListItem Value="1">Show in Store</asp:ListItem>
+                           <asp:ListItem Value="0">Hide from Store</asp:ListItem>
+                       </asp:DropDownList>
+                    
+                   </li>
+                </ul>
                 <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSavePipe" runat="server" CssClass="btn btn-success" Text="Save Pipe" /></li>
@@ -186,7 +195,7 @@
 
                     var content =
 
-                     "<a href='#' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
+                     "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#PipeList").fadeIn();
 
@@ -215,6 +224,7 @@
         var featuredstate;
         var oldisonsale;
         var oldsaleprice;
+        var oldshowinstore;
 
         $("#PipeList").delegate(".pipeitem", "click", function (e) {
 
@@ -236,11 +246,11 @@
                 if ($("#<%=txtPipeStemShape.ClientID%>").val() != oldstemshape) { changemade = true; }
                 if ($("#<%=txtPipeMaterial.ClientID%>").val() != oldmaterial) { changemade = true; }
                 if ($("#<%=fuPipeImage.ClientID%>").val() != "") { changemade = true; }
-
-                
+                if ($("#<%=ddlShowItem.ClientID%>").val() != oldshowinstore) {
+                    changemade = true;
+                }
 
                 if ($("#<%=txtPipesSalePrice.ClientID%>").val() != '$' + oldsaleprice) { changemade = true; }
-
 
 
                 if ($("#<%=ckPipesIsFeatured.ClientID%>").is(":checked")) {
@@ -335,6 +345,8 @@
             oldisonsale = IsOnSale
             var SalePrice = $(this).attr('data-saleprice')
             oldsaleprice = SalePrice
+            var ShowInStore = $(this).attr('data-showinstore')
+            oldshowinstore = ShowInStore
           
             $("#<%=hfPipeProductID.ClientID%>").val(ProductID);
             $("#<%=txtPipeSKU.ClientID%>").val(SKU);
@@ -358,6 +370,11 @@
                 $("#<%=ckPipesIsOnSale.ClientID%>").prop("checked", true);
             } else {
                 $("#<%=ckPipesIsOnSale.ClientID%>").prop("checked", false);
+            }
+            if (ShowInStore == 'True') {
+                $("#<%=ddlShowItem.ClientID%>").val(1)
+            } else {
+                $("#<%=ddlShowItem.ClientID%>").val(0)
             }
            
         })
@@ -393,7 +410,7 @@
                         $.each(result, function (index, item) {
 
                             var content =
-                            "<a href='#' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
+                            "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#PipeList").fadeIn();
                         })
