@@ -41,33 +41,6 @@ Partial Public Class Configuration
     Protected WithEvents txtConfigurationShippingCost As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''txtConfigurationDiscountCode control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtConfigurationDiscountCode As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''txtDiscountCodeAmount control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtDiscountCodeAmount As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''ckConfigurationDiscountCodeValid control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ckConfigurationDiscountCodeValid As Global.System.Web.UI.WebControls.CheckBox
-
-    '''<summary>
     '''btnSaveConfig control.
     '''</summary>
     '''<remarks>
@@ -75,6 +48,15 @@ Partial Public Class Configuration
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnSaveConfig As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''ckDiscountCodeActive control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ckDiscountCodeActive As Global.System.Web.UI.WebControls.CheckBox
 
     '''<summary>
     '''lblConfigMessage control.

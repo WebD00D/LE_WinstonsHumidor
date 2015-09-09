@@ -161,7 +161,99 @@ Public Class Engine
         Public Price As Decimal
         Public BasePrice As Decimal
     End Class
-     
+
+    Public Class Discounts
+        Public DiscountID As Integer
+        Public Code As String
+        Public Amount As Decimal
+        Public Starts As String
+        Public Ends As String
+        Public IsValid As Boolean
+    End Class
+
+    <WebMethod()> _
+    Public Function DeleteDiscount(ByVal DiscountID As String)
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "DELETE FROM Discounts WHERE DiscountID = " & CInt(DiscountID)
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        Return ""
+    End Function
+
+
+    <WebMethod()> _
+    Public Function ManageDiscounts(ByVal DiscountID As String, ByVal Code As String, ByVal Amount As String, ByVal Starts As String, ByVal Ends As String, ByVal IsValid As String)
+
+        Dim cmdtext As String = Nothing
+
+
+        If Trim(DiscountID) = String.Empty Then
+            cmdtext = "INSERT INTO Discounts (DiscountCode,DiscountAmount,DiscountCodeIsValid,DiscountStarts,DiscountEnds) VALUES ('" & Code & "'," & CDec(Amount) & "," & CByte(IsValid) & ",'" & CDate(Starts) & "','" & CDate(Ends) & "')"
+        Else
+            cmdtext = "UPDATE Discounts SET DiscountCode = '" & Code & "', DiscountAmount = " & CDec(Amount) & ",DiscountCodeIsValid = " & CByte(IsValid) & ",DiscountStarts = '" & CDate(Starts) & "', DiscountEnds = '" & CDate(Ends) & "' WHERE DiscountID = " & CInt(DiscountID)
+        End If
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = cmdtext
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+
+        Return "Success"
+    End Function
+
+    <WebMethod()> _
+    Public Function GetAllDiscounts()
+        Dim DiscountList As New List(Of Discounts)
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "SELECT * FROM Discounts"
+            Using da As New SqlDataAdapter
+                da.SelectCommand = cmd
+                da.Fill(dt)
+            End Using
+            cmd.Connection.Close()
+        End Using
+        If dt.Rows.Count > 0 Then
+
+            DiscountList.Clear()
+            For Each item As DataRow In dt.Rows()
+                Dim A As New Discounts
+                A.DiscountID = item("DiscountID")
+                A.Code = item("DiscountCode")
+                A.Amount = Math.Round(item("DiscountAmount"), 2)
+                A.IsValid = item("DiscountCodeIsValid")
+                A.Starts = CDate(item("DiscountStarts")).ToString("d")
+                A.Ends = CDate(item("DiscountEnds")).ToString("d")
+                DiscountList.Add(A)
+            Next
+            Return DiscountList
+        Else
+            Return 0
+        End If
+
+
+
+
+    End Function
+
+
+
+
 #Region "Accessories"
     Dim Accessories As New List(Of Accessory)
 
@@ -294,7 +386,7 @@ Public Class Engine
         End If
 
     End Function
-     
+
     <WebMethod()> _
     Public Function SearchApparelInventory(ByVal SearchText As String)
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
@@ -409,7 +501,7 @@ Public Class Engine
                              " WHERE SKU LIKE '%" & SearchText & "%' OR Name LIKE '%" & SearchText & "%' OR " &
                              " Price LIKE '%" & SearchText & "%' OR Roast LIKE '%" & SearchText & "%' OR Body LIKE '%" & SearchText & "%' OR Brand LIKE '%" & SearchText & "%'"
             End If
-           
+
             Using da As New SqlDataAdapter
                 da.SelectCommand = cmd
                 da.Fill(dt)
@@ -570,7 +662,7 @@ Public Class Engine
     End Function
 
 
- 
+
 
 #End Region
 
@@ -647,7 +739,7 @@ Public Class Engine
                 da.Fill(dt)
             End Using
         End Using
-         If dt.Rows.Count > 0 Then
+        If dt.Rows.Count > 0 Then
 
             PipeList.Clear()
             For Each item As DataRow In dt.Rows()
@@ -730,7 +822,7 @@ Public Class Engine
             Return 0
         End If
 
-       
+
 
     End Function
 
@@ -851,7 +943,7 @@ Public Class Engine
                 da.Fill(dt)
             End Using
         End Using
-       If dt.Rows.Count > 0 Then
+        If dt.Rows.Count > 0 Then
 
             NewsPostList.Clear()
             For Each item As DataRow In dt.Rows()
