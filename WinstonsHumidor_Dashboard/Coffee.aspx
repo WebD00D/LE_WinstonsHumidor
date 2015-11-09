@@ -102,6 +102,14 @@
                <ul class="list-inline">
                    <li> <h6>Sale Price</h6><asp:TextBox runat="server" ID="txtCoffeeSalePrice" CssClass="form-control"></asp:TextBox></li>
                </ul>
+                   <ul class="list-inline">
+                   <li><h6>Sale Start Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleStartDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+                    <li><h6> Sale End Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleEndDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+               </ul>
                <h6>Is Featured</h6>
                 <asp:CheckBox runat="server" ID="ckCoffeeIsFeatured"/>
                 <br />
@@ -133,6 +141,17 @@
                     
                    </li>
                 </ul>
+               <h6><b>** To release immediately, leave release date field blank.</b></h6>
+               <h6><b>** Keep in mind, when 'Publishing Settings' are set to hide from store, any item with a scheduled release date will ignored and not published.</b></h6>
+               <ul class="list-inline">
+                      <li>
+                       <h6>Release Date</h6>
+                       <asp:TextBox runat="server" ID="txtReleaseDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        
+                       </li>
+                     
+                      
+               </ul>
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveCoffee" runat="server" CssClass="btn btn-success" Text="Save Coffee" /></li>
                     <li><asp:Button id="btnDeleteCoffee" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
@@ -187,7 +206,7 @@
 
                     var content =
 
-                     "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-brand='" + item.Brand + "' data-roast='" + item.Roast + "' data-body='" + item.Body + "' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
+                     "<a href='#' data-saleend='" + item.SaleEndDate + "' data-salestart='" + item.SaleStartDate + "' data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-brand='" + item.Brand + "' data-roast='" + item.Roast + "' data-body='" + item.Body + "' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#CoffeeList").fadeIn();
 
@@ -216,6 +235,9 @@
         var oldisonsale;
         var oldsaleprice;
         var oldshowinstore;
+        var oldreleasedate;
+        var oldsalestart;
+        var oldsaleend;
 
         $("#CoffeeList").delegate(".coffeeitem", "click", function (e) {
 
@@ -234,7 +256,10 @@
                 if ($("#<%=txtCoffeeRoast.ClientID%>").val() != oldroast) { changemade = true; }
                 if ($("#<%=txtCoffeeBrand.ClientID%>").val() != oldbrand) { changemade = true; }
                 if ($("#<%=fuCoffeeImage.ClientID%>").val() != "") { changemade = true; }
-                if ($("#<%=txtCoffeeSalePrice.ClientID%>").val() != '$' + oldsaleprice) { changemade = true;}
+                if ($("#<%=txtCoffeeSalePrice.ClientID%>").val() != '$' + oldsaleprice) { changemade = true; }
+                if ($("#<%=txtReleaseDate.ClientID%>").val() != oldreleasedate) { changemade = true; }
+                if ($("#<%=txtSaleStartDate.ClientID%>").val() != oldsalestart) { changemade = true; }
+                if ($("#<%=txtSaleEndDate.ClientID%>").val() != oldsaleend) { changemade = true; }
 
                 if ($("#<%=ddlShowItem.ClientID%>").val() != oldshowinstore) {
                     changemade = true;
@@ -326,8 +351,18 @@
             var SalePrice = $(this).attr('data-saleprice')
             oldsaleprice = SalePrice
 
+
+            var ReleaseDate = $(this).attr('data-releasedate')
+            oldreleasedate = ReleaseDate
+
+
+            var SaleStart = $(this).attr('data-salestart');
+            oldsalestart = SaleStart
+            var SaleEnd = $(this).attr('data-saleend');
+            oldsaleend = SaleEnd
+
             var ShowInStore = $(this).attr('data-showinstore')
-            oldshowinstore = ShowInStore
+       
 
             $("#<%=hfCoffeeProductID.ClientID%>").val(ProductID);
             $("#<%=txtCoffeeSKU.ClientID%>").val(SKU);
@@ -339,6 +374,10 @@
             $("#<%=txtCoffeeBody.ClientID%>").val(Body);
             $("#<%=txtCoffeeBrand.ClientID%>").val(Brand);
             $("#<%=txtCoffeeSalePrice.ClientID%>").val('$' + SalePrice)
+
+            $("#<%=txtReleaseDate.ClientID%>").val(ReleaseDate);
+            $("#<%=txtSaleStartDate.ClientID%>").val(SaleStart);
+            $("#<%=txtSaleEndDate.ClientID%>").val(SaleEnd);
 
             if (Featured == 'True') {
                 $("#<%=ckCoffeeIsFeatured.ClientID%>").prop("checked", true);
@@ -353,8 +392,10 @@
 
             if (ShowInStore == 'True') {
                 $("#<%=ddlShowItem.ClientID%>").val(1)
+                oldshowinstore = 1
             } else {
                 $("#<%=ddlShowItem.ClientID%>").val(0)
+                oldshowinstore = 0
             }
         })
 
@@ -388,7 +429,7 @@
 
                             var content =
 
-                                 "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-brand='" + item.Brand + "' data-roast='" + item.Roast + "' data-body='" + item.Body + "' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
+                                 "<a href='#' data-saleend='" + item.SaleEndDate + "' data-salestart='" + item.SaleStartDate + "' data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-brand='" + item.Brand + "' data-roast='" + item.Roast + "' data-body='" + item.Body + "' data-Qty='" + item.Qty + "'  data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-coffee='" + item.CoffeeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item coffeeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#CoffeeList").fadeIn();
                         })

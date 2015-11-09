@@ -113,6 +113,14 @@
 
                  
                 </ul>
+                 <ul class="list-inline">
+                   <li><h6>Sale Start Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleStartDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+                    <li><h6> Sale End Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleEndDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+               </ul>
                <br />
                <h6><b>** To keep up with retina and other high res displays, it is recommended that images be  1080 x 1080 </b></h6>
                <ul class="list-inline">
@@ -143,6 +151,17 @@
                     
                    </li>
                 </ul>
+               <h6><b>** To release immediately, leave release date field blank.</b></h6>
+               <h6><b>** Keep in mind, when 'Publishing Settings' are set to hide from store, any item with a scheduled release date will ignored and not published.</b></h6>
+               <ul class="list-inline">
+                      <li>
+                       <h6>Release Date</h6>
+                       <asp:TextBox runat="server" ID="txtReleaseDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        
+                       </li>
+                     
+                      
+               </ul>
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSaveApprel" runat="server" CssClass="btn btn-success" Text="Save Apparel" /></li>
                     <li><asp:Button id="btnDeleteApparel" runat="server" CssClass="btn btn-danger" Text="Delete"/></li>
@@ -196,7 +215,7 @@
 
                     var content =
 
-                     "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
+                     "<a href='#' data-saleend='"+ item.SaleEndDate +"' data-salestart='"+ item.SaleStartDate +"' data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#ApparelList").fadeIn();
 
@@ -229,6 +248,9 @@
         var oldisonsale;
         var oldsaleprice;
         var oldshowinstore;
+        var oldreleasedate;
+        var oldsalestart;
+        var oldsaleend;
 
         $("#ApparelList").delegate(".apparelitem", "click", function (e) {
 
@@ -282,7 +304,10 @@
                 if ($("#<%=txtApparelPrice.ClientID%>").val() != '$' + oldprice) {
                     changemade = true;
                 }
-           
+
+                if ($("#<%=txtReleaseDate.ClientID%>").val() != oldreleasedate) { changemade = true; }
+                if ($("#<%=txtSaleStartDate.ClientID%>").val() != oldsalestart) { changemade = true; }
+                if ($("#<%=txtSaleEndDate.ClientID%>").val() != oldsaleend) { changemade = true; }
 
                 var currentstate;
                 if ($("#<%=ckApparelIsFeatured.ClientID%>").is(":checked")) {
@@ -403,8 +428,17 @@
             var SalePrice = $(this).attr('data-saleprice')
             oldsaleprice = SalePrice
 
+            var ReleaseDate = $(this).attr('data-releasedate')
+            oldreleasedate = ReleaseDate
+
+            var SaleStart = $(this).attr('data-salestart');
+            oldsalestart = SaleStart
+            var SaleEnd = $(this).attr('data-saleend');
+            oldsaleend = SaleEnd
+
+
             var ShowInStore = $(this).attr('data-showinstore')
-            oldshowinstore = ShowInStore
+           
 
             $("#<%=hfApparelProductID.ClientID%>").val(ProductID);
             $("#<%=txtApparelSKU.ClientID%>").val(SKU);
@@ -418,7 +452,10 @@
             $("#<%=XXL.ClientID%>").val(XXL);
             $("#<%=XXXL.ClientID%>").val(XXXL);
             $("#<%=txtApparelPrice.ClientID%>").val('$' + Price);
-            $("#<%=txtApparelSalePrice.ClientID%>").val('$' + SalePrice)
+            $("#<%=txtApparelSalePrice.ClientID%>").val('$' + SalePrice);
+            $("#<%=txtReleaseDate.ClientID%>").val(ReleaseDate);
+            $("#<%=txtSaleStartDate.ClientID%>").val(SaleStart);
+            $("#<%=txtSaleEndDate.ClientID%>").val(SaleEnd);
 
             if (Featured == 'True') {
                 $("#<%=ckApparelIsFeatured.ClientID%>").prop("checked", true);
@@ -434,8 +471,10 @@
 
             if (ShowInStore == 'True') {
                 $("#<%=ddlShowItem.ClientID%>").val(1)
+                oldshowinstore = 1
             } else {
                 $("#<%=ddlShowItem.ClientID%>").val(0)
+                oldshowinstore = 0
             }
 
 
@@ -472,7 +511,7 @@
 
                             var content =
 
-                            "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
+                            "<a href='#' data-saleend='" + item.SaleEndDate + "' data-salestart='" + item.SaleStartDate + "' data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-XS='" + item.XS + "' data-SM='" + item.SM + "' data-MD='" + item.MD + "' data-LG='" + item.XS + "'  data-XL='" + item.XL + "'  data-XXL='" + item.XXL + "'  data-XXXL='" + item.XXXL + "' data-description='" + item.Description + "' ' data-price='" + item.Price + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-apparel='" + item.ApparelID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item apparelitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#ApparelList").fadeIn();
                         })

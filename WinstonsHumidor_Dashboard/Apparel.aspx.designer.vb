@@ -158,6 +158,24 @@ Partial Public Class Apparel
     Protected WithEvents txtApparelSalePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtSaleStartDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSaleStartDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtSaleEndDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSaleEndDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''fuApprelImg control.
     '''</summary>
     '''<remarks>
@@ -183,6 +201,15 @@ Partial Public Class Apparel
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlShowItem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''txtReleaseDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtReleaseDate As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''btnSaveApprel control.

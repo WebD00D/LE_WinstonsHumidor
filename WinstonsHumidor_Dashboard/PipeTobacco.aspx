@@ -104,6 +104,14 @@
                <ul class="list-inline">
                    <li> <h6>Sale Price (per ounce)</h6><asp:TextBox runat="server" ID="txtPipeTobaccoSalePrice" CssClass="form-control"></asp:TextBox></li>
                </ul>
+                   <ul class="list-inline">
+                   <li><h6>Sale Start Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleStartDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+                    <li><h6> Sale End Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleEndDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+               </ul>
            <ul class="list-inline">
                <li><h6>Is Featured</h6>
                <asp:CheckBox runat="server" ID="ckPipeTobaccoIsFeatured"/></li>
@@ -135,6 +143,17 @@
                     
                    </li>
                 </ul>
+               <h6><b>** To release immediately, leave release date field blank.</b></h6>
+               <h6><b>** Keep in mind, when 'Publishing Settings' are set to hide from store, any item with a scheduled release date will ignored and not published.</b></h6>
+               <ul class="list-inline">
+                      <li>
+                       <h6>Release Date</h6>
+                       <asp:TextBox runat="server" ID="txtReleaseDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        
+                       </li>
+                     
+                      
+               </ul>
                    <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSavePipeTobacco" runat="server" CssClass="btn btn-success" Text="Save Pipe Tobacco" /></li>
@@ -193,7 +212,7 @@
 
                     var content =
 
-                     "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-strength='" + item.Strength + "' data-cut='" + item.Cut + "' data-style='" + item.Style + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
+                     "<a href='#'  data-saleend='" + item.SaleEndDate + "' data-salestart='" + item.SaleStartDate + "'  data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-strength='" + item.Strength + "' data-cut='" + item.Cut + "' data-style='" + item.Style + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Tobacco: <b>" + item.Tobacco + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#PipeTobaccoList").fadeIn();
 
@@ -224,6 +243,9 @@
         var oldisonsale;
         var oldsaleprice;
         var oldshowinstore;
+        var oldreleasedate;
+        var oldsalestart;
+        var oldsaleend;
 
         $("#PipeTobaccoList").delegate(".pipetobaccoitem", "click", function (e) {
 
@@ -242,6 +264,9 @@
                 if ($("#<%=fuPipeTobaccoImage.ClientID%>").val() != "") { changemade = true; }
                 if ($("#<%=txtPipeTobaccoSalePrice.ClientID%>").val() != '$' + oldsaleprice) { changemade = true; }
                 if ($("#<%=ddlShowItem.ClientID%>").val() != oldshowinstore) { changemade = true; }
+                if ($("#<%=txtReleaseDate.ClientID%>").val() != oldreleasedate) { changemade = true; }
+                if ($("#<%=txtSaleStartDate.ClientID%>").val() != oldsalestart) { changemade = true; }
+                if ($("#<%=txtSaleEndDate.ClientID%>").val() != oldsaleend) { changemade = true; }
 
                 if ($("#<%=ckPipeTobaccoIsFeatured.ClientID%>").is(":checked")) {
                     featuredState = 'Y'
@@ -330,7 +355,12 @@
             var SalePrice = $(this).attr('data-saleprice')
             oldsaleprice = SalePrice
             var ShowInStore = $(this).attr('data-showinstore')
-            oldshowinstore = ShowInStore
+            var ReleaseDate = $(this).attr('data-releasedate')
+            oldreleasedate = ReleaseDate
+            var SaleStart = $(this).attr('data-salestart');
+            oldsalestart = SaleStart
+            var SaleEnd = $(this).attr('data-saleend');
+            oldsaleend = SaleEnd
 
             $("#<%=hfPipeTobaccoProductID.ClientID%>").val(ProductID);
             $("#<%=txtPipeTobaccoSKU.ClientID%>").val(SKU);
@@ -343,6 +373,9 @@
             $("#<%=txtPipeTobaccoStrength.ClientID%>").val(Strength);
             $("#<%=txtPipeTobaccoCut.ClientID%>").val(Cut);
             $("#<%=txtPipeTobaccoSalePrice.ClientID%>").val('$' + SalePrice)
+            $("#<%=txtReleaseDate.ClientID%>").val(ReleaseDate);
+            $("#<%=txtSaleStartDate.ClientID%>").val(SaleStart);
+            $("#<%=txtSaleEndDate.ClientID%>").val(SaleEnd);
 
             if (Featured == 'True') {
                 $("#<%=ckPipeTobaccoIsFeatured.ClientID%>").prop("checked", true);
@@ -357,8 +390,10 @@
 
             if (ShowInStore == 'True') {
                 $("#<%=ddlShowItem.ClientID%>").val(1)
+                oldshowinstore = 1
             } else {
                 $("#<%=ddlShowItem.ClientID%>").val(0)
+                oldshowinstore = 0
             }
 
         })
@@ -393,7 +428,7 @@
                         $.each(result, function (index, item) {
 
                             var content =
-                            "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-strength='" + item.Strength + "' data-cut='" + item.Cut + "' data-style='" + item.Style + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
+                            "<a href='#'  data-saleend='" + item.SaleEndDate + "' data-salestart='" + item.SaleStartDate + "'  data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-strength='" + item.Strength + "' data-cut='" + item.Cut + "' data-style='" + item.Style + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-tobacco='" + item.Tobacco + "'  data-SKU='" + item.SKU + "' data-pipetobacco='" + item.PipeTobaccoID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipetobaccoitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Tobacco: <b>" + item.Tobacco + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#PipeTobaccoList").fadeIn();
                         })

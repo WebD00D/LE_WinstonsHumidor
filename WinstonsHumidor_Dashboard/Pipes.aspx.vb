@@ -22,7 +22,9 @@ Public Class Pipes
         txtPipesSalePrice.BorderColor = Nothing
         lblPipeMessage.ForeColor = Nothing
         lblPipeMessage.Text = " "
-
+        txtReleaseDate.BorderColor = Nothing
+        txtSaleStartDate.BorderColor = Nothing
+        txtSaleEndDate.BorderColor = Nothing
 
         If Trim(txtPipeSKU.Text) = String.Empty Then
             lblPipeMessage.Text = "SKU is required"
@@ -102,6 +104,56 @@ Public Class Pipes
         End If
 
 
+
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            'They are trying to set a release date for a later time. We need to make sure the date entered is a valid date.
+            If Not IsDate(txtReleaseDate.Text) Then
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                lblPipeMessage.Text = "Release date entered is invalid."
+                lblPipeMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+
+        Dim PublishDate As Date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            If IsDate(txtReleaseDate.Text) Then
+                PublishDate = CDate(txtReleaseDate.Text).ToString("yyyy/MM/dd HH:mm:ss")
+            Else
+                lblPipeMessage.Text = "Please enter a valid publish date and time."
+                lblPipeMessage.ForeColor = Drawing.Color.Red
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+
+        Dim SaleStartDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        Dim SaleEndDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        If ckPipesIsOnSale.Checked Then
+
+            'make sure a valid start and end date have been set
+            If Not IsDate(txtSaleStartDate.Text) Then
+                lblPipeMessage.Text = "Please enter a valid sale start date."
+                lblPipeMessage.ForeColor = Drawing.Color.Red
+                txtSaleStartDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SaleStartDate = CDate(txtSaleStartDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+            If Not IsDate(txtSaleEndDate.Text) Then
+                lblPipeMessage.Text = "Please enter a valid sale end date."
+                lblPipeMessage.ForeColor = Drawing.Color.Red
+                txtSaleEndDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SaleEndDate = CDate(txtSaleEndDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+        End If
+
         'check if SKU Exists
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
         Dim dt As New DataTable
@@ -165,7 +217,10 @@ Public Class Pipes
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipesIsFeatured.Checked))
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckPipesIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
+            cmd.Parameters.AddWithValue("@PublishDate", PublishDate)
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
+            cmd.Parameters.AddWithValue("@SaleStartDate", SaleStartDate)
+            cmd.Parameters.AddWithValue("@SaleEndDate", SaleEndDate)
             If storedProcedure = "sp_Insert_Pipes" Then
                 cmd.Parameters.AddWithValue("@Category", "Pipes")
 
@@ -213,5 +268,8 @@ Public Class Pipes
         txtPipeDescription.Value = " "
         txtPipesSalePrice.Text = " "
         ckPipesIsOnSale.Checked = False
+        txtReleaseDate.Text = " "
+        txtSaleStartDate.Text = " "
+        txtSaleEndDate.Text = " "
     End Sub
 End Class

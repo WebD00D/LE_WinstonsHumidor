@@ -24,6 +24,9 @@ Public Class Engine
         Public IsOnSale As String
         Public SalePrice As String
         Public ShowInStore As String
+        Public ReleaseDate As String
+        Public SaleStartDate As String
+        Public SaleEndDate As String
     End Class
 
     Public Class Apparel
@@ -44,6 +47,9 @@ Public Class Engine
         Public IsOnSale As String
         Public SalePrice As String
         Public ShowInStore As String
+        Public ReleaseDate As String
+        Public SaleStartDate As String
+        Public SaleEndDate As String
     End Class
 
     Public Class Coffee
@@ -61,6 +67,9 @@ Public Class Engine
         Public IsOnSale As String
         Public SalePrice As String
         Public ShowInStore As String
+        Public ReleaseDate As String
+        Public SaleStartDate As String
+        Public SaleEndDate As String
     End Class
 
     Public Class Cigar
@@ -88,6 +97,11 @@ Public Class Engine
         Public MaxBoxPurchase As String
         Public MaxSinglePurchase As String
         Public ShowInStore As String
+        Public ReleaseDate As String
+        Public BoxSaleStartDate As String
+        Public BoxSaleEndDate As String
+        Public SingleSaleStartDate As String
+        Public SingleSaleEndDate As String
     End Class
 
     Public Class Pipe
@@ -107,6 +121,9 @@ Public Class Engine
         Public IsOnSale As String
         Public SalePrice As String
         Public ShowInStore As String
+        Public ReleaseDate As String
+        Public SaleStartDate As String
+        Public SaleEndDate As String
     End Class
 
     Public Class PipeTobacco
@@ -125,6 +142,9 @@ Public Class Engine
         Public IsOnSale As String
         Public SalePrice As String
         Public ShowInStore As String
+        Public ReleaseDate As String
+        Public SaleStartDate As String
+        Public SaleEndDate As String
 
     End Class
 
@@ -241,8 +261,8 @@ Public Class Engine
                 A.Code = item("DiscountCode")
                 A.Amount = Math.Round(item("DiscountAmount"), 2)
                 A.IsValid = item("DiscountCodeIsValid")
-                A.Starts = CDate(item("DiscountStarts")).ToString("d")
-                A.Ends = CDate(item("DiscountEnds")).ToString("d")
+                A.Starts = CDate(item("DiscountStarts")).ToString("yyyy-MM-dd")
+                A.Ends = CDate(item("DiscountEnds")).ToString("yyyy-MM-dd")
                 A.MaxNbr = item("MaxNbr")
                 DiscountList.Add(A)
             Next
@@ -293,6 +313,9 @@ Public Class Engine
             Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
             A.SalePrice = CStr(DecSalePrice)
             A.ShowInStore = item("ShowInStore")
+            A.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+            A.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+            A.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
             Accessories.Add(A)
         Next
         Return Accessories
@@ -334,6 +357,9 @@ Public Class Engine
             Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
             A.SalePrice = CStr(DecSalePrice)
             A.ShowInStore = item("ShowInStore")
+            A.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+            A.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+            A.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
             Accessories.Add(A)
         Next
         Return Accessories
@@ -383,6 +409,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 A.SalePrice = CStr(DecSalePrice)
                 A.ShowInStore = item("ShowInStore")
+                A.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                A.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                A.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 ApparelList.Add(A)
             Next
             Return ApparelList
@@ -431,6 +460,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 A.SalePrice = CStr(DecSalePrice)
                 A.ShowInStore = item("ShowInStore")
+                A.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                A.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                A.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 ApparelList.Add(A)
             Next
             Return ApparelList
@@ -482,6 +514,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 C.SalePrice = CStr(DecSalePrice)
                 C.ShowInStore = item("ShowInStore")
+                C.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                C.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                C.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 CoffeeList.Add(C)
             Next
             Return CoffeeList
@@ -532,6 +567,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 C.SalePrice = CStr(DecSalePrice)
                 C.ShowInStore = item("ShowInStore")
+                C.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                C.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                C.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 CoffeeList.Add(C)
             Next
             Return CoffeeList
@@ -595,7 +633,11 @@ Public Class Engine
                 C.MaxBoxPurchase = item("MaxBoxPurchaseAmount")
                 C.MaxSinglePurchase = item("MaxSinglePurchaseAmount")
                 C.ShowInStore = item("ShowInStore")
-
+                C.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                C.BoxSaleStartDate = CDate(item("BoxSaleStartDate")).ToString("yyyy-MM-dd")
+                C.BoxSaleEndDate = CDate(item("BoxSaleEndDate")).ToString("yyyy-MM-dd")
+                C.SingleSaleStartDate = CDate(item("SingleSaleStartDate")).ToString("yyyy-MM-dd")
+                C.SingleSaleEndDate = CDate(item("SingleSaleEndDate")).ToString("yyyy-MM-dd")
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -658,6 +700,11 @@ Public Class Engine
                 C.MaxBoxPurchase = item("MaxBoxPurchaseAmount")
                 C.MaxSinglePurchase = item("MaxSinglePurchaseAmount")
                 C.ShowInStore = item("ShowInStore")
+                C.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                C.BoxSaleStartDate = CDate(item("BoxSaleStartDate")).ToString("yyyy-MM-dd")
+                C.BoxSaleEndDate = CDate(item("BoxSaleEndDate")).ToString("yyyy-MM-dd")
+                C.SingleSaleStartDate = CDate(item("SingleSaleStartDate")).ToString("yyyy-MM-dd")
+                C.SingleSaleEndDate = CDate(item("SingleSaleEndDate")).ToString("yyyy-MM-dd")
                 CigarList.Add(C)
             Next
             Return CigarList
@@ -713,6 +760,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 P.SalePrice = CStr(DecSalePrice)
                 P.ShowInStore = item("ShowInStore")
+                P.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                P.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                P.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 PipeList.Add(P)
             Next
             Return PipeList
@@ -766,6 +816,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 P.SalePrice = CStr(DecSalePrice)
                 P.ShowInStore = item("ShowInStore")
+                P.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                P.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                P.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 PipeList.Add(P)
             Next
             Return PipeList
@@ -820,6 +873,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 PT.SalePrice = CStr(DecSalePrice)
                 PT.ShowInStore = item("ShowInStore")
+                PT.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                PT.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                PT.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 PipeTobaccoList.Add(PT)
             Next
             Return PipeTobaccoList
@@ -874,6 +930,9 @@ Public Class Engine
                 Dim DecSalePrice As Decimal = Decimal.Round(item("SalePrice"), 2)
                 PT.SalePrice = CStr(DecSalePrice)
                 PT.ShowInStore = item("ShowInStore")
+                PT.ReleaseDate = CDate(item("PublishDate")).ToString("yyyy-MM-dd")
+                PT.SaleStartDate = CDate(item("SaleStartDate")).ToString("yyyy-MM-dd")
+                PT.SaleEndDate = CDate(item("SaleEndDate")).ToString("yyyy-MM-dd")
                 PipeTobaccoList.Add(PT)
             Next
             Return PipeTobaccoList

@@ -140,6 +140,24 @@ Partial Public Class PipeTobacco
     Protected WithEvents txtPipeTobaccoSalePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtSaleStartDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSaleStartDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtSaleEndDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSaleEndDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''ckPipeTobaccoIsFeatured control.
     '''</summary>
     '''<remarks>
@@ -165,6 +183,15 @@ Partial Public Class PipeTobacco
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlShowItem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''txtReleaseDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtReleaseDate As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''btnSavePipeTobacco control.

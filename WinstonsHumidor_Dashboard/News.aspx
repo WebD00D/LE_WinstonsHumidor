@@ -12,7 +12,7 @@
 <head runat="server">
     <title>Dashboard</title>
     <link href="styles/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-   
+    <link href="js/bootstrap3-wysihtml5.min.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -84,7 +84,7 @@
                 <div id="PostList" class="list-group" style="overflow-y:scroll;max-height:200px"></div>
                 <asp:HiddenField runat="server" ID="hfPostID"/>
                <ul class="list-inline">
-                   <li>  <asp:button runat="server" ID="btnLoadPostHTML" CssClass="btn btn-success" Text="Load Post HTML" /></li>
+                   <li>  <asp:button runat="server" ID="btnLoadPostHTML" CssClass="btn btn-success" Text="Load Post" /></li>
                    <li><asp:Button runat="server" ID="btnDeletePost" CssClass="btn btn-danger" Text="Delete Post" /></li>
                    <li><asp:Button runat="server" ID="btnClearForm" CssClass="btn btn-warning" Text="New Post"/></li>
                </ul>
@@ -96,7 +96,14 @@
                 <ul class="list-inline">
                     <li><h6>Post Title</h6><asp:TextBox runat="server" CssClass="form-control" ID="txtPostTitle"></asp:TextBox></li>
                       <li><h6>Header Image</h6>
-                          <h6><small><b>** To keep up with retina and other high res displays, it is recommended that images be  1920 x 1080 </b></small></h6><asp:FileUpload runat="server" ID="fuPostImage" CssClass="form-control"/></li>
+                          <div id="currentImage">
+
+                          </div>
+                          <h6><small><b>** To keep up with retina and other high res displays, it is recommended that images be  1920 x 1080 </b></small></h6>
+                          <div id="imgPreview" class="text-center">
+
+                         </div>
+                          <asp:FileUpload runat="server" ID="fuPostImage" CssClass="form-control"/></li>
                     <li><h6>Post Type</h6>
                         <asp:DropDownList ID="ddlPostType" CssClass="form-control" runat="server" >
                             <asp:ListItem Value="Event">Event</asp:ListItem>
@@ -116,6 +123,12 @@
                     </li>
             
                 </ul>
+
+
+                <hr />
+              
+
+
                     <dx:ASPxHtmlEditor ID="ASPxHtmlEditor1" runat="server" Width="1137px" >
                         <Toolbars>
                             <dx:HtmlEditorToolbar Name="StandardToolbar1">
@@ -229,9 +242,17 @@
 </html>
    <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
+  
 <script>
-    $(document).ready(function () {
    
+</script>
+<script>
+
+
+
+
+    $(document).ready(function () {
+
         $.ajax({
             type: "POST",
             url: "Engine.asmx/LoadPostHistory",
@@ -247,7 +268,7 @@
 
                     var content =
 
-                     "<a href='#' data-hashtag='"+ item.Hashtag +"' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "' data-html='" + item.HTML + "' id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
+                     "<a href='#' data-hashtag='"+ item.Hashtag +"' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "' id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
                             "<ul class='list-inline'><li>Post Date: <b>" + item.PostDate + "</b></li><li>Post Title: <b>" + item.PostTitle + "</b></li></ul></a>";
                     $(content).hide().appendTo("#PostList").fadeIn();
 
@@ -262,11 +283,14 @@
             }
         }) //end ajax
 
-
+      
         $("#PostList").delegate(".newpostitem", "click", function (e) {
 
             e.preventDefault();
+
+            $(".newpostitem").removeClass('active');
             var PostID = $(this).attr('id');
+            $(this).addClass('active');
             $("#<%=hfPostID.ClientID%>").val(PostID);
             $("#<%=lblPostMessage.ClientID%>").val("");
             
@@ -303,7 +327,7 @@
 
                             var content =
 
-                             "<a href='#' data-hashtag='" + item.Hashtag + "' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "' data-html='" + item.HTML + "' id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
+                             "<a href='#' data-hashtag='" + item.Hashtag + "' data-posttitle='" + item.PostTitle + "' data-postdate='" + item.PostDate + "'  data-postedby='" + item.PostedBy + "'  id='" + item.NewsPostID + "' data-selected='0' class='list-group-item newpostitem'>" +
                             "<ul class='list-inline'><li>Post Date: <b>" + item.PostDate + "</b></li><li>Post Title: <b>" + item.PostTitle + "</b></li></ul></a>";
                             $(content).hide().appendTo("#PostList").fadeIn();
                         })

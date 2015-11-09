@@ -19,6 +19,9 @@ Public Class PipeTobacco
         txtPipeTobaccoQty.BorderColor = Nothing
         txtPipeTobaccoSalePrice.BorderColor = Nothing
         lblPipeTobaccoMessage.Text = " "
+        txtReleaseDate.BorderColor = Nothing
+        txtSaleStartDate.BorderColor = Nothing
+        txtSaleEndDate.BorderColor = Nothing
 
         If Trim(txtPipeTobaccoSKU.Text) = String.Empty Then
             lblPipeTobaccoMessage.Text = "SKU is required"
@@ -93,6 +96,58 @@ Public Class PipeTobacco
             End If
         End If
 
+
+
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            'They are trying to set a release date for a later time. We need to make sure the date entered is a valid date.
+            If Not IsDate(txtReleaseDate.Text) Then
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                lblPipeTobaccoMessage.Text = "Release date entered is invalid."
+                lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+
+        Dim PublishDate As Date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            If IsDate(txtReleaseDate.Text) Then
+                PublishDate = CDate(txtReleaseDate.Text).ToString("yyyy/MM/dd HH:mm:ss")
+            Else
+                lblPipeTobaccoMessage.Text = "Please enter a valid publish date and time."
+                lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+
+        Dim SaleStartDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        Dim SaleEndDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        If ckPipeTobaccoIsOnSale.Checked Then
+
+            'make sure a valid start and end date have been set
+            If Not IsDate(txtSaleStartDate.Text) Then
+                lblPipeTobaccoMessage.Text = "Please enter a valid sale start date."
+                lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red
+                txtSaleStartDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SaleStartDate = CDate(txtSaleStartDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+            If Not IsDate(txtSaleEndDate.Text) Then
+                lblPipeTobaccoMessage.Text = "Please enter a valid sale end date."
+                lblPipeTobaccoMessage.ForeColor = Drawing.Color.Red
+                txtSaleEndDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SaleEndDate = CDate(txtSaleEndDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+        End If
+
+
         'check if SKU Exists
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
         Dim dt As New DataTable
@@ -155,7 +210,10 @@ Public Class PipeTobacco
             cmd.Parameters.AddWithValue("@IsFeatured", CByte(ckPipeTobaccoIsFeatured.Checked))
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckPipeTobaccoIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
+            cmd.Parameters.AddWithValue("@PublishDate", PublishDate)
             cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
+            cmd.Parameters.AddWithValue("@SaleStartDate", SaleStartDate)
+            cmd.Parameters.AddWithValue("@SaleEndDate", SaleEndDate)
 
             If storedProcedure = "sp_Insert_PipeTobacco" Then
                 cmd.Parameters.AddWithValue("@Category", "PipeTobacco")
@@ -210,5 +268,8 @@ Public Class PipeTobacco
         ckPipeTobaccoIsOnSale.Checked = False
         hfPipeTobaccoProductID.Value = Nothing
         txtPipeTobaccoSalePrice.Text = ""
+        txtReleaseDate.Text = " "
+        txtSaleStartDate.Text = " "
+        txtSaleEndDate.Text = " "
     End Sub
 End Class

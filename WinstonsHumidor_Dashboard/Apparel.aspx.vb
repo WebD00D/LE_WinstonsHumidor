@@ -16,12 +16,17 @@ Public Class Apparel
         XXXL.BorderColor = Nothing
         txtApparelSalePrice.BorderColor = Nothing
         fuApprelImg.BorderColor = Nothing
-
+        txtReleaseDate.BorderColor = Nothing
         txtApparelPrice.BorderColor = Nothing
         txtApparelNames.BorderColor = Nothing
         txtApparelSKU.BorderColor = Nothing
-
         lblApparelMessage.Text = ""
+
+        txtSaleStartDate.BorderColor = Nothing
+        txtSaleEndDate.BorderColor = Nothing
+
+
+
 
         If Trim(txtApparelSKU.Text) = String.Empty Then
             lblApparelMessage.Text = "A unique SKU is required."
@@ -113,6 +118,56 @@ Public Class Apparel
         End If
 
 
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            'They are trying to set a release date for a later time. We need to make sure the date entered is a valid date.
+            If Not IsDate(txtReleaseDate.Text) Then
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                lblApparelMessage.Text = "Release date entered is invalid."
+                lblApparelMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+
+        Dim PublishDate As Date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            If IsDate(txtReleaseDate.Text) Then
+                PublishDate = CDate(txtReleaseDate.Text).ToString("yyyy/MM/dd HH:mm:ss")
+            Else
+                lblApparelMessage.Text = "Please enter a valid publish date."
+                lblApparelMessage.ForeColor = Drawing.Color.Red
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+        Dim SaleStartDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        Dim SaleEndDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        If ckApparelIsOnSale.Checked Then
+
+            'make sure a valid start and end date have been set
+            If Not IsDate(txtSaleStartDate.Text) Then
+                lblApparelMessage.Text = "Please enter a valid sale start date."
+                lblApparelMessage.ForeColor = Drawing.Color.Red
+                txtSaleStartDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SaleStartDate = CDate(txtSaleStartDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+            If Not IsDate(txtSaleEndDate.Text) Then
+                lblApparelMessage.Text = "Please enter a valid sale end date."
+                lblApparelMessage.ForeColor = Drawing.Color.Red
+                txtSaleEndDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SaleEndDate = CDate(txtSaleEndDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+        End If
+
+
+
         'Check If SKU already exists. If so, then call update, else insert new.
 
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
@@ -179,7 +234,9 @@ Public Class Apparel
             cmd.Parameters.AddWithValue("@IsOnSale", CByte(ckApparelIsOnSale.Checked))
             cmd.Parameters.AddWithValue("@SalePrice", SalePrice)
             cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
-
+            cmd.Parameters.AddWithValue("@PublishDate", PublishDate)
+            cmd.Parameters.AddWithValue("@SaleStartDate", SaleStartDate)
+            cmd.Parameters.AddWithValue("@SaleEndDate", SaleEndDate)
             If storedProcedure = "sp_Insert_Apparel" Then
                 cmd.Parameters.AddWithValue("@Category", "Apparel")
 
@@ -222,5 +279,8 @@ Public Class Apparel
         ckApparelIsOnSale.Checked = False
         txtApparelSalePrice.Text = " "
         hfApparelProductID.Value = Nothing
+        txtReleaseDate.Text = " "
+        txtSaleStartDate.Text = " "
+        txtSaleEndDate.Text = " "
     End Sub
 End Class

@@ -203,6 +203,42 @@ Partial Public Class Cigars
     Protected WithEvents txtSingleSalePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtBoxSaleStartDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtBoxSaleStartDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtBoxSaleEndDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtBoxSaleEndDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtSingleSaleStartDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSingleSaleStartDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtSingleSaleEndDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSingleSaleEndDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''txtMaxBoxPurchaseAmount control.
     '''</summary>
     '''<remarks>
@@ -246,6 +282,15 @@ Partial Public Class Cigars
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlShowItem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''txtReleaseDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtReleaseDate As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''btnSaveCigar control.

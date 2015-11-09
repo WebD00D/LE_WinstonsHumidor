@@ -22,8 +22,14 @@ Public Class Cigars
         fuCigarImage.BorderColor = Nothing
         txtMaxBoxPurchaseAmount.BorderColor = Nothing
         txtMaxSinglePurchaseAmount.BorderColor = Nothing
-        'dpPubDate.BorderColor = Nothing
-        'dpPubTime.BorderColor = Nothing
+        txtReleaseDate.BorderColor = Nothing
+
+        txtSingleSaleStartDate.BorderColor = Nothing
+        txtSingleSaleEndDate.BorderColor = Nothing
+        txtBoxSaleStartDate.BorderColor = Nothing
+        txtBoxSaleEndDate.BorderColor = Nothing
+
+
       
 
         'Start Validation
@@ -45,13 +51,13 @@ Public Class Cigars
             txtCigarBrand.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
-        If Trim(txtCigarLength.Text) = String.Empty Or Not IsNumeric(txtCigarLength.Text) Then
+        If Trim(txtCigarLength.Text) = String.Empty Then
             lblCigarMessage.Text = "A numeric value is required for cigar length."
             lblCigarMessage.ForeColor = Drawing.Color.Red
             txtCigarLength.BorderColor = Drawing.Color.Red
             Exit Sub
         End If
-        If Trim(txtCigarRing.Text) = String.Empty Or Not IsNumeric(txtCigarRing.Text) Then
+        If Trim(txtCigarRing.Text) = String.Empty Then
             lblCigarMessage.Text = "A numeric value is required for cigar ring."
             lblCigarMessage.ForeColor = Drawing.Color.Red
             txtCigarRing.BorderColor = Drawing.Color.Red
@@ -205,6 +211,28 @@ Public Class Cigars
         End If
 
 
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            'They are trying to set a release date for a later time. We need to make sure the date entered is a valid date.
+            If Not IsDate(txtReleaseDate.Text) Then
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                lblCigarMessage.Text = "Release date entered is invalid."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
+
+
+        Dim PublishDate As Date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")
+        If Not Trim(txtReleaseDate.Text) = String.Empty Then
+            If IsDate(txtReleaseDate.Text) Then
+                PublishDate = CDate(txtReleaseDate.Text).ToString("yyyy/MM/dd HH:mm:ss")
+            Else
+                lblCigarMessage.Text = "Please enter a valid publish date and time."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtReleaseDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            End If
+        End If
         'Dim PublishDate As Date = Date.Now
         'If ddlPublishSettings.SelectedValue = 1 Then
         '    If Not IsDate(dpPubDate.Text & " " & dpPubTime.Text) Then
@@ -231,6 +259,62 @@ Public Class Cigars
         If Not Trim(txtCigarBoxPrice.Text) = String.Empty Then
             BoxPrice = CDec(txtCigarBoxPrice.Text)
         End If
+
+
+        Dim SingleSaleStartDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        Dim SingleSaleEndDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        Dim BoxSaleStartDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+        Dim BoxSaleEndDate As Date = DateTime.Now.ToString("yyyy/MM/dd")
+
+        If ckCigarSingleIsOnSale.Checked Then
+
+            'make sure a valid start and end date have been set
+            If Not IsDate(txtSingleSaleStartDate.Text) Then
+                lblCigarMessage.Text = "Please enter a valid sale start date."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtSingleSaleStartDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SingleSaleStartDate = CDate(txtSingleSaleStartDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+            If Not IsDate(txtSingleSaleEndDate.Text) Then
+                lblCigarMessage.Text = "Please enter a valid sale end date."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtSingleSaleEndDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                SingleSaleEndDate = CDate(txtSingleSaleEndDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+        End If
+        If ckCigarBoxIsOnSale.Checked Then
+
+            'make sure a valid start and end date have been set
+            If Not IsDate(txtBoxSaleStartDate.Text) Then
+                lblCigarMessage.Text = "Please enter a valid sale start date."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtBoxSaleStartDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                BoxSaleStartDate = CDate(txtBoxSaleStartDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+            If Not IsDate(txtBoxSaleEndDate.Text) Then
+                lblCigarMessage.Text = "Please enter a valid sale end date."
+                lblCigarMessage.ForeColor = Drawing.Color.Red
+                txtBoxSaleEndDate.BorderColor = Drawing.Color.Red
+                Exit Sub
+            Else
+                BoxSaleEndDate = CDate(txtBoxSaleEndDate.Text).ToString("yyyy/MM/dd")
+            End If
+
+        End If
+
+
+
+
+
 
         'check if SKU Exists
         Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
@@ -284,8 +368,8 @@ Public Class Cigars
             cmd.Parameters.AddWithValue("@SKU", txtCigarSKU.Text)
             cmd.Parameters.AddWithValue("@Brand", txtCigarBrand.Text)
             cmd.Parameters.AddWithValue("@Name", txtCigarName.Text)
-            cmd.Parameters.AddWithValue("@Length", CInt(txtCigarLength.Text))
-            cmd.Parameters.AddWithValue("@Ring", CInt(txtCigarRing.Text))
+            cmd.Parameters.AddWithValue("@Length", txtCigarLength.Text)
+            cmd.Parameters.AddWithValue("@Ring", txtCigarRing.Text)
             cmd.Parameters.AddWithValue("@BoxCount", CInt(txtCigarBoxCount.Text))
             cmd.Parameters.AddWithValue("@BoxQty", CInt(txtCigarBoxQty.Text))
             cmd.Parameters.AddWithValue("@SingleQty", CInt(txtCigarSingleQty.Text))
@@ -305,8 +389,13 @@ Public Class Cigars
 
             cmd.Parameters.AddWithValue("@MaxBoxPurchaseQty", txtMaxBoxPurchaseAmount.Text)
             cmd.Parameters.AddWithValue("@MaxSinglePurchaseQty", txtMaxSinglePurchaseAmount.Text)
-            ' cmd.Parameters.AddWithValue("@PublishDate", PublishDate)
+            cmd.Parameters.AddWithValue("@PublishDate", PublishDate)
             cmd.Parameters.AddWithValue("@ShowInStore", CByte(ddlShowItem.SelectedValue))
+
+            cmd.Parameters.AddWithValue("@SingleSaleStartDate", SingleSaleStartDate)
+            cmd.Parameters.AddWithValue("@SingleSaleEndDate", SingleSaleEndDate)
+            cmd.Parameters.AddWithValue("@BoxSaleStartDate", BoxSaleStartDate)
+            cmd.Parameters.AddWithValue("@BoxSaleEndDate", BoxSaleEndDate)
 
             If storedProcedure = "sp_Insert_Cigars" Then
                 cmd.Parameters.AddWithValue("@Category", "Cigars")
@@ -362,6 +451,11 @@ Public Class Cigars
         hfCigarProductID.Value = Nothing
         txtMaxBoxPurchaseAmount.Text = " "
         txtMaxSinglePurchaseAmount.Text = " "
+        txtReleaseDate.Text = " "
+        txtSingleSaleStartDate.Text = " "
+        txtSingleSaleEndDate.Text = " "
+        txtBoxSaleStartDate.Text = " "
+        txtBoxSaleEndDate.Text = " "
         'dpPubDate.Text = " "
         'dpPubTime.Text = " "
     End Sub

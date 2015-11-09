@@ -149,6 +149,24 @@ Partial Public Class Pipes
     Protected WithEvents txtPipesSalePrice As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''txtSaleStartDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSaleStartDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''txtSaleEndDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSaleEndDate As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''ckPipesIsFeatured control.
     '''</summary>
     '''<remarks>
@@ -174,6 +192,15 @@ Partial Public Class Pipes
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlShowItem As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''txtReleaseDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtReleaseDate As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
     '''btnSavePipe control.

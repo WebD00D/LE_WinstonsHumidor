@@ -103,6 +103,9 @@
     <Content Include="fontawesome\font-awesome.min.css" />
     <Content Include="fontawesome\fontawesome-webfont.svg" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="js\bootstrap3-wysihtml5.min.css" />
+    <Content Include="js\bootstrap3-wysihtml5.min.js" />
     <Content Include="js\jquery.min.js" />
     <Content Include="Login.aspx" />
     <Content Include="News.aspx" />
@@ -256,7 +259,7 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-    <None Include="My Project\PublishProfiles\admin.winstonshumidor.com - Web Deploy.pubxml" />
+    <None Include="My Project\PublishProfiles\Winstons.pubxml" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>

@@ -107,7 +107,14 @@
                <ul class="list-inline">
                    <li> <h6>Sale Price</h6><asp:TextBox runat="server" ID="txtPipesSalePrice" CssClass="form-control"></asp:TextBox></li>
                </ul>
-             
+                 <ul class="list-inline">
+                   <li><h6>Sale Start Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleStartDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+                    <li><h6> Sale End Date</h6>
+                       <asp:TextBox runat="server" ID="txtSaleEndDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+               </ul>
                <ul class="list-inline">
                    <li>  <h6>Is Featured</h6>
                <asp:CheckBox runat="server" ID="ckPipesIsFeatured"/></li>
@@ -140,6 +147,17 @@
                     
                    </li>
                 </ul>
+               <h6><b>** To release immediately, leave release date field blank.</b></h6>
+               <h6><b>** Keep in mind, when 'Publishing Settings' are set to hide from store, any item with a scheduled release date will ignored and not published.</b></h6>
+               <ul class="list-inline">
+                      <li>
+                       <h6>Release Date</h6>
+                       <asp:TextBox runat="server" ID="txtReleaseDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        
+                       </li>
+                     
+                      
+               </ul>
                 <br />
                 <ul class="list-inline">
                     <li>  <asp:Button ID="btnSavePipe" runat="server" CssClass="btn btn-success" Text="Save Pipe" /></li>
@@ -196,7 +214,7 @@
 
                     var content =
 
-                     "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
+                     "<a href='#' data-saleend='" + item.SaleEndDate + "' data-salestart='" + item.SaleStartDate + "' data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "'  data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                     $(content).hide().appendTo("#PipeList").fadeIn();
 
@@ -226,6 +244,9 @@
         var oldisonsale;
         var oldsaleprice;
         var oldshowinstore;
+        var oldreleasedate;
+        var oldsalestart;
+        var oldsaleend;
 
         $("#PipeList").delegate(".pipeitem", "click", function (e) {
 
@@ -250,6 +271,10 @@
                 if ($("#<%=ddlShowItem.ClientID%>").val() != oldshowinstore) {
                     changemade = true;
                 }
+                if ($("#<%=txtReleaseDate.ClientID%>").val() != oldreleasedate) { changemade = true; }
+                if ($("#<%=txtSaleStartDate.ClientID%>").val() != oldsalestart) { changemade = true; }
+                if ($("#<%=txtSaleEndDate.ClientID%>").val() != oldsaleend) { changemade = true; }
+
 
                 if ($("#<%=txtPipesSalePrice.ClientID%>").val() != '$' + oldsaleprice) { changemade = true; }
 
@@ -347,7 +372,12 @@
             var SalePrice = $(this).attr('data-saleprice')
             oldsaleprice = SalePrice
             var ShowInStore = $(this).attr('data-showinstore')
-            oldshowinstore = ShowInStore
+            var ReleaseDate = $(this).attr('data-releasedate')
+            oldreleasedate = ReleaseDate
+            var SaleStart = $(this).attr('data-salestart');
+            oldsalestart = SaleStart
+            var SaleEnd = $(this).attr('data-saleend');
+            oldsaleend = SaleEnd
           
             $("#<%=hfPipeProductID.ClientID%>").val(ProductID);
             $("#<%=txtPipeSKU.ClientID%>").val(SKU);
@@ -361,6 +391,9 @@
             $("#<%=txtPipeBodyShape.ClientID%>").val(BodyShape);
             $("#<%=txtPipeMaterial.ClientID%>").val(Material);
             $("#<%=txtPipesSalePrice.ClientID%>").val('$' + SalePrice)
+            $("#<%=txtReleaseDate.ClientID%>").val(ReleaseDate);
+            $("#<%=txtSaleStartDate.ClientID%>").val(SaleStart);
+            $("#<%=txtSaleEndDate.ClientID%>").val(SaleEnd);
 
             if (Featured == 'True') {
                 $("#<%=ckPipesIsFeatured.ClientID%>").prop("checked", true);
@@ -374,8 +407,10 @@
             }
             if (ShowInStore == 'True') {
                 $("#<%=ddlShowItem.ClientID%>").val(1)
+                oldshowinstore = 1
             } else {
                 $("#<%=ddlShowItem.ClientID%>").val(0)
+                oldshowinstore = 0
             }
            
         })
@@ -411,7 +446,7 @@
                         $.each(result, function (index, item) {
 
                             var content =
-                            "<a href='#' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
+                            "<a href='#'  data-saleend='" + item.SaleEndDate + "' data-salestart='" + item.SaleStartDate + "'  data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-isonsale='" + item.IsOnSale + "' data-saleprice='" + item.SalePrice + "' data-featured='" + item.IsFeatured + "' data-material='" + item.Material + "' data-bodyshape='" + item.BodyShape + "' data-stemshape='" + item.StemShape + "' data-bowlfinish='" + item.BowlFinish + "' data-price='" + item.Price + "' data-qty='" + item.Qty + "'  data-brand='" + item.Brand + "'  data-description='" + item.Description + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-pipe='" + item.PipeID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item pipeitem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Price: <b>$" + item.Price + "</b></li></ul></a>";
                             $(content).hide().appendTo("#PipeList").fadeIn();
                         })

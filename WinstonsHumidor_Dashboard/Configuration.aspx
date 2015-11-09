@@ -90,10 +90,11 @@
                    <li><h6>Discount ID</h6><input class="form-control" id="txtDiscountID" disabled="disabled"/></li>
                    <li><h6>Discount Code</h6><input class="form-control" id="txtDiscountCode"/></li>
                    <li><h6>Discount Amount</h6><input class="form-control" id="txtDiscountAmount"/></li>
-                   <li><h6>Start Date</h6> <input id="txtDiscountStartDate" class="form-control" /></li>
-                   <li><h6>End Date</h6> <input id="txtDiscountEndDate" class="form-control" /></li>
+                   <li><h6>Start Date</h6> <input id="txtDiscountStartDate" type="date" class="form-control" /></li>
+                   <li><h6>End Date</h6> <input id="txtDiscountEndDate" type="date" class="form-control" /></li>
                     <li><h6>Max Usage Number</h6> <input id="txtDiscountMaxNbr" class="form-control" /></li>
                    <li><h6>Discount Code Active</h6><asp:CheckBox ID="ckDiscountCodeActive" runat="server"/></li>
+                
                </ul>
                <ul class="list-inline">
                    <li><a id="btnSaveDiscount" href="#" class="btn btn-success">Save</a></li>
@@ -257,6 +258,7 @@
             $("#txtDiscountAmount").val(amount)
             $("#txtDiscountStartDate").val(starts)
             $("#txtDiscountEndDate").val(ends)
+          
 
             if (isvalid == 'true') {
                 $("#<%=ckDiscountCodeActive.ClientID%>").prop("checked", true);

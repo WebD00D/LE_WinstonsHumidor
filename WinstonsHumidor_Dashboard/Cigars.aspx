@@ -135,6 +135,24 @@
                    </li>
                </ul>
 
+
+               <ul class="list-inline">
+                   <li><h6>Box Sale Start Date</h6>
+                       <asp:TextBox runat="server" ID="txtBoxSaleStartDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+                    <li><h6>Box Sale End Date</h6>
+                       <asp:TextBox runat="server" ID="txtBoxSaleEndDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+                    <li><h6>Single Sale Start Date</h6>
+                       <asp:TextBox runat="server" ID="txtSingleSaleStartDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+                    <li><h6>Single Sale End Date</h6>
+                       <asp:TextBox runat="server" ID="txtSingleSaleEndDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                   </li>
+               </ul>
+
+
+
                <ul class="list-inline">
                    <li><small>** Please note that when there are no limits on purchase quantity, leave 'Max Purchase' text fields blank or set them equal to 0.</small></li>
                </ul>
@@ -182,6 +200,7 @@
                        </asp:DropDownList>
                     
                    </li>
+                
                    <%--   <asp:DropDownList ID="ddlPublishSettings" CssClass="form-control" runat="server">
                            <asp:ListItem Value="0">Publish Immediately</asp:ListItem>
                            <asp:ListItem Value="1">Publish Later</asp:ListItem>
@@ -193,6 +212,17 @@
                        <asp:TextBox ID="dpPubTime" CssClass="form-control" runat="server" TextMode="Time"></asp:TextBox>
                    </li>--%>
                    
+               </ul>
+               <h6><b>** To release immediately, leave release date field blank.</b></h6>
+               <h6><b>** Keep in mind, when 'Publishing Settings' are set to hide from store, any item with a scheduled release date will ignored and not published.</b></h6>
+               <ul class="list-inline">
+                      <li>
+                       <h6>Release Date</h6>
+                       <asp:TextBox runat="server" ID="txtReleaseDate" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                        
+                       </li>
+                     
+                      
                </ul>
                
 
@@ -287,7 +317,7 @@
 
                     var content =
 
-                     "<a href='#' data-showinstore='" + item.ShowInStore + "' data-maxsinglepurchase='" + item.MaxSinglePurchase + "' data-maxboxpurchase='" + item.MaxBoxPurchase + "' data-boxsaleprice='" + item.BoxSalePrice + "' data-singlesaleprice='" + item.SingleSalePrice + "' data-boxisonsale='" + item.BoxIsOnSale + "' data-singleisonsale='" + item.SingleIsOnSale + "' data-body='" + item.Body + "' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                     "<a href='#' data-singlesaleend='"+ item.SingleSaleEndDate +"' data-singlesalestart='"+ item.SingleSaleStartDate +"' data-boxsaleend='"+ item.BoxSaleEndDate +"' data-boxsalestart='"+ item.BoxSaleStartDate +"' data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-maxsinglepurchase='" + item.MaxSinglePurchase + "' data-maxboxpurchase='" + item.MaxBoxPurchase + "' data-boxsaleprice='" + item.BoxSalePrice + "' data-singlesaleprice='" + item.SingleSalePrice + "' data-boxisonsale='" + item.BoxIsOnSale + "' data-singleisonsale='" + item.SingleIsOnSale + "' data-body='" + item.Body + "' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Box Price: <b>$" + item.BoxPrice + "</b></li><li>Single Price: <b>$" + item.SinglePrice + "</b></li></ul></a>";
                     $(content).hide().appendTo("#CigarList").fadeIn();
 
@@ -325,10 +355,16 @@
         var oldmaxsingle;
         var oldmaxbox;
         var oldshowinstore;
+        var oldreleasedate;
+        var oldsinglesalestart;
+        var oldsinglesaleend;
+        var oldboxsalestart;
+        var oldboxsaleend;
 
         $("#CigarList").delegate(".cigarItem", "click", function (e) {
 
             e.preventDefault();
+           
 
             if ($("#<%=hfCigarProductID.ClientID%>").val().length != 0) {
                 var changemade = false;
@@ -378,10 +414,19 @@
                     changemade = true;
                 }
                 if ($("#<%=ddlShowItem.ClientID%>").val() != oldshowinstore) {
+                 
                     changemade = true;
                 }
+              if ($("#<%=txtReleaseDate.ClientID%>").val() != oldreleasedate) {
 
+                    changemade = true;
+              }
 
+                if ($("#<%=txtSingleSaleStartDate.ClientID%>").val() != oldsinglesalestart) { changemade = true; }
+                if ($("#<%=txtSingleSaleEndDate.ClientID%>").val() != oldsinglesaleend) { changemade = true; }
+                if ($("#<%=txtBoxSaleStartDate.ClientID%>").val() != oldboxsalestart) { changemade = true; }
+                if ($("#<%=txtBoxSaleEndDate.ClientID%>").val() != oldboxsaleend) { changemade = true; }
+               
 
                 if ($("#<%=txtSingleSalePrice.ClientID%>").val() != '$' + oldsinglesaleprice) {
                     changemade = true;
@@ -476,6 +521,10 @@
                     }
                 }
 
+
+                
+
+
                 if (changemade == true) {
                     if (confirm('Changes have been made to the current item. If you wish to save, please click "Cancel", and save your changes. To ignore, please click "OK".')) {
                         var fileUpload = document.getElementById("<%=fuCigarImage.ClientID%>");
@@ -549,6 +598,8 @@
             var BoxSalePrice = $(this).attr('data-boxsaleprice');
             oldboxsaleprice = BoxSalePrice
 
+            var ReleaseDate = $(this).attr('data-releasedate')
+            oldreleasedate = ReleaseDate
            
             var MaxBox = $(this).attr('data-maxboxpurchase');
             oldmaxbox = MaxBox;
@@ -556,7 +607,18 @@
             oldmaxsingle = MaxSingle;
 
             var ShowInStore = $(this).attr('data-showinstore')
-            oldshowinstore = ShowInStore
+            
+            var SingleStart = $(this).attr('data-singlesalestart');
+            oldsinglesalestart = SingleStart;
+            var SingleEnd = $(this).attr('data-singlesaleend');
+            oldsinglesaleend = SingleEnd;
+            var BoxStart = $(this).attr('data-boxsalestart');
+            oldboxsalestart = BoxStart;
+            var BoxEnd = $(this).attr('data-boxsaleend');
+            oldboxsaleend = BoxEnd;
+
+            
+
 
 
             $("#<%=hfCigarProductID.ClientID%>").val(ProductID);
@@ -577,10 +639,25 @@
             $("#<%=txtMaxBoxPurchaseAmount.ClientID%>").val(MaxBox);
             $("#<%=txtMaxSinglePurchaseAmount.ClientID%>").val(MaxSingle);
 
+
+            //var timey = new Date(ReleaseDate).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
+            //alert(timey);
+
+            $("#<%=txtReleaseDate.ClientID%>").val(ReleaseDate);
+
+            $("#<%=txtSingleSaleStartDate.ClientID%>").val(SingleStart);
+            $("#<%=txtSingleSaleEndDate.ClientID%>").val(SingleEnd);
+            $("#<%=txtBoxSaleStartDate.ClientID%>").val(BoxStart);
+            $("#<%=txtBoxSaleEndDate.ClientID%>").val(BoxEnd);
+
+          
+
             if (ShowInStore == 'True') {
                 $("#<%=ddlShowItem.ClientID%>").val(1)
+               oldshowinstore = 1
             } else {
                 $("#<%=ddlShowItem.ClientID%>").val(0)
+                oldshowinstore = 0
             }
 
 
@@ -648,7 +725,7 @@
 
                             var content =
 
-                       "<a href='#' data-showinstore='" + item.ShowInStore + "' data-maxsinglepurchase='" + item.MaxSinglePurchase + "' data-maxboxpurchase='" + item.MaxBoxPurchase + "'  data-boxsaleprice='" + item.BoxSalePrice + "' data-singlesaleprice='" + item.SingleSalePrice + "' data-boxisonsale='" + item.BoxIsOnSale + "' data-singleisonsale='" + item.SingleIsOnSale + "' data-body='" + item.Body + "' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
+                       "<a href='#' data-singlesaleend='" + item.SingleSaleEndDate + "' data-singlesalestart='" + item.SingleSaleStartDate + "' data-boxsaleend='" + item.BoxSaleEndDate + "' data-boxsalestart='" + item.BoxSaleStartDate + "' data-releasedate='" + item.ReleaseDate + "' data-showinstore='" + item.ShowInStore + "' data-maxsinglepurchase='" + item.MaxSinglePurchase + "' data-maxboxpurchase='" + item.MaxBoxPurchase + "'  data-boxsaleprice='" + item.BoxSalePrice + "' data-singlesaleprice='" + item.SingleSalePrice + "' data-boxisonsale='" + item.BoxIsOnSale + "' data-singleisonsale='" + item.SingleIsOnSale + "' data-body='" + item.Body + "' data-featured='" + item.IsFeatured + "'  data-boxprice='" + item.BoxPrice + "' data-singleprice='" + item.SinglePrice + "' data-boxonly='" + item.IsBoxSaleOnly + "'  data-singleonly='" + item.IsSingleSaleOnly + "' data-SingleQty='" + item.SingleQty + "' data-brand='" + item.Brand + "' data-length='" + item.Length + "' data-ring='" + item.Ring + "' data-BoxCount='" + item.BoxCount + "'  data-description='" + item.Description + "' ' data-BoxQty='" + item.BoxQty + "' data-Name='" + item.Name + "'  data-SKU='" + item.SKU + "' data-cigar='" + item.CigarID + "' id='" + item.ProductID + "' data-selected='0' class='list-group-item cigarItem'>" +
                             "<ul class='list-inline'><li>SKU: <b>" + item.SKU + "</b></li><li>Name: <b>" + item.Name + "</b></li><li>Brand: <b>" + item.Brand + "</b></li><li>Box Price: <b>$" + item.BoxPrice + "</b></li><li>Single Price: <b>$" + item.SinglePrice + "</b></li></ul></a>";
                             $(content).hide().appendTo("#CigarList").fadeIn();
                         })
