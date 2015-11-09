@@ -1064,6 +1064,30 @@ Public Class Engine
         Return ""
     End Function
 
+    <WebMethod(True)> _
+    Public Function removeOrder(ByVal OrderID As Integer)
+
+        Dim con As New SqlConnection(ConfigurationManager.ConnectionStrings("connex").ConnectionString)
+        Dim dt As New DataTable
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "DELETE FROM Orders WHERE OrderID =" & OrderID
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        Using cmd As SqlCommand = con.CreateCommand
+            cmd.Connection = con
+            cmd.Connection.Open()
+            cmd.CommandType = CommandType.Text
+            cmd.CommandText = "DELETE FROM OrderDetails WHERE OrderID =" & OrderID
+            cmd.ExecuteNonQuery()
+            cmd.Connection.Close()
+        End Using
+        Return ""
+    End Function
+
 
     <WebMethod(True)> _
     Public Function LoadOrderDetails(ByVal OrderID As Integer)

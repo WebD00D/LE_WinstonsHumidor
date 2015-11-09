@@ -172,7 +172,7 @@
                                     " <li><label class='" + shiplabel + "'><i class='" + fa + "'></i> " + item.HasShipped + "</label></li> <li><b>Order ID: </b>" + item.OrderID + "</li><li><b>Total: </b>$" + item.OrderTotal + "</li> </h4></div>" +
                                     "  <div id=" + item.AccordionNbr + " class='panel-collapse collapse'> " +
                                     "  <div class='panel-body '>" +
-                                    " <b>Customer Information: </b><br /><i class='fa fa-user'></i> " + item.CustomerName + " <br /><i class='fa fa-envelope'></i> " + item.Email + "  <br /><i class='fa fa-home'></i> " + item.Address + "    <br /><br /> <ol class='" + item.AccordionNbr + "'></ol><br /><a data-shipped='"+ isshipped +"' id=" + item.OrderID + " class='"+ updateship +" markasshipped'><i class='"+ fa2 +"'></i> "+ shiptext +"<a/></div></div></div>"
+                                    " <b>Customer Information: </b><br /><i class='fa fa-user'></i> " + item.CustomerName + " <br /><i class='fa fa-envelope'></i> " + item.Email + "  <br /><i class='fa fa-home'></i> " + item.Address + "    <br /><br /> <ol class='" + item.AccordionNbr + "'></ol><br /><a data-shipped='" + isshipped + "' id=" + item.OrderID + " class='" + updateship + " markasshipped'><i class='" + fa2 + "'></i> " + shiptext + "<a/> <a data-shipped='" + isshipped + "' id=" + item.OrderID + " class='removeorder btn btn-danger btn-sm'><i class='fa fa-close'></i> Remove<a/></div></div></div>"
                
                     $(content).appendTo("#accordion");
 
@@ -227,6 +227,28 @@
             }
         }) //end ajax
 
+
+        $("#accordion").delegate(".removeorder", "click", function () {
+            var order = $(this).attr('id');
+            $.ajax({
+            type: "POST",
+            url: "Engine.asmx/removeOrder",
+            data: "{OrderID:" + order + "}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                window.location.reload(true);
+
+            },
+            failure: function (msg) {
+                alert(msg);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        }) //end ajax
+        })
 
         $("#accordion").delegate(".markasshipped", "click", function () {
            
